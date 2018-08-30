@@ -1,0 +1,15 @@
+{
+  "package_name": "erc1363-payable-token",
+  "version": "1.0.0",
+  "description": "ERC-1363 Payable Token Implementation",
+  "authors": [
+    "Vittorio Minacori (@vittominacori)"
+  ],
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "smart",
+    "contracts"
+  ],
+  "license": "MIT"
+}
