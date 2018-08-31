@@ -18,7 +18,7 @@ It can be used to create a token payable crowdsale, selling services for tokens,
 Install Truffle
 
 ```bash
-npm install -g truffle      // Version 4.1.13+ required.
+npm install -g truffle      // Version 4.1.14+ required.
 ```
 
 
