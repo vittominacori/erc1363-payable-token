@@ -62,12 +62,98 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
       });
     };
 
+    const transferFromWasSuccessful = function (sender, spender, balance) {
+      let receiver;
+
+      beforeEach(async function () {
+        const receiverContract = await ERC20Receiver.new(RECEIVER_MAGIC_VALUE, false);
+        receiver = receiverContract.address;
+      });
+
+      describe('when the sender does not have enough balance', function () {
+        const amount = balance + 1;
+
+        describe('with data', function () {
+          it('reverts', async function () {
+            await assertRevert(transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender }));
+          });
+
+          it('reverts', async function () {
+            await assertRevert(transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender }));
+          });
+        });
+
+        describe('without data', function () {
+          it('reverts', async function () {
+            await assertRevert(transferFromAndCallWithoutData.call(this, sender, receiver, amount, { from: spender }));
+          });
+
+          it('reverts', async function () {
+            await assertRevert(transferFromAndCallWithoutData.call(this, sender, receiver, amount, { from: spender }));
+          });
+        });
+      });
+
+      describe('when the sender has enough balance', function () {
+        const amount = balance;
+        describe('with data', function () {
+          it('transfers the requested amount', async function () {
+            await transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender });
+
+            const senderBalance = await this.token.balanceOf(sender);
+            assert.equal(senderBalance, 0);
+
+            const recipientBalance = await this.token.balanceOf(receiver);
+            assert.equal(recipientBalance, amount);
+          });
+
+          it('emits a transfer event', async function () {
+            const { logs } = await transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender });
+
+            assert.equal(logs.length, 1);
+            assert.equal(logs[0].event, 'Transfer');
+            assert.equal(logs[0].args.from, sender);
+            assert.equal(logs[0].args.to, receiver);
+            assert(logs[0].args.value.eq(amount));
+          });
+        });
+
+        describe('without data', function () {
+          it('transfers the requested amount', async function () {
+            await transferFromAndCallWithoutData.call(this, sender, receiver, amount, { from: spender });
+
+            const senderBalance = await this.token.balanceOf(sender);
+            assert.equal(senderBalance, 0);
+
+            const recipientBalance = await this.token.balanceOf(receiver);
+            assert.equal(recipientBalance, amount);
+          });
+
+          it('emits a transfer event', async function () {
+            const { logs } = await transferFromAndCallWithoutData.call(
+              this, sender, receiver, amount, { from: spender }
+            );
+
+            assert.equal(logs.length, 1);
+            assert.equal(logs[0].event, 'Transfer');
+            assert.equal(logs[0].args.from, sender);
+            assert.equal(logs[0].args.to, receiver);
+            assert(logs[0].args.value.eq(amount));
+          });
+        });
+      });
+    };
+
     describe('with data', function () {
       shouldTransferFromSafely(transferFromAndCallWithData, data);
     });
 
     describe('without data', function () {
       shouldTransferFromSafely(transferFromAndCallWithoutData, '0x');
+    });
+
+    describe('testing ERC20 behaviours', function () {
+      transferFromWasSuccessful(owner, spender, value);
     });
 
     describe('to a receiver that is not a contract', function () {
@@ -145,12 +231,96 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
       });
     };
 
+    const transferWasSuccessful = function (sender, balance) {
+      let receiver;
+
+      beforeEach(async function () {
+        const receiverContract = await ERC20Receiver.new(RECEIVER_MAGIC_VALUE, false);
+        receiver = receiverContract.address;
+      });
+
+      describe('when the sender does not have enough balance', function () {
+        const amount = balance + 1;
+
+        describe('with data', function () {
+          it('reverts', async function () {
+            await assertRevert(transferAndCallWithData.call(this, receiver, amount, { from: sender }));
+          });
+
+          it('reverts', async function () {
+            await assertRevert(transferAndCallWithData.call(this, receiver, amount, { from: sender }));
+          });
+        });
+
+        describe('without data', function () {
+          it('reverts', async function () {
+            await assertRevert(transferAndCallWithoutData.call(this, receiver, amount, { from: sender }));
+          });
+
+          it('reverts', async function () {
+            await assertRevert(transferAndCallWithoutData.call(this, receiver, amount, { from: sender }));
+          });
+        });
+      });
+
+      describe('when the sender has enough balance', function () {
+        const amount = balance;
+        describe('with data', function () {
+          it('transfers the requested amount', async function () {
+            await transferAndCallWithData.call(this, receiver, amount, { from: sender });
+
+            const senderBalance = await this.token.balanceOf(sender);
+            assert.equal(senderBalance, 0);
+
+            const recipientBalance = await this.token.balanceOf(receiver);
+            assert.equal(recipientBalance, amount);
+          });
+
+          it('emits a transfer event', async function () {
+            const { logs } = await transferAndCallWithData.call(this, receiver, amount, { from: sender });
+
+            assert.equal(logs.length, 1);
+            assert.equal(logs[0].event, 'Transfer');
+            assert.equal(logs[0].args.from, sender);
+            assert.equal(logs[0].args.to, receiver);
+            assert(logs[0].args.value.eq(amount));
+          });
+        });
+
+        describe('without data', function () {
+          it('transfers the requested amount', async function () {
+            await transferAndCallWithoutData.call(this, receiver, amount, { from: sender });
+
+            const senderBalance = await this.token.balanceOf(sender);
+            assert.equal(senderBalance, 0);
+
+            const recipientBalance = await this.token.balanceOf(receiver);
+            assert.equal(recipientBalance, amount);
+          });
+
+          it('emits a transfer event', async function () {
+            const { logs } = await transferAndCallWithoutData.call(this, receiver, amount, { from: sender });
+
+            assert.equal(logs.length, 1);
+            assert.equal(logs[0].event, 'Transfer');
+            assert.equal(logs[0].args.from, sender);
+            assert.equal(logs[0].args.to, receiver);
+            assert(logs[0].args.value.eq(amount));
+          });
+        });
+      });
+    };
+
     describe('with data', function () {
       shouldTransferSafely(transferAndCallWithData, data);
     });
 
     describe('without data', function () {
       shouldTransferSafely(transferAndCallWithoutData, '0x');
+    });
+
+    describe('testing ERC20 behaviours', function () {
+      transferWasSuccessful(owner, value);
     });
 
     describe('to a receiver that is not a contract', function () {
