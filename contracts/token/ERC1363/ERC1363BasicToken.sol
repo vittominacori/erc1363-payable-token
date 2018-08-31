@@ -112,7 +112,7 @@ contract ERC1363BasicToken is SupportsInterfaceWithLookup, ERC1363 {
     returns (bool)
   {
     if (!_to.isContract()) {
-      return true;
+      return false;
     }
     bytes4 retval = ERC20Receiver(_to).onERC20Received(
       msg.sender, _from, _value, _data
