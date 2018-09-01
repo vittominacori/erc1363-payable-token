@@ -8,6 +8,11 @@ import "./ERC1363.sol";
 import "../ERC20/ERC20Receiver.sol";
 
 
+/**
+ * @title ERC1363BasicToken
+ * @author Vittorio Minacori (@vittominacori)
+ * @dev Implementation of an ERC1363 interface
+ */
 contract ERC1363BasicToken is SupportsInterfaceWithLookup, ERC1363 {
   using AddressUtils for address;
 

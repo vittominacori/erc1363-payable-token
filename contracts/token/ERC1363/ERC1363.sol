@@ -4,6 +4,11 @@ import "openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
 import "openzeppelin-solidity/contracts/introspection/ERC165.sol";
 
 
+/**
+ * @title ERC1363 interface
+ * @author Vittorio Minacori (@vittominacori)
+ * @dev Interface for a Payable Token contract
+ */
 contract ERC1363 is StandardToken, ERC165 {
   /*
    * Note: the ERC-165 identifier for this interface is 0x4bbee2df.

@@ -3,6 +3,7 @@ pragma solidity ^0.4.24;
 
 /**
  * @title ERC20Receiver interface
+ * @author Vittorio Minacori (@vittominacori)
  * @dev Interface for any contract that wants to support transferAndCall or transferFromAndCall
  *  from ERC20 token contracts.
  */
