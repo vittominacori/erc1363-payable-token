@@ -10,6 +10,9 @@ const INTERFACE_IDS = {
     'transferFromAndCall(address,address,uint256)',
     'transferFromAndCall(address,address,uint256,bytes)',
   ]),
+  ERC1363Receiver: makeInterfaceId([
+    'onERC1363Received(address,address,uint256,bytes)',
+  ]),
 };
 
 function shouldSupportInterfaces (interfaces = []) {
