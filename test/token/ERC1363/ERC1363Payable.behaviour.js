@@ -15,6 +15,16 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
   const value = balance;
   const data = '0x42';
 
+  const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+
+  describe('creating a valid contract', function () {
+    describe('if accepted token is the zero address', function () {
+      it('reverts', async function () {
+        await assertRevert(ERC1363Payable.new(ZERO_ADDRESS));
+      });
+    });
+  });
+
   describe('via transferFromAndCall', function () {
     beforeEach(async function () {
       await this.token.approve(spender, value, { from: owner });

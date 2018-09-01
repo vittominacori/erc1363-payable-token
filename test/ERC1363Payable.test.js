@@ -3,14 +3,8 @@ const { shouldBehaveLikeERC1363Payable } = require('./token/ERC1363/ERC1363Payab
 const ERC1363BasicToken = artifacts.require('ERC1363BasicTokenMock');
 const ERC1363Payable = artifacts.require('ERC1363PayableMock');
 
-const BigNumber = web3.BigNumber;
-
-require('chai')
-  .use(require('chai-bignumber')(BigNumber))
-  .should();
-
 contract('ERC1363Payable', function ([owner, spender]) {
-  const balance = new BigNumber(100);
+  const balance = 100;
 
   beforeEach(async function () {
     this.token = await ERC1363BasicToken.new(owner, balance);
