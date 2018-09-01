@@ -8,12 +8,10 @@ pragma solidity ^0.4.24;
  *  from ERC1363 token contracts.
  */
 contract ERC1363Receiver {
-  /**
-   * @dev Magic value to be returned upon successful reception of ERC1363 tokens
-   *  Equals to `bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))`,
-   *  which can be also obtained as `ERC1363Receiver(0).onERC1363Received.selector`
+  /*
+   * Note: the ERC-165 identifier for this interface is 0xb64ff699.
+   * 0xb64ff699 === bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))
    */
-  bytes4 internal constant ERC1363_RECEIVED = 0xb64ff699;
 
   /**
    * @notice Handle the receipt of ERC1363 tokens
