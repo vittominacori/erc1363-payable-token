@@ -3,7 +3,7 @@ const { assertRevert } = require('../../helpers/assertRevert');
 const { decodeLogs } = require('../../helpers/decodeLogs');
 const { sendTransaction } = require('../../helpers/sendTransaction');
 
-const ERC1363Receiver = artifacts.require('ERC1363ReceiverMock.sol');
+const ERC1363Receiver = artifacts.require('ERC1363ReceiverMock');
 
 const BigNumber = web3.BigNumber;
 

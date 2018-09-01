@@ -3,7 +3,8 @@ const { assertRevert } = require('../../helpers/assertRevert');
 const { decodeLogs } = require('../../helpers/decodeLogs');
 const { sendTransaction } = require('../../helpers/sendTransaction');
 
-const ERC1363Payable = artifacts.require('ERC1363PayableMock.sol');
+const StandardToken = artifacts.require('StandardToken');
+const ERC1363Payable = artifacts.require('ERC1363PayableMock');
 
 const BigNumber = web3.BigNumber;
 
@@ -21,6 +22,13 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
     describe('if accepted token is the zero address', function () {
       it('reverts', async function () {
         await assertRevert(ERC1363Payable.new(ZERO_ADDRESS));
+      });
+    });
+
+    describe('if token does not support ERC1363 interface', function () {
+      it('reverts', async function () {
+        const erc20Token = await StandardToken.new();
+        await assertRevert(ERC1363Payable.new(erc20Token.address));
       });
     });
   });
@@ -61,6 +69,14 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
           log.args._from.should.be.equal(owner);
           log.args._value.should.be.bignumber.equal(value);
           log.args._data.should.be.equal(data);
+        });
+
+        it('should execute transferReceived', async function () {
+          let testValue = await this.mock.testValue();
+          testValue.should.be.bignumber.equal(0);
+          await transferFun.call(this, owner, this.mock.address, value, { from: spender });
+          testValue = await this.mock.testValue();
+          testValue.should.be.bignumber.equal(1);
         });
       });
 
@@ -113,6 +129,14 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
           log.args._from.should.be.equal(owner);
           log.args._value.should.be.bignumber.equal(value);
           log.args._data.should.be.equal(data);
+        });
+
+        it('should execute transferReceived', async function () {
+          let testValue = await this.mock.testValue();
+          testValue.should.be.bignumber.equal(0);
+          await transferFun.call(this, this.mock.address, value, { from: owner });
+          testValue = await this.mock.testValue();
+          testValue.should.be.bignumber.equal(1);
         });
       });
 
