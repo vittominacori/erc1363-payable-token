@@ -3,7 +3,7 @@ const { assertRevert } = require('../../helpers/assertRevert');
 const { decodeLogs } = require('../../helpers/decodeLogs');
 const { sendTransaction } = require('../../helpers/sendTransaction');
 
-const ERC20Receiver = artifacts.require('ERC20ReceiverMock.sol');
+const ERC1363Receiver = artifacts.require('ERC1363ReceiverMock.sol');
 
 const BigNumber = web3.BigNumber;
 
@@ -15,7 +15,7 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
   const value = balance;
   const data = '0x42';
 
-  const RECEIVER_MAGIC_VALUE = '0x4fc35859';
+  const RECEIVER_MAGIC_VALUE = '0xb64ff699';
 
   describe('via transferFromAndCall', function () {
     beforeEach(async function () {
@@ -45,14 +45,14 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
     const shouldTransferFromSafely = function (transferFun, data) {
       describe('to a valid receiver contract', function () {
         beforeEach(async function () {
-          this.receiver = await ERC20Receiver.new(RECEIVER_MAGIC_VALUE, false);
+          this.receiver = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, false);
           this.to = this.receiver.address;
         });
 
-        it('should call onERC20Received', async function () {
+        it('should call onERC1363Received', async function () {
           const result = await transferFun.call(this, owner, this.to, value, { from: spender });
           result.receipt.logs.length.should.be.equal(2);
-          const [log] = decodeLogs([result.receipt.logs[1]], ERC20Receiver, this.receiver.address);
+          const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Receiver, this.receiver.address);
           log.event.should.be.eq('Received');
           log.args._operator.should.be.equal(spender);
           log.args._from.should.be.equal(owner);
@@ -66,7 +66,7 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
       let receiver;
 
       beforeEach(async function () {
-        const receiverContract = await ERC20Receiver.new(RECEIVER_MAGIC_VALUE, false);
+        const receiverContract = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, false);
         receiver = receiverContract.address;
       });
 
@@ -164,7 +164,7 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
 
     describe('to a receiver contract returning unexpected value', function () {
       it('reverts', async function () {
-        const invalidReceiver = await ERC20Receiver.new(data, false);
+        const invalidReceiver = await ERC1363Receiver.new(data, false);
         await assertRevert(
           transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender })
         );
@@ -173,7 +173,7 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
 
     describe('to a receiver contract that throws', function () {
       it('reverts', async function () {
-        const invalidReceiver = await ERC20Receiver.new(RECEIVER_MAGIC_VALUE, true);
+        const invalidReceiver = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, true);
         await assertRevert(
           transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender })
         );
@@ -214,14 +214,14 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
     const shouldTransferSafely = function (transferFun, data) {
       describe('to a valid receiver contract', function () {
         beforeEach(async function () {
-          this.receiver = await ERC20Receiver.new(RECEIVER_MAGIC_VALUE, false);
+          this.receiver = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, false);
           this.to = this.receiver.address;
         });
 
-        it('should call onERC20Received', async function () {
+        it('should call onERC1363Received', async function () {
           const result = await transferFun.call(this, this.to, value, { from: owner });
           result.receipt.logs.length.should.be.equal(2);
-          const [log] = decodeLogs([result.receipt.logs[1]], ERC20Receiver, this.receiver.address);
+          const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Receiver, this.receiver.address);
           log.event.should.be.eq('Received');
           log.args._operator.should.be.equal(owner);
           log.args._from.should.be.equal(owner);
@@ -235,7 +235,7 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
       let receiver;
 
       beforeEach(async function () {
-        const receiverContract = await ERC20Receiver.new(RECEIVER_MAGIC_VALUE, false);
+        const receiverContract = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, false);
         receiver = receiverContract.address;
       });
 
@@ -331,14 +331,14 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
 
     describe('to a receiver contract returning unexpected value', function () {
       it('reverts', async function () {
-        const invalidReceiver = await ERC20Receiver.new(data, false);
+        const invalidReceiver = await ERC1363Receiver.new(data, false);
         await assertRevert(transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner }));
       });
     });
 
     describe('to a receiver contract that throws', function () {
       it('reverts', async function () {
-        const invalidReceiver = await ERC20Receiver.new(RECEIVER_MAGIC_VALUE, true);
+        const invalidReceiver = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, true);
         await assertRevert(transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner }));
       });
     });

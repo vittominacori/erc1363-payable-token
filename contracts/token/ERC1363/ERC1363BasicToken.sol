@@ -5,7 +5,7 @@ import "openzeppelin-solidity/contracts/AddressUtils.sol";
 import "openzeppelin-solidity/contracts/introspection/SupportsInterfaceWithLookup.sol";
 
 import "./ERC1363.sol";
-import "../ERC20/ERC20Receiver.sol";
+import "./ERC1363Receiver.sol";
 
 
 /**
@@ -26,9 +26,9 @@ contract ERC1363BasicToken is SupportsInterfaceWithLookup, ERC1363 {
    */
   bytes4 private constant InterfaceId_ERC1363 = 0x4bbee2df;
 
-  // Equals to `bytes4(keccak256("onERC20Received(address,address,uint256,bytes)"))`
-  // which can be also obtained as `ERC20Receiver(0).onERC20Received.selector`
-  bytes4 private constant ERC20_RECEIVED = 0x4fc35859;
+  // Equals to `bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))`
+  // which can be also obtained as `ERC1363Receiver(0).onERC1363Received.selector`
+  bytes4 private constant ERC1363_RECEIVED = 0xb64ff699;
 
   constructor() public {
     // register the supported interface to conform to ERC1363 via ERC165
@@ -99,7 +99,7 @@ contract ERC1363BasicToken is SupportsInterfaceWithLookup, ERC1363 {
   }
 
   /**
-   * @dev Internal function to invoke `onERC20Received` on a target address
+   * @dev Internal function to invoke `onERC1363Received` on a target address
    *  The call is not executed if the target address is not a contract
    * @param _from address Representing the previous owner of the given token value
    * @param _to address Target address that will receive the tokens
@@ -119,9 +119,9 @@ contract ERC1363BasicToken is SupportsInterfaceWithLookup, ERC1363 {
     if (!_to.isContract()) {
       return false;
     }
-    bytes4 retval = ERC20Receiver(_to).onERC20Received(
+    bytes4 retval = ERC1363Receiver(_to).onERC1363Received(
       msg.sender, _from, _value, _data
     );
-    return (retval == ERC20_RECEIVED);
+    return (retval == ERC1363_RECEIVED);
   }
 }

@@ -1,9 +1,9 @@
 pragma solidity ^0.4.24;
 
-import "../token/ERC20/ERC20Receiver.sol";
+import "../token/ERC1363/ERC1363Receiver.sol";
 
 
-contract ERC20ReceiverMock is ERC20Receiver {
+contract ERC1363ReceiverMock is ERC1363Receiver {
   bytes4 retval;
   bool reverts;
 
@@ -20,7 +20,7 @@ contract ERC20ReceiverMock is ERC20Receiver {
     reverts = _reverts;
   }
 
-  function onERC20Received(
+  function onERC1363Received(
     address _operator,
     address _from,
     uint256 _value,

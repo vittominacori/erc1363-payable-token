@@ -21,7 +21,7 @@ contract ERC1363 is StandardToken, ERC165 {
 
   /**
    * @notice Transfer tokens from `msg.sender` to another address
-   *  and then call `onERC20Received` on receiver
+   *  and then call `onERC1363Received` on receiver
    * @param _to address The address which you want to transfer to
    * @param _value uint256 The amount of tokens to be transferred
    * @return true unless throwing
@@ -30,7 +30,7 @@ contract ERC1363 is StandardToken, ERC165 {
 
   /**
    * @notice Transfer tokens from `msg.sender` to another address
-   *  and then call `onERC20Received` on receiver
+   *  and then call `onERC1363Received` on receiver
    * @param _to address The address which you want to transfer to
    * @param _value uint256 The amount of tokens to be transferred
    * @param _data bytes Additional data with no specified format, sent in call to `_to`
@@ -40,7 +40,7 @@ contract ERC1363 is StandardToken, ERC165 {
 
   /**
    * @notice Transfer tokens from one address to another
-   *  and then call `onERC20Received` on receiver
+   *  and then call `onERC1363Received` on receiver
    * @param _from address The address which you want to send tokens from
    * @param _to address The address which you want to transfer to
    * @param _value uint256 The amount of tokens to be transferred
@@ -51,7 +51,7 @@ contract ERC1363 is StandardToken, ERC165 {
 
   /**
    * @notice Transfer tokens from one address to another
-   *  and then call `onERC20Received` on receiver
+   *  and then call `onERC1363Received` on receiver
    * @param _from address The address which you want to send tokens from
    * @param _to address The address which you want to transfer to
    * @param _value uint256 The amount of tokens to be transferred

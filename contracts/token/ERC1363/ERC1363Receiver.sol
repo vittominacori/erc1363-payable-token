@@ -2,21 +2,21 @@ pragma solidity ^0.4.24;
 
 
 /**
- * @title ERC20Receiver interface
+ * @title ERC1363Receiver interface
  * @author Vittorio Minacori (@vittominacori)
  * @dev Interface for any contract that wants to support transferAndCall or transferFromAndCall
- *  from ERC20 token contracts.
+ *  from ERC1363 token contracts.
  */
-contract ERC20Receiver {
+contract ERC1363Receiver {
   /**
-   * @dev Magic value to be returned upon successful reception of ERC20 tokens
-   *  Equals to `bytes4(keccak256("onERC20Received(address,address,uint256,bytes)"))`,
-   *  which can be also obtained as `ERC20Receiver(0).onERC20Received.selector`
+   * @dev Magic value to be returned upon successful reception of ERC1363 tokens
+   *  Equals to `bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))`,
+   *  which can be also obtained as `ERC1363Receiver(0).onERC1363Received.selector`
    */
-  bytes4 internal constant ERC20_RECEIVED = 0x4fc35859;
+  bytes4 internal constant ERC1363_RECEIVED = 0xb64ff699;
 
   /**
-   * @notice Handle the receipt of ERC20 tokens
+   * @notice Handle the receipt of ERC1363 tokens
    * @dev Any ERC1363 smart contract calls this function on the recipient
    *  after a `transfer` or a `transferFrom`. This function MAY throw to revert and reject the
    *  transfer. Return of other than the magic value MUST result in the
@@ -26,8 +26,8 @@ contract ERC20Receiver {
    * @param _from The address which are token transferred from
    * @param _value The amount of tokens transferred
    * @param _data Additional data with no specified format
-   * @return `bytes4(keccak256("onERC20Received(address,address,uint256,bytes)"))`
+   * @return `bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))`
    *  unless throwing
    */
-  function onERC20Received(address _operator, address _from, uint256 _value, bytes _data) external returns (bytes4); // solium-disable-line max-len, arg-overflow
+  function onERC1363Received(address _operator, address _from, uint256 _value, bytes _data) external returns (bytes4); // solium-disable-line max-len, arg-overflow
 }
