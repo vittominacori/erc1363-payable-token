@@ -1,4 +1,4 @@
-const { shouldBehaveLikeERC1363Payable } = require('./token/ERC1363/ERC1363Payable.behaviour');
+const { shouldBehaveLikeERC1363Payable } = require('./ERC1363Payable.behaviour');
 
 const ERC1363BasicToken = artifacts.require('ERC1363BasicTokenMock');
 const ERC1363Payable = artifacts.require('ERC1363PayableMock');

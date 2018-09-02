@@ -29,9 +29,9 @@ contract ERC1363Payable is ERC1363Receiver, SupportsInterfaceWithLookup {
    */
   bytes4 private constant InterfaceId_ERC1363 = 0x4bbee2df;
 
-  event Received(
-    address _operator,
-    address _from,
+  event TokensReceived(
+    address indexed _operator,
+    address indexed _from,
     uint256 _value,
     bytes _data
   );
@@ -72,6 +72,13 @@ contract ERC1363Payable is ERC1363Receiver, SupportsInterfaceWithLookup {
     tokenPayable
     returns (bytes4)
   {
+    emit TokensReceived(
+      _operator,
+      _from,
+      _value,
+      _data
+    );
+
     transferReceived(
       _operator,
       _from,
@@ -79,12 +86,6 @@ contract ERC1363Payable is ERC1363Receiver, SupportsInterfaceWithLookup {
       _data
     );
 
-    emit Received(
-      _operator,
-      _from,
-      _value,
-      _data
-    );
     return InterfaceId_ERC1363Receiver;
   }
 

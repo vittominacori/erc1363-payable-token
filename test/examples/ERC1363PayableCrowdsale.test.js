@@ -1,4 +1,4 @@
-const { shouldBehaveLikeERC1363PayableCrowdsale } = require('./examples/ERC1363PayableCrowdsale.behaviour');
+const { shouldBehaveLikeERC1363PayableCrowdsale } = require('./ERC1363PayableCrowdsale.behaviour');
 
 const BigNumber = web3.BigNumber;
 

@@ -91,7 +91,7 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
             const result = await transferFromAndCallWithData.call(
               this, beneficiary, this.crowdsale.address, value, { from: operator }
             );
-            const [log] = decodeLogs([result.receipt.logs[2]], Crowdsale, this.crowdsale.address);
+            const [log] = decodeLogs([result.receipt.logs[3]], Crowdsale, this.crowdsale.address);
             log.event.should.be.eq('TokensPurchased');
             log.args.operator.should.equal(operator);
             log.args.beneficiary.should.equal(beneficiary);
@@ -140,7 +140,7 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
             const result = await transferFromAndCallWithoutData.call(
               this, beneficiary, this.crowdsale.address, value, { from: operator }
             );
-            const [log] = decodeLogs([result.receipt.logs[2]], Crowdsale, this.crowdsale.address);
+            const [log] = decodeLogs([result.receipt.logs[3]], Crowdsale, this.crowdsale.address);
             log.event.should.be.eq('TokensPurchased');
             log.args.operator.should.equal(operator);
             log.args.beneficiary.should.equal(beneficiary);
@@ -209,7 +209,7 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
             const result = await transferAndCallWithData.call(
               this, this.crowdsale.address, value, { from: beneficiary }
             );
-            const [log] = decodeLogs([result.receipt.logs[2]], Crowdsale, this.crowdsale.address);
+            const [log] = decodeLogs([result.receipt.logs[3]], Crowdsale, this.crowdsale.address);
             log.event.should.be.eq('TokensPurchased');
             log.args.operator.should.equal(beneficiary);
             log.args.beneficiary.should.equal(beneficiary);
@@ -252,7 +252,7 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
             const result = await transferAndCallWithoutData.call(
               this, this.crowdsale.address, value, { from: beneficiary }
             );
-            const [log] = decodeLogs([result.receipt.logs[2]], Crowdsale, this.crowdsale.address);
+            const [log] = decodeLogs([result.receipt.logs[3]], Crowdsale, this.crowdsale.address);
             log.event.should.be.eq('TokensPurchased');
             log.args.operator.should.equal(beneficiary);
             log.args.beneficiary.should.equal(beneficiary);

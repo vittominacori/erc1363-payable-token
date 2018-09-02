@@ -64,7 +64,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
           const result = await transferFun.call(this, owner, this.mock.address, value, { from: spender });
           result.receipt.logs.length.should.be.equal(2);
           const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Payable, this.mock.address);
-          log.event.should.be.eq('Received');
+          log.event.should.be.eq('TokensReceived');
           log.args._operator.should.be.equal(spender);
           log.args._from.should.be.equal(owner);
           log.args._value.should.be.bignumber.equal(value);
@@ -124,7 +124,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
           const result = await transferFun.call(this, this.mock.address, value, { from: owner });
           result.receipt.logs.length.should.be.equal(2);
           const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Payable, this.mock.address);
-          log.event.should.be.eq('Received');
+          log.event.should.be.eq('TokensReceived');
           log.args._operator.should.be.equal(owner);
           log.args._from.should.be.equal(owner);
           log.args._value.should.be.bignumber.equal(value);

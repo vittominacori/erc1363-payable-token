@@ -127,7 +127,6 @@ contract ERC1363PayableCrowdsale is ERC1363Receiver, ERC1363Payable {
    * @param _sentTokenAmount Value in ERC1363 tokens involved in the purchase
    */
   function _preValidatePurchase(uint256 _sentTokenAmount) internal {
-    require(msg.sender == address(acceptedToken));
     require(_sentTokenAmount != 0);
   }
 
@@ -140,7 +139,7 @@ contract ERC1363PayableCrowdsale is ERC1363Receiver, ERC1363Payable {
     address _beneficiary,
     uint256 _sentTokenAmount
   )
-  internal
+    internal
   {
     // optional override
   }
@@ -154,7 +153,7 @@ contract ERC1363PayableCrowdsale is ERC1363Receiver, ERC1363Payable {
     address _beneficiary,
     uint256 _tokenAmount
   )
-  internal
+    internal
   {
     token.safeTransfer(_beneficiary, _tokenAmount);
   }
@@ -168,7 +167,7 @@ contract ERC1363PayableCrowdsale is ERC1363Receiver, ERC1363Payable {
     address _beneficiary,
     uint256 _tokenAmount
   )
-  internal
+    internal
   {
     _deliverTokens(_beneficiary, _tokenAmount);
   }
@@ -182,7 +181,7 @@ contract ERC1363PayableCrowdsale is ERC1363Receiver, ERC1363Payable {
     address _beneficiary,
     uint256 _sentTokenAmount
   )
-  internal
+    internal
   {
     // optional override
   }
@@ -193,7 +192,7 @@ contract ERC1363PayableCrowdsale is ERC1363Receiver, ERC1363Payable {
    * @return Number of tokens that can be purchased with the specified _sentTokenAmount
    */
   function _getTokenAmount(uint256 _sentTokenAmount)
-  internal view returns (uint256)
+    internal view returns (uint256)
   {
     return _sentTokenAmount.mul(rate);
   }
