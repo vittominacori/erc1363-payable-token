@@ -54,14 +54,6 @@ contract ERC1363Payable is ERC1363Receiver, SupportsInterfaceWithLookup {
     _registerInterface(InterfaceId_ERC1363Receiver);
   }
 
-  /**
-   * @dev Throws if called by any account other than the accepted token.
-   */
-  modifier isTokenAccepted() {
-    require(msg.sender == address(acceptedToken));
-    _;
-  }
-
   function onERC1363Received(
     address _operator,
     address _from,
@@ -69,9 +61,10 @@ contract ERC1363Payable is ERC1363Receiver, SupportsInterfaceWithLookup {
     bytes _data
   )
     external
-    isTokenAccepted
     returns (bytes4)
   {
+    require(msg.sender == address(acceptedToken));
+
     emit TokensReceived(
       _operator,
       _from,
