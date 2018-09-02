@@ -7,7 +7,6 @@ import "../token/ERC1363/ERC1363.sol";
 import "../token/ERC1363/ERC1363Payable.sol";
 
 
-
 /**
  * @title ERC1363PayableCrowdsale
  * @author Vittorio Minacori (@vittominacori)
