@@ -112,7 +112,7 @@ contract ERC1363PayableCrowdsale is ERC1363Receiver, ERC1363Payable {
       tokens
     );
 
-    _updatePurchasingState(_from, sentTokenAmount);
+    _updatePurchasingState(_from, sentTokenAmount, _data);
 
     _forwardFunds(sentTokenAmount);
     _postValidatePurchase(_from, sentTokenAmount);
@@ -176,10 +176,12 @@ contract ERC1363PayableCrowdsale is ERC1363Receiver, ERC1363Payable {
    * @dev Override for extensions that require an internal state to check for validity (current user contributions, etc.)
    * @param _beneficiary Address receiving the tokens
    * @param _sentTokenAmount Value in ERC1363 tokens involved in the purchase
+   * @param _data Additional data with no specified format (Maybe a referral code)
    */
   function _updatePurchasingState(
     address _beneficiary,
-    uint256 _sentTokenAmount
+    uint256 _sentTokenAmount,
+    bytes _data
   )
     internal
   {
