@@ -1,4 +1,4 @@
-const { shouldBehaveLikeERC1363BasicToken } = require('./token/ERC1363/ERC1363BasicToken.behaviour');
+const { shouldBehaveLikeERC1363BasicToken } = require('./ERC1363BasicToken.behaviour');
 
 const ERC1363BasicToken = artifacts.require('ERC1363BasicTokenMock');
 
