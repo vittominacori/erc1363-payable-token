@@ -77,17 +77,9 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
           it('reverts', async function () {
             await assertRevert(transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender }));
           });
-
-          it('reverts', async function () {
-            await assertRevert(transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender }));
-          });
         });
 
         describe('without data', function () {
-          it('reverts', async function () {
-            await assertRevert(transferFromAndCallWithoutData.call(this, sender, receiver, amount, { from: spender }));
-          });
-
           it('reverts', async function () {
             await assertRevert(transferFromAndCallWithoutData.call(this, sender, receiver, amount, { from: spender }));
           });
@@ -246,17 +238,9 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
           it('reverts', async function () {
             await assertRevert(transferAndCallWithData.call(this, receiver, amount, { from: sender }));
           });
-
-          it('reverts', async function () {
-            await assertRevert(transferAndCallWithData.call(this, receiver, amount, { from: sender }));
-          });
         });
 
         describe('without data', function () {
-          it('reverts', async function () {
-            await assertRevert(transferAndCallWithoutData.call(this, receiver, amount, { from: sender }));
-          });
-
           it('reverts', async function () {
             await assertRevert(transferAndCallWithoutData.call(this, receiver, amount, { from: sender }));
           });
