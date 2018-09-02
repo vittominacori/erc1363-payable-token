@@ -3,8 +3,8 @@ pragma solidity ^0.4.24;
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol";
-import "..//token/ERC1363/ERC1363.sol";
-import "..//token/ERC1363/ERC1363Receiver.sol";
+import "../token/ERC1363/ERC1363.sol";
+import "../token/ERC1363/ERC1363Receiver.sol";
 import "../token/ERC1363/ERC1363Payable.sol";
 
 

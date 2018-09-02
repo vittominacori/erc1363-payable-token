@@ -57,7 +57,7 @@ contract ERC1363Payable is ERC1363Receiver, SupportsInterfaceWithLookup {
   /**
    * @dev Throws if called by any account other than the accepted token.
    */
-  modifier tokenPayable() {
+  modifier isTokenAccepted() {
     require(msg.sender == address(acceptedToken));
     _;
   }
@@ -69,7 +69,7 @@ contract ERC1363Payable is ERC1363Receiver, SupportsInterfaceWithLookup {
     bytes _data
   )
     external
-    tokenPayable
+    isTokenAccepted
     returns (bytes4)
   {
     emit TokensReceived(
