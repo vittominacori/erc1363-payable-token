@@ -4,7 +4,6 @@ import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol";
 import "../token/ERC1363/ERC1363.sol";
-import "../token/ERC1363/ERC1363Receiver.sol";
 import "../token/ERC1363/ERC1363Payable.sol";
 
 
@@ -16,13 +15,11 @@ import "../token/ERC1363/ERC1363Payable.sol";
  * allowing investors to purchase tokens with ERC1363 tokens. This contract implements
  * such functionality in its most fundamental form and can be extended to provide additional
  * functionality and/or custom behavior.
- * The external interface represents the basic interface for purchasing tokens, and conform
- * the base architecture for crowdsales. They are *not* intended to be modified / overridden.
  * The internal interface conforms the extensible and modifiable surface of crowdsales. Override
  * the methods to add functionality. Consider using 'super' where appropriate to concatenate
  * behavior.
  */
-contract ERC1363PayableCrowdsale is ERC1363Receiver, ERC1363Payable {
+contract ERC1363PayableCrowdsale is ERC1363Payable {
   using SafeMath for uint256;
   using SafeERC20 for ERC20;
 
