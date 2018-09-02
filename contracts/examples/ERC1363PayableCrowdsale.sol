@@ -78,6 +78,7 @@ contract ERC1363PayableCrowdsale is ERC1363Payable {
 
   /**
    * @dev low level token purchase ***DO NOT OVERRIDE***
+   *  This method is called after `onERC1363Received`.
    * @param _operator The address which called `transferAndCall` or `transferFromAndCall` function
    * @param _from Address performing the token purchase
    * @param _value The amount of tokens transferred

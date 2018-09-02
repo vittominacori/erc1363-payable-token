@@ -4,7 +4,7 @@ import "openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
 
 
 /**
- * @title SimpleToken
+ * @title ERC20Mock
  * @dev Very simple ERC20 Token example, where all tokens are pre-assigned to the creator.
  * Note they can later distribute these tokens as they wish using `transfer` and other
  * `ERC20` functions.
@@ -24,5 +24,4 @@ contract ERC20Mock is StandardToken {
     balances[msg.sender] = INITIAL_SUPPLY;
     totalSupply_ = INITIAL_SUPPLY;
   }
-
 }

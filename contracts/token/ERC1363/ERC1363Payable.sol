@@ -89,6 +89,14 @@ contract ERC1363Payable is ERC1363Receiver, SupportsInterfaceWithLookup {
     return InterfaceId_ERC1363Receiver;
   }
 
+  /**
+   * @dev Called after validating a `onERC1363Received`. Override this method to
+   *  make your stuffs within your contract.
+   * @param _operator The address which called `transferAndCall` or `transferFromAndCall` function
+   * @param _from The address which are token transferred from
+   * @param _value The amount of tokens transferred
+   * @param _data Additional data with no specified format
+   */
   function transferReceived(
     address _operator,
     address _from,
