@@ -31,8 +31,8 @@ Interface for any contract that wants to support `transferAndCall` or `transferF
 * [ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363Payable.sol)
 
 Implementation of a contract that wants to accept ERC1363 payments. It intercepts what is the ERC1363 token desired for payments and throws is another is sent.   
-It also implements a `transferReceived` function that can be overridden to make your stuffs after a `onERC1363Received`. 
-It also emits a `TokensReceived` event to notify the transfer received by the contract.
+It emits a `TokensReceived` event to notify the transfer received by the contract.  
+It also implements a `transferReceived` function that can be overridden to make your stuffs within your contract after a `onERC1363Received`. 
 
 * [ERC1363PayableCrowdsale](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363PayableCrowdsale.sol)
 
