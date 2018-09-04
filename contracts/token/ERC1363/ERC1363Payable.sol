@@ -66,9 +66,7 @@ contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363
   constructor(ERC1363 _acceptedToken) public {
     require(_acceptedToken != address(0));
     require(
-      ERC1363BasicToken(_acceptedToken).supportsInterface(InterfaceId_ERC1363Transfer)
-    );
-    require(
+      ERC1363BasicToken(_acceptedToken).supportsInterface(InterfaceId_ERC1363Transfer) &&
       ERC1363BasicToken(_acceptedToken).supportsInterface(InterfaceId_ERC1363Approve)
     );
 
