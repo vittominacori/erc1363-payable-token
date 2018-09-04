@@ -5,7 +5,8 @@ pragma solidity ^0.4.24;
  * @title ERC1363Receiver interface
  * @author Vittorio Minacori (@vittominacori)
  * @dev Interface for any contract that wants to support transferAndCall or transferFromAndCall
- *  from ERC1363 token contracts.
+ *  from ERC1363 token contracts as defined in
+ *  https://github.com/ethereum/EIPs/issues/1363
  */
 contract ERC1363Receiver {
   /*
@@ -20,10 +21,10 @@ contract ERC1363Receiver {
    *  transfer. Return of other than the magic value MUST result in the
    *  transaction being reverted.
    *  Note: the contract address is always the message sender.
-   * @param _operator The address which called `transferAndCall` or `transferFromAndCall` function
-   * @param _from The address which are token transferred from
-   * @param _value The amount of tokens transferred
-   * @param _data Additional data with no specified format
+   * @param _operator address The address which called `transferAndCall` or `transferFromAndCall` function
+   * @param _from address The address which are token transferred from
+   * @param _value uint256 The amount of tokens transferred
+   * @param _data bytes Additional data with no specified format
    * @return `bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))`
    *  unless throwing
    */

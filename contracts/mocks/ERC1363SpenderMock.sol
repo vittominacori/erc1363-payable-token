@@ -1,16 +1,15 @@
 pragma solidity ^0.4.24;
 
-import "../token/ERC1363/ERC1363Receiver.sol";
+import "../token/ERC1363/ERC1363Spender.sol";
 
 
-// mock class using ERC1363Receiver
-contract ERC1363ReceiverMock is ERC1363Receiver {
+// mock class using ERC1363Spender
+contract ERC1363SpenderMock is ERC1363Spender {
   bytes4 retval;
   bool reverts;
 
-  event Received(
-    address operator,
-    address from,
+  event Approved(
+    address owner,
     uint256 value,
     bytes data,
     uint256 gas
@@ -21,9 +20,8 @@ contract ERC1363ReceiverMock is ERC1363Receiver {
     reverts = _reverts;
   }
 
-  function onERC1363Received(
-    address _operator,
-    address _from,
+  function onERC1363Approved(
+    address _owner,
     uint256 _value,
     bytes _data
   )
@@ -31,9 +29,8 @@ contract ERC1363ReceiverMock is ERC1363Receiver {
     returns (bytes4)
   {
     require(!reverts);
-    emit Received(
-      _operator,
-      _from,
+    emit Approved(
+      _owner,
       _value,
       _data,
       gasleft() // msg.gas was deprecated in solidityv0.4.21

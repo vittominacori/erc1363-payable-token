@@ -4,14 +4,21 @@ const INTERFACE_IDS = {
   ERC165: makeInterfaceId([
     'supportsInterface(bytes4)',
   ]),
-  ERC1363: makeInterfaceId([
+  ERC1363Transfer: makeInterfaceId([
     'transferAndCall(address,uint256)',
     'transferAndCall(address,uint256,bytes)',
     'transferFromAndCall(address,address,uint256)',
     'transferFromAndCall(address,address,uint256,bytes)',
   ]),
+  ERC1363Approve: makeInterfaceId([
+    'approveAndCall(address,uint256)',
+    'approveAndCall(address,uint256,bytes)',
+  ]),
   ERC1363Receiver: makeInterfaceId([
     'onERC1363Received(address,address,uint256,bytes)',
+  ]),
+  ERC1363Spender: makeInterfaceId([
+    'onERC1363Approved(address,uint256,bytes)',
   ]),
 };
 

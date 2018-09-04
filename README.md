@@ -6,7 +6,7 @@
 This is an implementation of the [ERC-1363 Payable Token](https://github.com/ethereum/EIPs/issues/1363) that defines a Payable Token and Receiver.
 
 The ERC-1363 is an ERC-20 compatible token that can make a callback on the receiver contract to notify token transfers.
-It can be used to create a token payable crowdsale, selling services for tokens, paying invoices, use them for a specific utility and many other purposes.
+It can be used to create a token payable crowdsale, selling services for tokens, paying invoices, making subscriptions, use them for a specific utility and many other purposes.
 
 This proposal allows to implement an ERC-20 token that can be used for payments (like the `payable` keyword does for Ethereum). 
 
@@ -28,11 +28,17 @@ Implementation of an ERC1363 interface.
 
 Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall` from ERC1363 token contracts.
 
+* [ERC1363Spender.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363Spender.sol)
+
+Interface for any contract that wants to support `approveAndCall` from ERC1363 token contracts.
+
 * [ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363Payable.sol)
 
 Implementation of a contract that wants to accept ERC1363 payments. It intercepts what is the ERC1363 token desired for payments and throws is another is sent.   
 It emits a `TokensReceived` event to notify the transfer received by the contract.  
-It also implements a `transferReceived` function that can be overridden to make your stuffs within your contract after a `onERC1363Received`. 
+It also implements a `transferReceived` function that can be overridden to make your stuffs within your contract after a `onERC1363Received`.  
+It emits a `TokensApproved` event to notify the approval received by the contract.  
+It also implements a `approvalReceived` function that can be overridden to make your stuffs within your contract after a `onERC1363Approved`. 
 
 * [ERC1363PayableCrowdsale](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363PayableCrowdsale.sol)
 

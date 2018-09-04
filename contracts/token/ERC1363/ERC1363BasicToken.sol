@@ -7,6 +7,7 @@ import "openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
 
 import "./ERC1363.sol";
 import "./ERC1363Receiver.sol";
+import "./ERC1363Spender.sol";
 
 
 /**
@@ -25,15 +26,28 @@ contract ERC1363BasicToken is SupportsInterfaceWithLookup, StandardToken, ERC136
    *   bytes4(keccak256('transferFromAndCall(address,address,uint256)')) ^
    *   bytes4(keccak256('transferFromAndCall(address,address,uint256,bytes)'))
    */
-  bytes4 internal constant InterfaceId_ERC1363 = 0x4bbee2df;
+  bytes4 internal constant InterfaceId_ERC1363Transfer = 0x4bbee2df;
+
+  /*
+   * Note: the ERC-165 identifier for this interface is 0xfb9ec8ce.
+   * 0xfb9ec8ce ===
+   *   bytes4(keccak256('approveAndCall(address,uint256)')) ^
+   *   bytes4(keccak256('approveAndCall(address,uint256,bytes)'))
+   */
+  bytes4 internal constant InterfaceId_ERC1363Approve = 0xfb9ec8ce;
 
   // Equals to `bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))`
   // which can be also obtained as `ERC1363Receiver(0).onERC1363Received.selector`
   bytes4 private constant ERC1363_RECEIVED = 0xb64ff699;
 
+  // Equals to `bytes4(keccak256("onERC1363Approved(address,uint256,bytes)"))`
+  // which can be also obtained as `ERC1363Spender(0).onERC1363Approved.selector`
+  bytes4 private constant ERC1363_APPROVED = 0x44dfa0ca;
+
   constructor() public {
-    // register the supported interface to conform to ERC1363 via ERC165
-    _registerInterface(InterfaceId_ERC1363);
+    // register the supported interfaces to conform to ERC1363 via ERC165
+    _registerInterface(InterfaceId_ERC1363Transfer);
+    _registerInterface(InterfaceId_ERC1363Approve);
   }
 
   function transferAndCall(
@@ -99,6 +113,35 @@ contract ERC1363BasicToken is SupportsInterfaceWithLookup, StandardToken, ERC136
     return true;
   }
 
+  function approveAndCall(
+    address _spender,
+    uint256 _value
+  )
+    public
+    returns (bool)
+  {
+    return approveAndCall(_spender, _value, "");
+  }
+
+  function approveAndCall(
+    address _spender,
+    uint256 _value,
+    bytes _data
+  )
+    public
+    returns (bool)
+  {
+    approve(_spender, _value);
+    require(
+      checkAndCallApprove(
+        _spender,
+        _value,
+        _data
+      )
+    );
+    return true;
+  }
+
   /**
    * @dev Internal function to invoke `onERC1363Received` on a target address
    *  The call is not executed if the target address is not a contract
@@ -124,5 +167,30 @@ contract ERC1363BasicToken is SupportsInterfaceWithLookup, StandardToken, ERC136
       msg.sender, _from, _value, _data
     );
     return (retval == ERC1363_RECEIVED);
+  }
+
+  /**
+   * @dev Internal function to invoke `onERC1363Approved` on a target address
+   *  The call is not executed if the target address is not a contract
+   * @param _spender address The address which will spend the funds
+   * @param _value uint256 The amount of tokens to be spent
+   * @param _data bytes Optional data to send along with the call
+   * @return whether the call correctly returned the expected magic value
+   */
+  function checkAndCallApprove(
+    address _spender,
+    uint256 _value,
+    bytes _data
+  )
+    internal
+    returns (bool)
+  {
+    if (!_spender.isContract()) {
+      return false;
+    }
+    bytes4 retval = ERC1363Spender(_spender).onERC1363Approved(
+      msg.sender, _value, _data
+    );
+    return (retval == ERC1363_APPROVED);
   }
 }

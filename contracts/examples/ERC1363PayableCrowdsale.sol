@@ -190,8 +190,12 @@ contract ERC1363PayableCrowdsale is ERC1363Payable {
    * @param _sentTokenAmount Value in ERC1363 tokens to be converted into tokens
    * @return Number of tokens that can be purchased with the specified _sentTokenAmount
    */
-  function _getTokenAmount(uint256 _sentTokenAmount)
-    internal view returns (uint256)
+  function _getTokenAmount(
+    uint256 _sentTokenAmount
+  )
+    internal
+    view
+    returns (uint256)
   {
     return _sentTokenAmount.mul(rate);
   }

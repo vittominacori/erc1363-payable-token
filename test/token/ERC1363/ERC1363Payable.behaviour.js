@@ -65,18 +65,18 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
           result.receipt.logs.length.should.be.equal(2);
           const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Payable, this.mock.address);
           log.event.should.be.eq('TokensReceived');
-          log.args._operator.should.be.equal(spender);
-          log.args._from.should.be.equal(owner);
-          log.args._value.should.be.bignumber.equal(value);
-          log.args._data.should.be.equal(data);
+          log.args.operator.should.be.equal(spender);
+          log.args.from.should.be.equal(owner);
+          log.args.value.should.be.bignumber.equal(value);
+          log.args.data.should.be.equal(data);
         });
 
         it('should execute transferReceived', async function () {
-          let testValue = await this.mock.testValue();
-          testValue.should.be.bignumber.equal(0);
+          let transferNumber = await this.mock.transferNumber();
+          transferNumber.should.be.bignumber.equal(0);
           await transferFun.call(this, owner, this.mock.address, value, { from: spender });
-          testValue = await this.mock.testValue();
-          testValue.should.be.bignumber.equal(1);
+          transferNumber = await this.mock.transferNumber();
+          transferNumber.should.be.bignumber.equal(1);
         });
       });
 
@@ -125,18 +125,18 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
           result.receipt.logs.length.should.be.equal(2);
           const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Payable, this.mock.address);
           log.event.should.be.eq('TokensReceived');
-          log.args._operator.should.be.equal(owner);
-          log.args._from.should.be.equal(owner);
-          log.args._value.should.be.bignumber.equal(value);
-          log.args._data.should.be.equal(data);
+          log.args.operator.should.be.equal(owner);
+          log.args.from.should.be.equal(owner);
+          log.args.value.should.be.bignumber.equal(value);
+          log.args.data.should.be.equal(data);
         });
 
         it('should execute transferReceived', async function () {
-          let testValue = await this.mock.testValue();
-          testValue.should.be.bignumber.equal(0);
+          let transferNumber = await this.mock.transferNumber();
+          transferNumber.should.be.bignumber.equal(0);
           await transferFun.call(this, this.mock.address, value, { from: owner });
-          testValue = await this.mock.testValue();
-          testValue.should.be.bignumber.equal(1);
+          transferNumber = await this.mock.transferNumber();
+          transferNumber.should.be.bignumber.equal(1);
         });
       });
 
@@ -157,8 +157,68 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
     });
   });
 
+  describe('via approveAndCall', function () {
+    const approveAndCallWithData = function (spender, value, opts) {
+      return sendTransaction(
+        this.token,
+        'approveAndCall',
+        'address,uint256,bytes',
+        [spender, value, data],
+        opts
+      );
+    };
+
+    const approveAndCallWithoutData = function (spender, value, opts) {
+      return sendTransaction(
+        this.token,
+        'approveAndCall',
+        'address,uint256',
+        [spender, value],
+        opts
+      );
+    };
+
+    const shouldApproveSafely = function (approveFun, data) {
+      describe('using an accepted ERC1363', function () {
+        it('should call onERC1363Approved', async function () {
+          const result = await approveFun.call(this, this.mock.address, value, { from: owner });
+          result.receipt.logs.length.should.be.equal(2);
+          const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Payable, this.mock.address);
+          log.event.should.be.eq('TokensApproved');
+          log.args.owner.should.be.equal(owner);
+          log.args.value.should.be.bignumber.equal(value);
+          log.args.data.should.be.equal(data);
+        });
+
+        it('should execute approvalReceived', async function () {
+          let approvalNumber = await this.mock.approvalNumber();
+          approvalNumber.should.be.bignumber.equal(0);
+          await approveFun.call(this, this.mock.address, value, { from: owner });
+          approvalNumber = await this.mock.approvalNumber();
+          approvalNumber.should.be.bignumber.equal(1);
+        });
+      });
+
+      describe('using a not accepted ERC1363', function () {
+        it('reverts', async function () {
+          this.token = this.notAcceptedToken;
+          await assertRevert(approveFun.call(this, this.mock.address, value, { from: owner }));
+        });
+      });
+    };
+
+    describe('with data', function () {
+      shouldApproveSafely(approveAndCallWithData, data);
+    });
+
+    describe('without data', function () {
+      shouldApproveSafely(approveAndCallWithoutData, '0x');
+    });
+  });
+
   shouldSupportInterfaces([
     'ERC1363Receiver',
+    'ERC1363Spender',
   ]);
 }
 

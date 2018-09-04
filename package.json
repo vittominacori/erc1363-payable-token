@@ -35,6 +35,9 @@
     "url": "https://github.com/vittominacori/erc1363-payable-token/issues"
   },
   "homepage": "https://github.com/vittominacori/erc1363-payable-token",
+  "dependencies": {
+    "openzeppelin-solidity": "1.12.0"
+  },
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-bignumber": "^2.0.2",
@@ -48,7 +51,6 @@
     "eslint-plugin-standard": "^3.1.0",
     "ethjs-abi": "^0.2.1",
     "ganache-cli": "6.1.0",
-    "openzeppelin-solidity": "^1.12.0",
     "solidity-coverage": "^0.5.4",
     "solium": "^1.1.8",
     "truffle": "^4.1.14",

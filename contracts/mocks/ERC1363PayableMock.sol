@@ -8,7 +8,8 @@ import "../token/ERC1363/ERC1363Payable.sol";
 contract ERC1363PayableMock is ERC1363Payable {
   using SafeMath for uint256;
 
-  uint256 public testValue;
+  uint256 public transferNumber;
+  uint256 public approvalNumber;
 
   constructor(ERC1363 _acceptedToken) ERC1363Payable(_acceptedToken) public {}
 
@@ -20,6 +21,16 @@ contract ERC1363PayableMock is ERC1363Payable {
   )
     internal
   {
-    testValue = testValue.add(1);
+    transferNumber = transferNumber.add(1);
+  }
+
+  function approvalReceived(
+    address _owner,
+    uint256 _value,
+    bytes _data
+  )
+    internal
+  {
+    approvalNumber = approvalNumber.add(1);
   }
 }

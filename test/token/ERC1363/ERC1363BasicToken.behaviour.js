@@ -4,6 +4,7 @@ const { decodeLogs } = require('../../helpers/decodeLogs');
 const { sendTransaction } = require('../../helpers/sendTransaction');
 
 const ERC1363Receiver = artifacts.require('ERC1363ReceiverMock');
+const ERC1363Spender = artifacts.require('ERC1363SpenderMock');
 
 const BigNumber = web3.BigNumber;
 
@@ -16,6 +17,7 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
   const data = '0x42';
 
   const RECEIVER_MAGIC_VALUE = '0xb64ff699';
+  const SPENDER_MAGIC_VALUE = '0x44dfa0ca';
 
   describe('via transferFromAndCall', function () {
     beforeEach(async function () {
@@ -54,10 +56,10 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
           result.receipt.logs.length.should.be.equal(2);
           const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Receiver, this.receiver.address);
           log.event.should.be.eq('Received');
-          log.args._operator.should.be.equal(spender);
-          log.args._from.should.be.equal(owner);
-          log.args._value.should.be.bignumber.equal(value);
-          log.args._data.should.be.equal(data);
+          log.args.operator.should.be.equal(spender);
+          log.args.from.should.be.equal(owner);
+          log.args.value.should.be.bignumber.equal(value);
+          log.args.data.should.be.equal(data);
         });
       });
     };
@@ -215,10 +217,10 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
           result.receipt.logs.length.should.be.equal(2);
           const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Receiver, this.receiver.address);
           log.event.should.be.eq('Received');
-          log.args._operator.should.be.equal(owner);
-          log.args._from.should.be.equal(owner);
-          log.args._value.should.be.bignumber.equal(value);
-          log.args._data.should.be.equal(data);
+          log.args.operator.should.be.equal(owner);
+          log.args.from.should.be.equal(owner);
+          log.args.value.should.be.bignumber.equal(value);
+          log.args.data.should.be.equal(data);
         });
       });
     };
@@ -335,8 +337,136 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
     });
   });
 
+  describe('via approveAndCall', function () {
+    const approveAndCallWithData = function (spender, value, opts) {
+      return sendTransaction(
+        this.token,
+        'approveAndCall',
+        'address,uint256,bytes',
+        [spender, value, data],
+        opts
+      );
+    };
+
+    const approveAndCallWithoutData = function (spender, value, opts) {
+      return sendTransaction(
+        this.token,
+        'approveAndCall',
+        'address,uint256',
+        [spender, value],
+        opts
+      );
+    };
+
+    const shouldApproveSafely = function (approveFun, data) {
+      describe('to a valid receiver contract', function () {
+        beforeEach(async function () {
+          this.spender = await ERC1363Spender.new(SPENDER_MAGIC_VALUE, false);
+          this.to = this.spender.address;
+        });
+
+        it('should call onERC1363Approved', async function () {
+          const result = await approveFun.call(this, this.to, value, { from: owner });
+          result.receipt.logs.length.should.be.equal(2);
+          const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Spender, this.spender.address);
+          log.event.should.be.eq('Approved');
+          log.args.owner.should.be.equal(owner);
+          log.args.value.should.be.bignumber.equal(value);
+          log.args.data.should.be.equal(data);
+        });
+      });
+    };
+
+    const approveWasSuccessful = function (sender, amount) {
+      let spender;
+
+      beforeEach(async function () {
+        const spenderContract = await ERC1363Spender.new(SPENDER_MAGIC_VALUE, false);
+        spender = spenderContract.address;
+      });
+
+      describe('with data', function () {
+        it('approves the requested amount', async function () {
+          await approveAndCallWithData.call(this, spender, amount, { from: sender });
+
+          const spenderAllowance = await this.token.allowance(sender, spender);
+          assert.equal(spenderAllowance, amount);
+        });
+
+        it('emits an approval event', async function () {
+          const { logs } = await approveAndCallWithData.call(this, spender, amount, { from: sender });
+
+          assert.equal(logs.length, 1);
+          assert.equal(logs[0].event, 'Approval');
+          assert.equal(logs[0].args.owner, sender);
+          assert.equal(logs[0].args.spender, spender);
+          assert(logs[0].args.value.eq(amount));
+        });
+      });
+
+      describe('without data', function () {
+        it('approves the requested amount', async function () {
+          await approveAndCallWithoutData.call(this, spender, amount, { from: sender });
+
+          const spenderAllowance = await this.token.allowance(sender, spender);
+          assert.equal(spenderAllowance, amount);
+        });
+
+        it('emits an approval event', async function () {
+          const { logs } = await approveAndCallWithoutData.call(this, spender, amount, { from: sender });
+
+          assert.equal(logs.length, 1);
+          assert.equal(logs[0].event, 'Approval');
+          assert.equal(logs[0].args.owner, sender);
+          assert.equal(logs[0].args.spender, spender);
+          assert(logs[0].args.value.eq(amount));
+        });
+      });
+    };
+
+    describe('with data', function () {
+      shouldApproveSafely(approveAndCallWithData, data);
+    });
+
+    describe('without data', function () {
+      shouldApproveSafely(approveAndCallWithoutData, '0x');
+    });
+
+    describe('testing ERC20 behaviours', function () {
+      approveWasSuccessful(owner, value);
+    });
+
+    describe('to a spender that is not a contract', function () {
+      it('reverts', async function () {
+        await assertRevert(approveAndCallWithoutData.call(this, recipient, value, { from: owner }));
+      });
+    });
+
+    describe('to a spender contract returning unexpected value', function () {
+      it('reverts', async function () {
+        const invalidSpender = await ERC1363Spender.new(data, false);
+        await assertRevert(approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner }));
+      });
+    });
+
+    describe('to a spender contract that throws', function () {
+      it('reverts', async function () {
+        const invalidSpender = await ERC1363Spender.new(SPENDER_MAGIC_VALUE, true);
+        await assertRevert(approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner }));
+      });
+    });
+
+    describe('to a contract that does not implement the required function', function () {
+      it('reverts', async function () {
+        const invalidSpender = this.token;
+        await assertRevert(approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner }));
+      });
+    });
+  });
+
   shouldSupportInterfaces([
-    'ERC1363',
+    'ERC1363Transfer',
+    'ERC1363Approve',
   ]);
 }
 
