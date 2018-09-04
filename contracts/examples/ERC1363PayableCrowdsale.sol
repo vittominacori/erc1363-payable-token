@@ -1,10 +1,8 @@
 pragma solidity ^0.4.24;
 
-import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol";
-import "../token/ERC1363/ERC1363.sol";
-import "../token/ERC1363/ERC1363Payable.sol";
+import "../proposals/ERC1363Payable.sol";
 
 
 /**
@@ -113,6 +111,24 @@ contract ERC1363PayableCrowdsale is ERC1363Payable {
 
     _forwardFunds(sentTokenAmount);
     _postValidatePurchase(_from, sentTokenAmount);
+  }
+
+  /**
+   * @dev Called after validating a `onERC1363Approved`.
+   *  We are overriding this method to revert because of we don't want function
+   *  to be called after approval. This because of we are inheriting from ERC1363Payable.
+   *  You can also build your own ERC1363Payable proposal to only support ERC1363Receiver
+   *  instead of also supporting ERC1363Spender.
+   *  Remember that this is an example of using ERC1363
+   */
+  function approvalReceived(
+    address _owner,
+    uint256 _value,
+    bytes _data
+  )
+    internal
+  {
+    revert();
   }
 
   // -----------------------------------------

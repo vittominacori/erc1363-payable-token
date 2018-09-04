@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "../token/ERC1363/ERC1363Payable.sol";
+import "../proposals/ERC1363Payable.sol";
 
 
 // mock class using ERC1363Payable

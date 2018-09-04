@@ -3,7 +3,7 @@ pragma solidity ^0.4.24;
 // solium-disable-next-line max-len
 import "openzeppelin-solidity/contracts/introspection/SupportsInterfaceWithLookup.sol";
 
-import "./ERC1363BasicToken.sol";
+import "../token/ERC1363/ERC1363BasicToken.sol";
 
 
 /**

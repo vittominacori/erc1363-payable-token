@@ -1,7 +1,7 @@
-const { shouldSupportInterfaces } = require('../../introspection/SupportsInterface.behavior');
-const { assertRevert } = require('../../helpers/assertRevert');
-const { decodeLogs } = require('../../helpers/decodeLogs');
-const { sendTransaction } = require('../../helpers/sendTransaction');
+const { shouldSupportInterfaces } = require('../introspection/SupportsInterface.behavior');
+const { assertRevert } = require('../helpers/assertRevert');
+const { decodeLogs } = require('../helpers/decodeLogs');
+const { sendTransaction } = require('../helpers/sendTransaction');
 
 const StandardToken = artifacts.require('StandardToken');
 const ERC1363Payable = artifacts.require('ERC1363PayableMock');

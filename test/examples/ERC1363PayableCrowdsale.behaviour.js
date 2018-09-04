@@ -322,6 +322,44 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
           });
         });
       });
+
+      describe('via approveAndCall', function () {
+        const approveAndCallWithData = function (spender, value, opts) {
+          return sendTransaction(
+            this.erc1363Token,
+            'approveAndCall',
+            'address,uint256,bytes',
+            [spender, value, data],
+            opts
+          );
+        };
+
+        const approveAndCallWithoutData = function (spender, value, opts) {
+          return sendTransaction(
+            this.erc1363Token,
+            'approveAndCall',
+            'address,uint256',
+            [spender, value],
+            opts
+          );
+        };
+
+        describe('with data', function () {
+          it('reverts', async function () {
+            await assertRevert(
+              approveAndCallWithData.call(this, this.crowdsale.address, value, { from: beneficiary })
+            );
+          });
+        });
+
+        describe('without data', function () {
+          it('reverts', async function () {
+            await assertRevert(
+              approveAndCallWithoutData.call(this, this.crowdsale.address, value, { from: beneficiary })
+            );
+          });
+        });
+      });
     });
   });
 }
