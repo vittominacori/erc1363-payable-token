@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-import "openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "openzeppelin-solidity/contracts/introspection/ERC165.sol";
 
 
@@ -9,7 +9,7 @@ import "openzeppelin-solidity/contracts/introspection/ERC165.sol";
  * @author Vittorio Minacori (@vittominacori)
  * @dev Interface for a Payable Token contract
  */
-contract ERC1363 is StandardToken, ERC165 {
+contract ERC1363 is ERC20, ERC165 {
   /*
    * Note: the ERC-165 identifier for this interface is 0x4bbee2df.
    * 0x4bbee2df ===

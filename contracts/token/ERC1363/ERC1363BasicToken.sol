@@ -3,6 +3,7 @@ pragma solidity ^0.4.24;
 import "openzeppelin-solidity/contracts/AddressUtils.sol";
 // solium-disable-next-line max-len
 import "openzeppelin-solidity/contracts/introspection/SupportsInterfaceWithLookup.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
 
 import "./ERC1363.sol";
 import "./ERC1363Receiver.sol";
@@ -13,7 +14,7 @@ import "./ERC1363Receiver.sol";
  * @author Vittorio Minacori (@vittominacori)
  * @dev Implementation of an ERC1363 interface
  */
-contract ERC1363BasicToken is SupportsInterfaceWithLookup, ERC1363 {
+contract ERC1363BasicToken is SupportsInterfaceWithLookup, StandardToken, ERC1363 { // solium-disable-line max-len
   using AddressUtils for address;
 
   /*
@@ -24,7 +25,7 @@ contract ERC1363BasicToken is SupportsInterfaceWithLookup, ERC1363 {
    *   bytes4(keccak256('transferFromAndCall(address,address,uint256)')) ^
    *   bytes4(keccak256('transferFromAndCall(address,address,uint256,bytes)'))
    */
-  bytes4 private constant InterfaceId_ERC1363 = 0x4bbee2df;
+  bytes4 internal constant InterfaceId_ERC1363 = 0x4bbee2df;
 
   // Equals to `bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))`
   // which can be also obtained as `ERC1363Receiver(0).onERC1363Received.selector`

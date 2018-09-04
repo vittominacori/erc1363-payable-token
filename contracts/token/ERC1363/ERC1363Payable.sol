@@ -11,13 +11,13 @@ import "./ERC1363BasicToken.sol";
  * @author Vittorio Minacori (@vittominacori)
  * @dev Implementation of a contract that wants to accept ERC1363 payments
  */
-contract ERC1363Payable is ERC1363Receiver, SupportsInterfaceWithLookup {
+contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver {
   /**
    * @dev Magic value to be returned upon successful reception of ERC1363 tokens
    *  Equals to `bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))`,
    *  which can be also obtained as `ERC1363Receiver(0).onERC1363Received.selector`
    */
-  bytes4 private constant InterfaceId_ERC1363Receiver = 0xb64ff699;
+  bytes4 internal constant InterfaceId_ERC1363Receiver = 0xb64ff699;
 
   /*
    * Note: the ERC-165 identifier for the ERC1363 token.
