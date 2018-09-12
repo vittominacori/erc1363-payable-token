@@ -36,13 +36,13 @@ contract ERC1363BasicToken is SupportsInterfaceWithLookup, StandardToken, ERC136
    */
   bytes4 internal constant InterfaceId_ERC1363Approve = 0xfb9ec8ce;
 
-  // Equals to `bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))`
-  // which can be also obtained as `ERC1363Receiver(0).onERC1363Received.selector`
-  bytes4 private constant ERC1363_RECEIVED = 0xb64ff699;
+  // Equals to `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
+  // which can be also obtained as `ERC1363Receiver(0).onTransferReceived.selector`
+  bytes4 private constant ERC1363_RECEIVED = 0x88a7ca5c;
 
-  // Equals to `bytes4(keccak256("onERC1363Approved(address,uint256,bytes)"))`
-  // which can be also obtained as `ERC1363Spender(0).onERC1363Approved.selector`
-  bytes4 private constant ERC1363_APPROVED = 0x44dfa0ca;
+  // Equals to `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
+  // which can be also obtained as `ERC1363Spender(0).onApprovalReceived.selector`
+  bytes4 private constant ERC1363_APPROVED = 0x7b04a2d0;
 
   constructor() public {
     // register the supported interfaces to conform to ERC1363 via ERC165
@@ -143,7 +143,7 @@ contract ERC1363BasicToken is SupportsInterfaceWithLookup, StandardToken, ERC136
   }
 
   /**
-   * @dev Internal function to invoke `onERC1363Received` on a target address
+   * @dev Internal function to invoke `onTransferReceived` on a target address
    *  The call is not executed if the target address is not a contract
    * @param _from address Representing the previous owner of the given token value
    * @param _to address Target address that will receive the tokens
@@ -163,14 +163,14 @@ contract ERC1363BasicToken is SupportsInterfaceWithLookup, StandardToken, ERC136
     if (!_to.isContract()) {
       return false;
     }
-    bytes4 retval = ERC1363Receiver(_to).onERC1363Received(
+    bytes4 retval = ERC1363Receiver(_to).onTransferReceived(
       msg.sender, _from, _value, _data
     );
     return (retval == ERC1363_RECEIVED);
   }
 
   /**
-   * @dev Internal function to invoke `onERC1363Approved` on a target address
+   * @dev Internal function to invoke `onApprovalReceived` on a target address
    *  The call is not executed if the target address is not a contract
    * @param _spender address The address which will spend the funds
    * @param _value uint256 The amount of tokens to be spent
@@ -188,7 +188,7 @@ contract ERC1363BasicToken is SupportsInterfaceWithLookup, StandardToken, ERC136
     if (!_spender.isContract()) {
       return false;
     }
-    bytes4 retval = ERC1363Spender(_spender).onERC1363Approved(
+    bytes4 retval = ERC1363Spender(_spender).onApprovalReceived(
       msg.sender, _value, _data
     );
     return (retval == ERC1363_APPROVED);

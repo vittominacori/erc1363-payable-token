@@ -76,7 +76,7 @@ contract ERC1363PayableCrowdsale is ERC1363Payable {
 
   /**
    * @dev low level token purchase ***DO NOT OVERRIDE***
-   *  This method is called after `onERC1363Received`.
+   *  This method is called after `onTransferReceived`.
    * @param _operator The address which called `transferAndCall` or `transferFromAndCall` function
    * @param _from Address performing the token purchase
    * @param _value The amount of tokens transferred
@@ -114,7 +114,7 @@ contract ERC1363PayableCrowdsale is ERC1363Payable {
   }
 
   /**
-   * @dev Called after validating a `onERC1363Approved`.
+   * @dev Called after validating a `onApprovalReceived`.
    *  We are overriding this method to revert because of we don't want function
    *  to be called after approval. This because of we are inheriting from ERC1363Payable.
    *  You can also build your own ERC1363Payable proposal to only support ERC1363Receiver

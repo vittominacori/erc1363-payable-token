@@ -16,8 +16,8 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
   const value = balance;
   const data = '0x42';
 
-  const RECEIVER_MAGIC_VALUE = '0xb64ff699';
-  const SPENDER_MAGIC_VALUE = '0x44dfa0ca';
+  const RECEIVER_MAGIC_VALUE = '0x88a7ca5c';
+  const SPENDER_MAGIC_VALUE = '0x7b04a2d0';
 
   describe('via transferFromAndCall', function () {
     beforeEach(async function () {
@@ -51,7 +51,7 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
           this.to = this.receiver.address;
         });
 
-        it('should call onERC1363Received', async function () {
+        it('should call onTransferReceived', async function () {
           const result = await transferFun.call(this, owner, this.to, value, { from: spender });
           result.receipt.logs.length.should.be.equal(2);
           const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Receiver, this.receiver.address);
@@ -212,7 +212,7 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
           this.to = this.receiver.address;
         });
 
-        it('should call onERC1363Received', async function () {
+        it('should call onTransferReceived', async function () {
           const result = await transferFun.call(this, this.to, value, { from: owner });
           result.receipt.logs.length.should.be.equal(2);
           const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Receiver, this.receiver.address);
@@ -365,7 +365,7 @@ function shouldBehaveLikeERC1363BasicToken ([owner, spender, recipient], balance
           this.to = this.spender.address;
         });
 
-        it('should call onERC1363Approved', async function () {
+        it('should call onApprovalReceived', async function () {
           const result = await approveFun.call(this, this.to, value, { from: owner });
           result.receipt.logs.length.should.be.equal(2);
           const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Spender, this.spender.address);

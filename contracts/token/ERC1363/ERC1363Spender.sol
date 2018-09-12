@@ -10,8 +10,8 @@ pragma solidity ^0.4.24;
  */
 contract ERC1363Spender {
   /*
-   * Note: the ERC-165 identifier for this interface is 0x44dfa0ca.
-   * 0x44dfa0ca === bytes4(keccak256("onERC1363Approved(address,uint256,bytes)"))
+   * Note: the ERC-165 identifier for this interface is 0x7b04a2d0.
+   * 0x7b04a2d0 === bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))
    */
 
   /**
@@ -24,8 +24,8 @@ contract ERC1363Spender {
    * @param _owner address The address which called `approveAndCall` function
    * @param _value uint256 The amount of tokens to be spent
    * @param _data bytes Additional data with no specified format
-   * @return `bytes4(keccak256("onERC1363Approved(address,uint256,bytes)"))`
+   * @return `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
    *  unless throwing
    */
-  function onERC1363Approved(address _owner, uint256 _value, bytes _data) external returns (bytes4); // solium-disable-line max-len
+  function onApprovalReceived(address _owner, uint256 _value, bytes _data) external returns (bytes4); // solium-disable-line max-len
 }

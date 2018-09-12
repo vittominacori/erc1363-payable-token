@@ -60,7 +60,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
 
     const shouldTransferFromSafely = function (transferFun, data) {
       describe('using an accepted ERC1363', function () {
-        it('should call onERC1363Received', async function () {
+        it('should call onTransferReceived', async function () {
           const result = await transferFun.call(this, owner, this.mock.address, value, { from: spender });
           result.receipt.logs.length.should.be.equal(2);
           const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Payable, this.mock.address);
@@ -120,7 +120,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
 
     const shouldTransferSafely = function (transferFun, data) {
       describe('using an accepted ERC1363', function () {
-        it('should call onERC1363Received', async function () {
+        it('should call onTransferReceived', async function () {
           const result = await transferFun.call(this, this.mock.address, value, { from: owner });
           result.receipt.logs.length.should.be.equal(2);
           const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Payable, this.mock.address);
@@ -180,7 +180,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
 
     const shouldApproveSafely = function (approveFun, data) {
       describe('using an accepted ERC1363', function () {
-        it('should call onERC1363Approved', async function () {
+        it('should call onApprovalReceived', async function () {
           const result = await approveFun.call(this, this.mock.address, value, { from: owner });
           result.receipt.logs.length.should.be.equal(2);
           const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Payable, this.mock.address);

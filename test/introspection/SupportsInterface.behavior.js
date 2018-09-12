@@ -15,10 +15,10 @@ const INTERFACE_IDS = {
     'approveAndCall(address,uint256,bytes)',
   ]),
   ERC1363Receiver: makeInterfaceId([
-    'onERC1363Received(address,address,uint256,bytes)',
+    'onTransferReceived(address,address,uint256,bytes)',
   ]),
   ERC1363Spender: makeInterfaceId([
-    'onERC1363Approved(address,uint256,bytes)',
+    'onApprovalReceived(address,uint256,bytes)',
   ]),
 };
 

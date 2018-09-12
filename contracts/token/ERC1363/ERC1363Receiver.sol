@@ -10,8 +10,8 @@ pragma solidity ^0.4.24;
  */
 contract ERC1363Receiver {
   /*
-   * Note: the ERC-165 identifier for this interface is 0xb64ff699.
-   * 0xb64ff699 === bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))
+   * Note: the ERC-165 identifier for this interface is 0x88a7ca5c.
+   * 0x88a7ca5c === bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))
    */
 
   /**
@@ -25,8 +25,8 @@ contract ERC1363Receiver {
    * @param _from address The address which are token transferred from
    * @param _value uint256 The amount of tokens transferred
    * @param _data bytes Additional data with no specified format
-   * @return `bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))`
+   * @return `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
    *  unless throwing
    */
-  function onERC1363Received(address _operator, address _from, uint256 _value, bytes _data) external returns (bytes4); // solium-disable-line max-len, arg-overflow
+  function onTransferReceived(address _operator, address _from, uint256 _value, bytes _data) external returns (bytes4); // solium-disable-line max-len, arg-overflow
 }

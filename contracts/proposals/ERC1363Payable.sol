@@ -14,17 +14,17 @@ import "../token/ERC1363/ERC1363BasicToken.sol";
 contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363Spender { // solium-disable-line max-len
   /**
    * @dev Magic value to be returned upon successful reception of ERC1363 tokens
-   *  Equals to `bytes4(keccak256("onERC1363Received(address,address,uint256,bytes)"))`,
-   *  which can be also obtained as `ERC1363Receiver(0).onERC1363Received.selector`
+   *  Equals to `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`,
+   *  which can be also obtained as `ERC1363Receiver(0).onTransferReceived.selector`
    */
-  bytes4 internal constant InterfaceId_ERC1363Receiver = 0xb64ff699;
+  bytes4 internal constant InterfaceId_ERC1363Receiver = 0x88a7ca5c;
 
   /**
    * @dev Magic value to be returned upon successful approval of ERC1363 tokens
-   *  Equals to `bytes4(keccak256("onERC1363Approved(address,uint256,bytes)"))`,
-   *  which can be also obtained as `ERC1363Spender(0).onERC1363Approved.selector`
+   *  Equals to `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`,
+   *  which can be also obtained as `ERC1363Spender(0).onApprovalReceived.selector`
    */
-  bytes4 internal constant InterfaceId_ERC1363Spender = 0x44dfa0ca;
+  bytes4 internal constant InterfaceId_ERC1363Spender = 0x7b04a2d0;
 
   /*
    * Note: the ERC-165 identifier for the ERC1363 token transfer
@@ -77,7 +77,7 @@ contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363
     _registerInterface(InterfaceId_ERC1363Spender);
   }
 
-  function onERC1363Received(
+  function onTransferReceived(
     address _operator,
     address _from,
     uint256 _value,
@@ -105,7 +105,7 @@ contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363
     return InterfaceId_ERC1363Receiver;
   }
 
-  function onERC1363Approved(
+  function onApprovalReceived(
     address _owner,
     uint256 _value,
     bytes _data
@@ -131,7 +131,7 @@ contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363
   }
 
   /**
-   * @dev Called after validating a `onERC1363Received`. Override this method to
+   * @dev Called after validating a `onTransferReceived`. Override this method to
    *  make your stuffs within your contract.
    * @param _operator address The address which called `transferAndCall` or `transferFromAndCall` function
    * @param _from address The address which are token transferred from
@@ -150,7 +150,7 @@ contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363
   }
 
   /**
-   * @dev Called after validating a `onERC1363Approved`. Override this method to
+   * @dev Called after validating a `onApprovalReceived`. Override this method to
    *  make your stuffs within your contract.
    * @param _owner address The address which called `approveAndCall` function
    * @param _value uint256 The amount of tokens to be spent

@@ -20,7 +20,7 @@ contract ERC1363SpenderMock is ERC1363Spender {
     reverts = _reverts;
   }
 
-  function onERC1363Approved(
+  function onApprovalReceived(
     address _owner,
     uint256 _value,
     bytes _data
