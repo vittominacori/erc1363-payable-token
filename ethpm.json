@@ -1,5 +1,5 @@
 {
-  "package_name": "erc1363-payable-token",
+  "package_name": "erc-payable-token",
   "version": "1.0.0",
   "description": "ERC-1363 Payable Token Implementation",
   "authors": [

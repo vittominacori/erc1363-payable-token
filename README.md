@@ -1,6 +1,6 @@
 # ERC-1363 Payable Token
 
-[![NPM Package](https://img.shields.io/npm/v/erc1363-payable-token.svg?style=flat-square)](https://www.npmjs.org/package/erc1363-payable-token) 
+[![NPM Package](https://img.shields.io/npm/v/erc-payable-token.svg?style=flat-square)](https://www.npmjs.org/package/erc-payable-token) 
 [![Build Status](https://travis-ci.org/vittominacori/erc1363-payable-token.svg?branch=master)](https://travis-ci.org/vittominacori/erc1363-payable-token) 
 [![Coverage Status](https://coveralls.io/repos/github/vittominacori/erc1363-payable-token/badge.svg?branch=master)](https://coveralls.io/github/vittominacori/erc1363-payable-token?branch=master) 
 
@@ -50,7 +50,7 @@ As example: an Implementation of a classic token Crowdsale, but paid with ERC136
 
 
 ```bash
-npm install erc1363-payable-token
+npm install erc-payable-token
 ```
 
 
@@ -60,7 +60,7 @@ npm install erc1363-payable-token
 ```solidity
 pragma solidity ^0.4.24;
 
-import "erc1363-payable-token/contracts/token/ERC1363/ERC1363BasicToken.sol";
+import "erc-payable-token/contracts/token/ERC1363/ERC1363BasicToken.sol";
 
 
 contract MyToken is ERC1363BasicToken {
