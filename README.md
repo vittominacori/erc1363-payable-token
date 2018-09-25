@@ -1,5 +1,6 @@
 # ERC-1363 Payable Token
 
+[![NPM Package](https://img.shields.io/npm/v/erc1363-payable-token.svg?style=flat-square)](https://www.npmjs.org/package/erc1363-payable-token) 
 [![Build Status](https://travis-ci.org/vittominacori/erc1363-payable-token.svg?branch=master)](https://travis-ci.org/vittominacori/erc1363-payable-token) 
 [![Coverage Status](https://coveralls.io/repos/github/vittominacori/erc1363-payable-token/badge.svg?branch=master)](https://coveralls.io/github/vittominacori/erc1363-payable-token?branch=master) 
 
@@ -45,7 +46,30 @@ It also implements a `approvalReceived` function that can be overridden to make 
 As example: an Implementation of a classic token Crowdsale, but paid with ERC1363 tokens instead of ETH.
 
 
-## Installation
+## Install
+
+
+```bash
+npm install erc1363-payable-token
+```
+
+
+## Usage
+
+
+```solidity
+pragma solidity ^0.4.24;
+
+import "erc1363-payable-token/contracts/token/ERC1363/ERC1363BasicToken.sol";
+
+
+contract MyToken is ERC1363BasicToken {
+  // your stuffs
+}
+```
+
+
+## Development
 
 
 Install Truffle
@@ -55,7 +79,7 @@ npm install -g truffle      // Version 4.1.14+ required.
 ```
 
 
-## Install dependencies
+### Install dependencies
 
 
 ```bash
@@ -63,7 +87,7 @@ npm install
 ```
 
 
-## Linter
+### Linter
 
 
 Use Solium
@@ -85,7 +109,7 @@ npm run lint:fix
 ```
 
 
-## Compile and test the contracts
+### Compile and test the contracts
  
 
 Open the Truffle console
@@ -107,6 +131,6 @@ test
 ```
 
 
-## License
+### License
 
 Code released under the [MIT License](https://github.com/vittominacori/erc1363-payable-token/blob/master/LICENSE).

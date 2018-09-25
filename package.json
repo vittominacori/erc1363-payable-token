@@ -27,9 +27,10 @@
     "ethereum",
     "smart",
     "contracts",
-    "security"
+    "token",
+    "erc1363"
   ],
-  "author": "Vittorio Minacori (@vittominacori)",
+  "author": "Vittorio Minacori (https://github.com/vittominacori)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/vittominacori/erc1363-payable-token/issues"

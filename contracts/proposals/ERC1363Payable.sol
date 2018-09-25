@@ -8,7 +8,7 @@ import "../token/ERC1363/ERC1363BasicToken.sol";
 
 /**
  * @title ERC1363Payable
- * @author Vittorio Minacori (@vittominacori)
+ * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev Implementation proposal of a contract that wants to accept ERC1363 payments
  */
 contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363Spender { // solium-disable-line max-len

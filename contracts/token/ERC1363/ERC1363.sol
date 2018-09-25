@@ -6,7 +6,7 @@ import "openzeppelin-solidity/contracts/introspection/ERC165.sol";
 
 /**
  * @title ERC1363 interface
- * @author Vittorio Minacori (@vittominacori)
+ * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev Interface for a Payable Token contract as defined in
  *  https://github.com/ethereum/EIPs/issues/1363
  */

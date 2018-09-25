@@ -7,7 +7,7 @@ import "../proposals/ERC1363Payable.sol";
 
 /**
  * @title ERC1363PayableCrowdsale
- * @author Vittorio Minacori (@vittominacori)
+ * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev ERC1363PayableCrowdsale is a base contract for managing a token crowdsale,
  * allowing investors to purchase tokens with ERC1363 tokens. This contract implements
  * such functionality in its most fundamental form and can be extended to provide additional

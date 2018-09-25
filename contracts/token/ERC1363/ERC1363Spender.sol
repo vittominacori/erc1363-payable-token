@@ -3,7 +3,7 @@ pragma solidity ^0.4.24;
 
 /**
  * @title ERC1363Spender interface
- * @author Vittorio Minacori (@vittominacori)
+ * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev Interface for any contract that wants to support approveAndCall
  *  from ERC1363 token contracts as defined in
  *  https://github.com/ethereum/EIPs/issues/1363

@@ -12,7 +12,7 @@ import "./ERC1363Spender.sol";
 
 /**
  * @title ERC1363BasicToken
- * @author Vittorio Minacori (@vittominacori)
+ * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev Implementation of an ERC1363 interface
  */
 contract ERC1363BasicToken is SupportsInterfaceWithLookup, StandardToken, ERC1363 { // solium-disable-line max-len

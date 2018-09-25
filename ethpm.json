@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "ERC-1363 Payable Token Implementation",
   "authors": [
-    "Vittorio Minacori (@vittominacori)"
+    "Vittorio Minacori (https://github.com/vittominacori)"
   ],
   "keywords": [
     "solidity",
     "ethereum",
     "smart",
-    "contracts"
+    "contracts",
+    "token",
+    "erc1363"
   ],
   "license": "MIT"
 }
