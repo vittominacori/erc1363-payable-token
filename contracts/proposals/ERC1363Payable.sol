@@ -77,6 +77,13 @@ contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363
     _registerInterface(InterfaceId_ERC1363Spender);
   }
 
+  /*
+   * @dev Note: remember that the token contract address is always the message sender.
+   * @param _operator address The address which called `transferAndCall` or `transferFromAndCall` function
+   * @param _from address The address which are token transferred from
+   * @param _value uint256 The amount of tokens transferred
+   * @param _data bytes Additional data with no specified format
+   */
   function onTransferReceived(
     address _operator,
     address _from,
@@ -105,6 +112,12 @@ contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363
     return InterfaceId_ERC1363Receiver;
   }
 
+  /*
+   * @dev Note: remember that the token contract address is always the message sender.
+   * @param _owner address The address which called `approveAndCall` function
+   * @param _value uint256 The amount of tokens to be spent
+   * @param _data bytes Additional data with no specified format
+   */
   function onApprovalReceived(
     address _owner,
     uint256 _value,

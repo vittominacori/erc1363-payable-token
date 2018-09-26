@@ -4,9 +4,9 @@
 [![Build Status](https://travis-ci.org/vittominacori/erc1363-payable-token.svg?branch=master)](https://travis-ci.org/vittominacori/erc1363-payable-token) 
 [![Coverage Status](https://coveralls.io/repos/github/vittominacori/erc1363-payable-token/badge.svg?branch=master)](https://coveralls.io/github/vittominacori/erc1363-payable-token?branch=master) 
 
-This is an implementation of the [ERC-1363 Payable Token](https://github.com/ethereum/EIPs/issues/1363) that defines a Payable Token and Receiver.
+This is an implementation of the [ERC-1363 Payable Token](https://github.com/ethereum/EIPs/issues/1363) that defines a Payable Token, a TOken Receiver and a Token Spender.
 
-The ERC-1363 is an ERC-20 compatible token that can make a callback on the receiver contract to notify token transfers.
+The ERC-1363 is an ERC-20 compatible token that can make a callback on the receiver contract to notify token transfers or token approvals.
 It can be used to create a token payable crowdsale, selling services for tokens, paying invoices, making subscriptions, use them for a specific utility and many other purposes.
 
 This proposal allows to implement an ERC-20 token that can be used for payments (like the `payable` keyword does for Ethereum). 

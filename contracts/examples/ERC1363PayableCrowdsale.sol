@@ -77,12 +77,53 @@ contract ERC1363PayableCrowdsale is ERC1363Payable {
   /**
    * @dev low level token purchase ***DO NOT OVERRIDE***
    *  This method is called after `onTransferReceived`.
+   *  Note: remember that the token contract address is always the message sender.
    * @param _operator The address which called `transferAndCall` or `transferFromAndCall` function
    * @param _from Address performing the token purchase
    * @param _value The amount of tokens transferred
    * @param _data Additional data with no specified format
    */
   function transferReceived(
+    address _operator,
+    address _from,
+    uint256 _value,
+    bytes _data
+  )
+    internal
+  {
+    buyTokens(
+      _operator,
+      _from,
+      _value,
+      _data
+    );
+  }
+
+  /**
+   * @dev low level token purchase ***DO NOT OVERRIDE***
+   *  This method is called after `onApprovalReceived`.
+   *  Note: remember that the token contract address is always the message sender.
+   * @param _owner address The address which called `approveAndCall` function
+   * @param _value uint256 The amount of tokens to be spent
+   * @param _data bytes Additional data with no specified format
+   */
+  function approvalReceived(
+    address _owner,
+    uint256 _value,
+    bytes _data
+  )
+    internal
+  {
+    acceptedToken.transferFrom(_owner, address(this), _value);
+    buyTokens(
+      _owner,
+      _owner,
+      _value,
+      _data
+    );
+  }
+
+  function buyTokens(
     address _operator,
     address _from,
     uint256 _value,
@@ -111,24 +152,6 @@ contract ERC1363PayableCrowdsale is ERC1363Payable {
 
     _forwardFunds(sentTokenAmount);
     _postValidatePurchase(_from, sentTokenAmount);
-  }
-
-  /**
-   * @dev Called after validating a `onApprovalReceived`.
-   *  We are overriding this method to revert because of we don't want function
-   *  to be called after approval. This because of we are inheriting from ERC1363Payable.
-   *  You can also build your own ERC1363Payable proposal to only support ERC1363Receiver
-   *  instead of also supporting ERC1363Spender.
-   *  Remember that this is an example of using ERC1363
-   */
-  function approvalReceived(
-    address _owner,
-    uint256 _value,
-    bytes _data
-  )
-    internal
-  {
-    revert();
   }
 
   // -----------------------------------------

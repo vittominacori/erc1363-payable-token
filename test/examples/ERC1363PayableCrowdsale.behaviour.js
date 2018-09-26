@@ -345,7 +345,50 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
         };
 
         describe('with data', function () {
-          it('reverts', async function () {
+          it('should accept payments', async function () {
+            await approveAndCallWithData.call(this, this.crowdsale.address, value, { from: beneficiary });
+          });
+
+          it('should log purchase', async function () {
+            const result = await approveAndCallWithData.call(
+              this, this.crowdsale.address, value, { from: beneficiary }
+            );
+            const [log] = decodeLogs([result.receipt.logs[4]], Crowdsale, this.crowdsale.address);
+            log.event.should.be.eq('TokensPurchased');
+            log.args.operator.should.equal(beneficiary);
+            log.args.beneficiary.should.equal(beneficiary);
+            log.args.value.should.be.bignumber.equal(value);
+            log.args.amount.should.be.bignumber.equal(expectedTokenAmount);
+          });
+
+          it('should assign tokens to sender', async function () {
+            await approveAndCallWithData.call(this, this.crowdsale.address, value, { from: beneficiary });
+            (await this.erc20Token.balanceOf(beneficiary)).should.be.bignumber.equal(expectedTokenAmount);
+          });
+
+          it('should increase token raised', async function () {
+            const pre = await this.crowdsale.tokenRaised();
+            pre.should.be.bignumber.equal(0);
+            await approveAndCallWithData.call(this, this.crowdsale.address, value, { from: beneficiary });
+            const post = await this.crowdsale.tokenRaised();
+            post.should.be.bignumber.equal(value);
+          });
+
+          it('should forward funds to wallet', async function () {
+            const pre = await this.erc1363Token.balanceOf(wallet);
+            await approveAndCallWithData.call(this, this.crowdsale.address, value, { from: beneficiary });
+            const post = await this.erc1363Token.balanceOf(wallet);
+            post.minus(pre).should.be.bignumber.equal(value);
+          });
+
+          it('reverts on zero-valued payments', async function () {
+            await assertRevert(
+              approveAndCallWithData.call(this, this.crowdsale.address, 0, { from: beneficiary })
+            );
+          });
+
+          it('reverts using a not accepted ERC1363', async function () {
+            this.erc1363Token = this.notAcceptedErc1363Token;
             await assertRevert(
               approveAndCallWithData.call(this, this.crowdsale.address, value, { from: beneficiary })
             );
@@ -353,7 +396,50 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
         });
 
         describe('without data', function () {
-          it('reverts', async function () {
+          it('should accept payments', async function () {
+            await approveAndCallWithoutData.call(this, this.crowdsale.address, value, { from: beneficiary });
+          });
+
+          it('should log purchase', async function () {
+            const result = await approveAndCallWithoutData.call(
+              this, this.crowdsale.address, value, { from: beneficiary }
+            );
+            const [log] = decodeLogs([result.receipt.logs[4]], Crowdsale, this.crowdsale.address);
+            log.event.should.be.eq('TokensPurchased');
+            log.args.operator.should.equal(beneficiary);
+            log.args.beneficiary.should.equal(beneficiary);
+            log.args.value.should.be.bignumber.equal(value);
+            log.args.amount.should.be.bignumber.equal(expectedTokenAmount);
+          });
+
+          it('should assign tokens to sender', async function () {
+            await approveAndCallWithoutData.call(this, this.crowdsale.address, value, { from: beneficiary });
+            (await this.erc20Token.balanceOf(beneficiary)).should.be.bignumber.equal(expectedTokenAmount);
+          });
+
+          it('should increase token raised', async function () {
+            const pre = await this.crowdsale.tokenRaised();
+            pre.should.be.bignumber.equal(0);
+            await approveAndCallWithoutData.call(this, this.crowdsale.address, value, { from: beneficiary });
+            const post = await this.crowdsale.tokenRaised();
+            post.should.be.bignumber.equal(value);
+          });
+
+          it('should forward funds to wallet', async function () {
+            const pre = await this.erc1363Token.balanceOf(wallet);
+            await approveAndCallWithoutData.call(this, this.crowdsale.address, value, { from: beneficiary });
+            const post = await this.erc1363Token.balanceOf(wallet);
+            post.minus(pre).should.be.bignumber.equal(value);
+          });
+
+          it('reverts on zero-valued payments', async function () {
+            await assertRevert(
+              approveAndCallWithoutData.call(this, this.crowdsale.address, 0, { from: beneficiary })
+            );
+          });
+
+          it('reverts using a not accepted ERC1363', async function () {
+            this.erc1363Token = this.notAcceptedErc1363Token;
             await assertRevert(
               approveAndCallWithoutData.call(this, this.crowdsale.address, value, { from: beneficiary })
             );

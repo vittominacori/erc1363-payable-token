@@ -20,7 +20,7 @@ contract ERC1363Receiver {
    *  after a `transfer` or a `transferFrom`. This function MAY throw to revert and reject the
    *  transfer. Return of other than the magic value MUST result in the
    *  transaction being reverted.
-   *  Note: the contract address is always the message sender.
+   *  Note: the token contract address is always the message sender.
    * @param _operator address The address which called `transferAndCall` or `transferFromAndCall` function
    * @param _from address The address which are token transferred from
    * @param _value uint256 The amount of tokens transferred

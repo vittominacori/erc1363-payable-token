@@ -20,7 +20,7 @@ contract ERC1363Spender {
    *  after an `approve`. This function MAY throw to revert and reject the
    *  approval. Return of other than the magic value MUST result in the
    *  transaction being reverted.
-   *  Note: the contract address is always the message sender.
+   *  Note: the token contract address is always the message sender.
    * @param _owner address The address which called `approveAndCall` function
    * @param _value uint256 The amount of tokens to be spent
    * @param _data bytes Additional data with no specified format
