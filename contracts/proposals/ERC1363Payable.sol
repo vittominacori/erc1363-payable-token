@@ -20,14 +20,14 @@ contract ERC1363Payable is ERC1363Receiver, ERC1363Spender, ERC165 { // solium-d
    *  Equals to `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`,
    *  which can be also obtained as `ERC1363Receiver(0).onTransferReceived.selector`
    */
-  bytes4 internal constant InterfaceId_ERC1363Receiver = 0x88a7ca5c;
+  bytes4 internal constant _InterfaceId_ERC1363Receiver = 0x88a7ca5c;
 
   /**
    * @dev Magic value to be returned upon successful approval of ERC1363 tokens
    *  Equals to `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`,
    *  which can be also obtained as `ERC1363Spender(0).onApprovalReceived.selector`
    */
-  bytes4 internal constant InterfaceId_ERC1363Spender = 0x7b04a2d0;
+  bytes4 internal constant _InterfaceId_ERC1363Spender = 0x7b04a2d0;
 
   /*
    * Note: the ERC-165 identifier for the ERC1363 token transfer
@@ -37,7 +37,7 @@ contract ERC1363Payable is ERC1363Receiver, ERC1363Spender, ERC165 { // solium-d
    *   bytes4(keccak256('transferFromAndCall(address,address,uint256)')) ^
    *   bytes4(keccak256('transferFromAndCall(address,address,uint256,bytes)'))
    */
-  bytes4 private constant InterfaceId_ERC1363Transfer = 0x4bbee2df;
+  bytes4 private constant _InterfaceId_ERC1363Transfer = 0x4bbee2df;
 
   /*
    * Note: the ERC-165 identifier for the ERC1363 token approval
@@ -45,7 +45,7 @@ contract ERC1363Payable is ERC1363Receiver, ERC1363Spender, ERC165 { // solium-d
    *   bytes4(keccak256('approveAndCall(address,uint256)')) ^
    *   bytes4(keccak256('approveAndCall(address,uint256,bytes)'))
    */
-  bytes4 private constant InterfaceId_ERC1363Approve = 0xfb9ec8ce;
+  bytes4 private constant _InterfaceId_ERC1363Approve = 0xfb9ec8ce;
 
   event TokensReceived(
     address indexed operator,
@@ -69,15 +69,15 @@ contract ERC1363Payable is ERC1363Receiver, ERC1363Spender, ERC165 { // solium-d
   constructor(IERC1363 acceptedToken) public {
     require(acceptedToken != address(0));
     require(
-      acceptedToken.supportsInterface(InterfaceId_ERC1363Transfer) &&
-      acceptedToken.supportsInterface(InterfaceId_ERC1363Approve)
+      acceptedToken.supportsInterface(_InterfaceId_ERC1363Transfer) &&
+      acceptedToken.supportsInterface(_InterfaceId_ERC1363Approve)
     );
 
     _acceptedToken = acceptedToken;
 
     // register the supported interface to conform to ERC1363Receiver and ERC1363Spender via ERC165
-    _registerInterface(InterfaceId_ERC1363Receiver);
-    _registerInterface(InterfaceId_ERC1363Spender);
+    _registerInterface(_InterfaceId_ERC1363Receiver);
+    _registerInterface(_InterfaceId_ERC1363Spender);
   }
 
   /*
@@ -105,14 +105,14 @@ contract ERC1363Payable is ERC1363Receiver, ERC1363Spender, ERC165 { // solium-d
       data
     );
 
-    transferReceived(
+    _transferReceived(
       operator,
       from,
       value,
       data
     );
 
-    return InterfaceId_ERC1363Receiver;
+    return _InterfaceId_ERC1363Receiver;
   }
 
   /*
@@ -137,13 +137,13 @@ contract ERC1363Payable is ERC1363Receiver, ERC1363Spender, ERC165 { // solium-d
       data
     );
 
-    approvalReceived(
+    _approvalReceived(
       owner,
       value,
       data
     );
 
-    return InterfaceId_ERC1363Spender;
+    return _InterfaceId_ERC1363Spender;
   }
 
   /**
@@ -161,7 +161,7 @@ contract ERC1363Payable is ERC1363Receiver, ERC1363Spender, ERC165 { // solium-d
    * @param value uint256 The amount of tokens transferred
    * @param data bytes Additional data with no specified format
    */
-  function transferReceived(
+  function _transferReceived(
     address operator,
     address from,
     uint256 value,
@@ -179,7 +179,7 @@ contract ERC1363Payable is ERC1363Receiver, ERC1363Spender, ERC165 { // solium-d
    * @param value uint256 The amount of tokens to be spent
    * @param data bytes Additional data with no specified format
    */
-  function approvalReceived(
+  function _approvalReceived(
     address owner,
     uint256 value,
     bytes data

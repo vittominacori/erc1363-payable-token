@@ -13,7 +13,7 @@ contract ERC1363PayableMock is ERC1363Payable {
 
   constructor(IERC1363 acceptedToken) ERC1363Payable(acceptedToken) public {}
 
-  function transferReceived(
+  function _transferReceived(
     address operator,
     address from,
     uint256 value,
@@ -24,7 +24,7 @@ contract ERC1363PayableMock is ERC1363Payable {
     transferNumber = transferNumber.add(1);
   }
 
-  function approvalReceived(
+  function _approvalReceived(
     address owner,
     uint256 value,
     bytes data

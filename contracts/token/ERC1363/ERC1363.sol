@@ -25,7 +25,7 @@ contract ERC1363 is ERC20, IERC1363 { // solium-disable-line max-len
    *   bytes4(keccak256('transferFromAndCall(address,address,uint256)')) ^
    *   bytes4(keccak256('transferFromAndCall(address,address,uint256,bytes)'))
    */
-  bytes4 internal constant InterfaceId_ERC1363Transfer = 0x4bbee2df;
+  bytes4 internal constant _InterfaceId_ERC1363Transfer = 0x4bbee2df;
 
   /*
    * Note: the ERC-165 identifier for this interface is 0xfb9ec8ce.
@@ -33,20 +33,20 @@ contract ERC1363 is ERC20, IERC1363 { // solium-disable-line max-len
    *   bytes4(keccak256('approveAndCall(address,uint256)')) ^
    *   bytes4(keccak256('approveAndCall(address,uint256,bytes)'))
    */
-  bytes4 internal constant InterfaceId_ERC1363Approve = 0xfb9ec8ce;
+  bytes4 internal constant _InterfaceId_ERC1363Approve = 0xfb9ec8ce;
 
   // Equals to `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
   // which can be also obtained as `ERC1363Receiver(0).onTransferReceived.selector`
-  bytes4 private constant ERC1363_RECEIVED = 0x88a7ca5c;
+  bytes4 private constant _ERC1363_RECEIVED = 0x88a7ca5c;
 
   // Equals to `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
   // which can be also obtained as `ERC1363Spender(0).onApprovalReceived.selector`
-  bytes4 private constant ERC1363_APPROVED = 0x7b04a2d0;
+  bytes4 private constant _ERC1363_APPROVED = 0x7b04a2d0;
 
   constructor() public {
     // register the supported interfaces to conform to ERC1363 via ERC165
-    _registerInterface(InterfaceId_ERC1363Transfer);
-    _registerInterface(InterfaceId_ERC1363Approve);
+    _registerInterface(_InterfaceId_ERC1363Transfer);
+    _registerInterface(_InterfaceId_ERC1363Approve);
   }
 
   function transferAndCall(
@@ -69,7 +69,7 @@ contract ERC1363 is ERC20, IERC1363 { // solium-disable-line max-len
   {
     require(transfer(to, value));
     require(
-      checkAndCallTransfer(
+      _checkAndCallTransfer(
         msg.sender,
         to,
         value,
@@ -102,7 +102,7 @@ contract ERC1363 is ERC20, IERC1363 { // solium-disable-line max-len
   {
     require(transferFrom(from, to, value));
     require(
-      checkAndCallTransfer(
+      _checkAndCallTransfer(
         from,
         to,
         value,
@@ -132,7 +132,7 @@ contract ERC1363 is ERC20, IERC1363 { // solium-disable-line max-len
   {
     approve(spender, value);
     require(
-      checkAndCallApprove(
+      _checkAndCallApprove(
         spender,
         value,
         data
@@ -150,7 +150,7 @@ contract ERC1363 is ERC20, IERC1363 { // solium-disable-line max-len
    * @param data bytes Optional data to send along with the call
    * @return whether the call correctly returned the expected magic value
    */
-  function checkAndCallTransfer(
+  function _checkAndCallTransfer(
     address from,
     address to,
     uint256 value,
@@ -165,7 +165,7 @@ contract ERC1363 is ERC20, IERC1363 { // solium-disable-line max-len
     bytes4 retval = ERC1363Receiver(to).onTransferReceived(
       msg.sender, from, value, data
     );
-    return (retval == ERC1363_RECEIVED);
+    return (retval == _ERC1363_RECEIVED);
   }
 
   /**
@@ -176,7 +176,7 @@ contract ERC1363 is ERC20, IERC1363 { // solium-disable-line max-len
    * @param data bytes Optional data to send along with the call
    * @return whether the call correctly returned the expected magic value
    */
-  function checkAndCallApprove(
+  function _checkAndCallApprove(
     address spender,
     uint256 value,
     bytes data
@@ -190,6 +190,6 @@ contract ERC1363 is ERC20, IERC1363 { // solium-disable-line max-len
     bytes4 retval = ERC1363Spender(spender).onApprovalReceived(
       msg.sender, value, data
     );
-    return (retval == ERC1363_APPROVED);
+    return (retval == _ERC1363_APPROVED);
   }
 }

@@ -5,8 +5,8 @@ import "../token/ERC1363/ERC1363Receiver.sol";
 
 // mock class using ERC1363Receiver
 contract ERC1363ReceiverMock is ERC1363Receiver {
-  bytes4 _retval;
-  bool _reverts;
+  bytes4 private _retval;
+  bool private _reverts;
 
   event Received(
     address operator,

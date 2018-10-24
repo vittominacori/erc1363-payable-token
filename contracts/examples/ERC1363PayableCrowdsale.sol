@@ -105,15 +105,14 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
   // -----------------------------------------
 
   /**
-   * @dev low level token purchase ***DO NOT OVERRIDE***
-   *  This method is called after `onTransferReceived`.
+   * @dev This method is called after `onTransferReceived`.
    *  Note: remember that the token contract address is always the message sender.
    * @param operator The address which called `transferAndCall` or `transferFromAndCall` function
    * @param from Address performing the token purchase
    * @param value The amount of tokens transferred
    * @param data Additional data with no specified format
    */
-  function transferReceived(
+  function _transferReceived(
     address operator,
     address from,
     uint256 value,
@@ -121,7 +120,7 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
   )
     internal
   {
-    buyTokens(
+    _buyTokens(
       operator,
       from,
       value,
@@ -130,14 +129,13 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
   }
 
   /**
-   * @dev low level token purchase ***DO NOT OVERRIDE***
-   *  This method is called after `onApprovalReceived`.
+   * @dev This method is called after `onApprovalReceived`.
    *  Note: remember that the token contract address is always the message sender.
    * @param owner address The address which called `approveAndCall` function
    * @param value uint256 The amount of tokens to be spent
    * @param data bytes Additional data with no specified format
    */
-  function approvalReceived(
+  function _approvalReceived(
     address owner,
     uint256 value,
     bytes data
@@ -145,7 +143,7 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
     internal
   {
     IERC20(acceptedToken()).transferFrom(owner, address(this), value);
-    buyTokens(
+    _buyTokens(
       owner,
       owner,
       value,
@@ -153,13 +151,23 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
     );
   }
 
-  function buyTokens(
+  /**
+   * @dev low level token purchase ***DO NOT OVERRIDE***
+   * This function has a non-reentrancy guard, so it shouldn't be called by
+   * another `nonReentrant` function.
+   * @param operator The address which called `transferAndCall`, `transferFromAndCall` or `approveAndCall` function
+   * @param from Address performing the token purchase
+   * @param value The amount of tokens transferred
+   * @param data Additional data with no specified format
+   */
+  function _buyTokens(
     address operator,
     address from,
     uint256 value,
     bytes data
   )
     internal
+    nonReentrant
   {
     uint256 sentTokenAmount = value;
     _preValidatePurchase(sentTokenAmount);

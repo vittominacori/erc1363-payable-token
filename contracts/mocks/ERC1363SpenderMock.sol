@@ -5,8 +5,8 @@ import "../token/ERC1363/ERC1363Spender.sol";
 
 // mock class using ERC1363Spender
 contract ERC1363SpenderMock is ERC1363Spender {
-  bytes4 _retval;
-  bool _reverts;
+  bytes4 private _retval;
+  bool private _reverts;
 
   event Approved(
     address owner,
