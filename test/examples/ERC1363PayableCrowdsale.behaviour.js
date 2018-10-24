@@ -54,6 +54,18 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
       await this.erc20Token.transfer(this.crowdsale.address, tokenSupply);
     });
 
+    it('has rate', async function () {
+      (await this.crowdsale.rate()).should.be.bignumber.equal(rate);
+    });
+
+    it('has wallet', async function () {
+      (await this.crowdsale.wallet()).should.be.equal(wallet);
+    });
+
+    it('has token', async function () {
+      (await this.crowdsale.token()).should.be.equal(this.erc20Token.address);
+    });
+
     describe('accepting payments', function () {
       describe('via transferFromAndCall', function () {
         beforeEach(async function () {
