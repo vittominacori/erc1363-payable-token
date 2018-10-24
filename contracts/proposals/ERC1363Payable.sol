@@ -1,9 +1,10 @@
 pragma solidity ^0.4.24;
 
-// solium-disable-next-line max-len
-import "openzeppelin-solidity/contracts/introspection/SupportsInterfaceWithLookup.sol";
+import "openzeppelin-solidity/contracts/introspection/ERC165Checker.sol";
 
-import "../token/ERC1363/ERC1363BasicToken.sol";
+import "../token/ERC1363/IERC1363.sol";
+import "../token/ERC1363/ERC1363Receiver.sol";
+import "../token/ERC1363/ERC1363Spender.sol";
 
 
 /**
@@ -11,7 +12,9 @@ import "../token/ERC1363/ERC1363BasicToken.sol";
  * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev Implementation proposal of a contract that wants to accept ERC1363 payments
  */
-contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363Spender { // solium-disable-line max-len
+contract ERC1363Payable is ERC1363Receiver, ERC1363Spender, ERC165 { // solium-disable-line max-len
+  using ERC165Checker for address;
+
   /**
    * @dev Magic value to be returned upon successful reception of ERC1363 tokens
    *  Equals to `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`,
@@ -58,19 +61,19 @@ contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363
   );
 
   // The ERC1363 token accepted
-  ERC1363 public acceptedToken;
+  IERC1363 private _acceptedToken;
 
   /**
-   * @param _acceptedToken Address of the token being accepted
+   * @param acceptedToken Address of the token being accepted
    */
-  constructor(ERC1363 _acceptedToken) public {
-    require(_acceptedToken != address(0));
+  constructor(IERC1363 acceptedToken) public {
+    require(acceptedToken != address(0));
     require(
-      ERC1363BasicToken(_acceptedToken).supportsInterface(InterfaceId_ERC1363Transfer) &&
-      ERC1363BasicToken(_acceptedToken).supportsInterface(InterfaceId_ERC1363Approve)
+      acceptedToken.supportsInterface(InterfaceId_ERC1363Transfer) &&
+      acceptedToken.supportsInterface(InterfaceId_ERC1363Approve)
     );
 
-    acceptedToken = _acceptedToken;
+    _acceptedToken = acceptedToken;
 
     // register the supported interface to conform to ERC1363Receiver and ERC1363Spender via ERC165
     _registerInterface(InterfaceId_ERC1363Receiver);
@@ -79,34 +82,34 @@ contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363
 
   /*
    * @dev Note: remember that the token contract address is always the message sender.
-   * @param _operator address The address which called `transferAndCall` or `transferFromAndCall` function
-   * @param _from address The address which are token transferred from
-   * @param _value uint256 The amount of tokens transferred
-   * @param _data bytes Additional data with no specified format
+   * @param operator address The address which called `transferAndCall` or `transferFromAndCall` function
+   * @param from address The address which are token transferred from
+   * @param value uint256 The amount of tokens transferred
+   * @param data bytes Additional data with no specified format
    */
   function onTransferReceived(
-    address _operator,
-    address _from,
-    uint256 _value,
-    bytes _data
+    address operator,
+    address from,
+    uint256 value,
+    bytes data
   )
     external
     returns (bytes4)
   {
-    require(msg.sender == address(acceptedToken));
+    require(msg.sender == address(_acceptedToken));
 
     emit TokensReceived(
-      _operator,
-      _from,
-      _value,
-      _data
+      operator,
+      from,
+      value,
+      data
     );
 
     transferReceived(
-      _operator,
-      _from,
-      _value,
-      _data
+      operator,
+      from,
+      value,
+      data
     );
 
     return InterfaceId_ERC1363Receiver;
@@ -114,48 +117,55 @@ contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363
 
   /*
    * @dev Note: remember that the token contract address is always the message sender.
-   * @param _owner address The address which called `approveAndCall` function
-   * @param _value uint256 The amount of tokens to be spent
-   * @param _data bytes Additional data with no specified format
+   * @param owner address The address which called `approveAndCall` function
+   * @param value uint256 The amount of tokens to be spent
+   * @param data bytes Additional data with no specified format
    */
   function onApprovalReceived(
-    address _owner,
-    uint256 _value,
-    bytes _data
+    address owner,
+    uint256 value,
+    bytes data
   )
     external
     returns (bytes4)
   {
-    require(msg.sender == address(acceptedToken));
+    require(msg.sender == address(_acceptedToken));
 
     emit TokensApproved(
-      _owner,
-      _value,
-      _data
+      owner,
+      value,
+      data
     );
 
     approvalReceived(
-      _owner,
-      _value,
-      _data
+      owner,
+      value,
+      data
     );
 
     return InterfaceId_ERC1363Spender;
   }
 
   /**
+   * @dev The ERC1363 token accepted
+   */
+  function acceptedToken() public view returns (IERC1363) {
+    return _acceptedToken;
+  }
+
+  /**
    * @dev Called after validating a `onTransferReceived`. Override this method to
    *  make your stuffs within your contract.
-   * @param _operator address The address which called `transferAndCall` or `transferFromAndCall` function
-   * @param _from address The address which are token transferred from
-   * @param _value uint256 The amount of tokens transferred
-   * @param _data bytes Additional data with no specified format
+   * @param operator address The address which called `transferAndCall` or `transferFromAndCall` function
+   * @param from address The address which are token transferred from
+   * @param value uint256 The amount of tokens transferred
+   * @param data bytes Additional data with no specified format
    */
   function transferReceived(
-    address _operator,
-    address _from,
-    uint256 _value,
-    bytes _data
+    address operator,
+    address from,
+    uint256 value,
+    bytes data
   )
     internal
   {
@@ -165,14 +175,14 @@ contract ERC1363Payable is SupportsInterfaceWithLookup, ERC1363Receiver, ERC1363
   /**
    * @dev Called after validating a `onApprovalReceived`. Override this method to
    *  make your stuffs within your contract.
-   * @param _owner address The address which called `approveAndCall` function
-   * @param _value uint256 The amount of tokens to be spent
-   * @param _data bytes Additional data with no specified format
+   * @param owner address The address which called `approveAndCall` function
+   * @param value uint256 The amount of tokens to be spent
+   * @param data bytes Additional data with no specified format
    */
   function approvalReceived(
-    address _owner,
-    uint256 _value,
-    bytes _data
+    address owner,
+    uint256 value,
+    bytes data
   )
     internal
   {

@@ -1,9 +1,10 @@
+const shouldFail = require('openzeppelin-solidity/test/helpers/shouldFail');
+const { decodeLogs } = require('openzeppelin-solidity/test/helpers/decodeLogs');
+const { sendTransaction } = require('openzeppelin-solidity/test/helpers/sendTransaction');
 const { shouldSupportInterfaces } = require('../introspection/SupportsInterface.behavior');
-const { assertRevert } = require('../helpers/assertRevert');
-const { decodeLogs } = require('../helpers/decodeLogs');
-const { sendTransaction } = require('../helpers/sendTransaction');
+const { ZERO_ADDRESS } = require('openzeppelin-solidity/test/helpers/constants');
 
-const StandardToken = artifacts.require('StandardToken');
+const ERC20 = artifacts.require('ERC20');
 const ERC1363Payable = artifacts.require('ERC1363PayableMock');
 
 const BigNumber = web3.BigNumber;
@@ -16,19 +17,17 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
   const value = balance;
   const data = '0x42';
 
-  const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-
   describe('creating a valid contract', function () {
     describe('if accepted token is the zero address', function () {
       it('reverts', async function () {
-        await assertRevert(ERC1363Payable.new(ZERO_ADDRESS));
+        await shouldFail.reverting(ERC1363Payable.new(ZERO_ADDRESS));
       });
     });
 
     describe('if token does not support ERC1363 interface', function () {
       it('reverts', async function () {
-        const erc20Token = await StandardToken.new();
-        await assertRevert(ERC1363Payable.new(erc20Token.address));
+        const erc20Token = await ERC20.new();
+        await shouldFail.reverting(ERC1363Payable.new(erc20Token.address));
       });
     });
   });
@@ -83,7 +82,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
       describe('using a not accepted ERC1363', function () {
         it('reverts', async function () {
           this.token = this.notAcceptedToken;
-          await assertRevert(transferFun.call(this, owner, this.mock.address, value, { from: spender }));
+          await shouldFail.reverting(transferFun.call(this, owner, this.mock.address, value, { from: spender }));
         });
       });
     };
@@ -143,7 +142,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
       describe('using a not accepted ERC1363', function () {
         it('reverts', async function () {
           this.token = this.notAcceptedToken;
-          await assertRevert(transferFun.call(this, this.mock.address, value, { from: owner }));
+          await shouldFail.reverting(transferFun.call(this, this.mock.address, value, { from: owner }));
         });
       });
     };
@@ -202,7 +201,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
       describe('using a not accepted ERC1363', function () {
         it('reverts', async function () {
           this.token = this.notAcceptedToken;
-          await assertRevert(approveFun.call(this, this.mock.address, value, { from: owner }));
+          await shouldFail.reverting(approveFun.call(this, this.mock.address, value, { from: owner }));
         });
       });
     };

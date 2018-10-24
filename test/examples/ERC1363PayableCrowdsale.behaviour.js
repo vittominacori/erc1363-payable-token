@@ -1,6 +1,7 @@
-const { sendTransaction } = require('../helpers/sendTransaction');
-const { assertRevert } = require('../helpers/assertRevert');
-const { decodeLogs } = require('../helpers/decodeLogs');
+const shouldFail = require('openzeppelin-solidity/test/helpers/shouldFail');
+const { decodeLogs } = require('openzeppelin-solidity/test/helpers/decodeLogs');
+const { sendTransaction } = require('openzeppelin-solidity/test/helpers/sendTransaction');
+const { ZERO_ADDRESS } = require('openzeppelin-solidity/test/helpers/constants');
 
 const BigNumber = web3.BigNumber;
 
@@ -16,34 +17,33 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
   const tokenSupply = new BigNumber('1e22');
   const expectedTokenAmount = rate.mul(value);
   const data = '0x42';
-  const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
   it('requires a non-null ERC20 token', async function () {
-    await assertRevert(
+    await shouldFail.reverting(
       Crowdsale.new(rate, wallet, ZERO_ADDRESS, this.erc1363Token.address)
     );
   });
 
   it('requires a non-zero rate', async function () {
-    await assertRevert(
+    await shouldFail.reverting(
       Crowdsale.new(0, wallet, this.erc20Token.address, this.erc1363Token.address)
     );
   });
 
   it('requires a non-null wallet', async function () {
-    await assertRevert(
+    await shouldFail.reverting(
       Crowdsale.new(rate, ZERO_ADDRESS, this.erc20Token.address, this.erc1363Token.address)
     );
   });
 
   it('requires a non-null ERC1363 token', async function () {
-    await assertRevert(
+    await shouldFail.reverting(
       Crowdsale.new(rate, wallet, this.erc20Token.address, ZERO_ADDRESS)
     );
   });
 
   it('requires a ERC1363 valid token', async function () {
-    await assertRevert(
+    await shouldFail.reverting(
       Crowdsale.new(rate, wallet, this.erc20Token.address, this.erc20Token.address)
     );
   });
@@ -126,14 +126,14 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
           });
 
           it('reverts on zero-valued payments', async function () {
-            await assertRevert(
+            await shouldFail.reverting(
               transferFromAndCallWithData.call(this, beneficiary, this.crowdsale.address, 0, { from: operator })
             );
           });
 
           it('reverts using a not accepted ERC1363', async function () {
             this.erc1363Token = this.notAcceptedErc1363Token;
-            await assertRevert(
+            await shouldFail.reverting(
               transferFromAndCallWithData.call(this, beneficiary, this.crowdsale.address, value, { from: operator })
             );
           });
@@ -185,14 +185,14 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
           });
 
           it('reverts on zero-valued payments', async function () {
-            await assertRevert(
+            await shouldFail.reverting(
               transferFromAndCallWithoutData.call(this, beneficiary, this.crowdsale.address, 0, { from: operator })
             );
           });
 
           it('reverts using a not accepted ERC1363', async function () {
             this.erc1363Token = this.notAcceptedErc1363Token;
-            await assertRevert(
+            await shouldFail.reverting(
               transferFromAndCallWithoutData.call(this, beneficiary, this.crowdsale.address, value, { from: operator })
             );
           });
@@ -258,14 +258,14 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
           });
 
           it('reverts on zero-valued payments', async function () {
-            await assertRevert(
+            await shouldFail.reverting(
               transferAndCallWithData.call(this, this.crowdsale.address, 0, { from: beneficiary })
             );
           });
 
           it('reverts using a not accepted ERC1363', async function () {
             this.erc1363Token = this.notAcceptedErc1363Token;
-            await assertRevert(
+            await shouldFail.reverting(
               transferAndCallWithData.call(this, this.crowdsale.address, value, { from: beneficiary })
             );
           });
@@ -309,14 +309,14 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
           });
 
           it('reverts on zero-valued payments', async function () {
-            await assertRevert(
+            await shouldFail.reverting(
               transferAndCallWithoutData.call(this, this.crowdsale.address, 0, { from: beneficiary })
             );
           });
 
           it('reverts using a not accepted ERC1363', async function () {
             this.erc1363Token = this.notAcceptedErc1363Token;
-            await assertRevert(
+            await shouldFail.reverting(
               transferAndCallWithoutData.call(this, this.crowdsale.address, value, { from: beneficiary })
             );
           });
@@ -382,14 +382,14 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
           });
 
           it('reverts on zero-valued payments', async function () {
-            await assertRevert(
+            await shouldFail.reverting(
               approveAndCallWithData.call(this, this.crowdsale.address, 0, { from: beneficiary })
             );
           });
 
           it('reverts using a not accepted ERC1363', async function () {
             this.erc1363Token = this.notAcceptedErc1363Token;
-            await assertRevert(
+            await shouldFail.reverting(
               approveAndCallWithData.call(this, this.crowdsale.address, value, { from: beneficiary })
             );
           });
@@ -433,14 +433,14 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
           });
 
           it('reverts on zero-valued payments', async function () {
-            await assertRevert(
+            await shouldFail.reverting(
               approveAndCallWithoutData.call(this, this.crowdsale.address, 0, { from: beneficiary })
             );
           });
 
           it('reverts using a not accepted ERC1363', async function () {
             this.erc1363Token = this.notAcceptedErc1363Token;
-            await assertRevert(
+            await shouldFail.reverting(
               approveAndCallWithoutData.call(this, this.crowdsale.address, value, { from: beneficiary })
             );
           });

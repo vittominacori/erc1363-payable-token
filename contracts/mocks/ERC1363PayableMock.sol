@@ -11,13 +11,13 @@ contract ERC1363PayableMock is ERC1363Payable {
   uint256 public transferNumber;
   uint256 public approvalNumber;
 
-  constructor(ERC1363 _acceptedToken) ERC1363Payable(_acceptedToken) public {}
+  constructor(IERC1363 acceptedToken) ERC1363Payable(acceptedToken) public {}
 
   function transferReceived(
-    address _operator,
-    address _from,
-    uint256 _value,
-    bytes _data
+    address operator,
+    address from,
+    uint256 value,
+    bytes data
   )
     internal
   {
@@ -25,9 +25,9 @@ contract ERC1363PayableMock is ERC1363Payable {
   }
 
   function approvalReceived(
-    address _owner,
-    uint256 _value,
-    bytes _data
+    address owner,
+    uint256 value,
+    bytes data
   )
     internal
   {

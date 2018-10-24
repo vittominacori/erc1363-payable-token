@@ -21,12 +21,12 @@ contract ERC1363Receiver {
    *  transfer. Return of other than the magic value MUST result in the
    *  transaction being reverted.
    *  Note: the token contract address is always the message sender.
-   * @param _operator address The address which called `transferAndCall` or `transferFromAndCall` function
-   * @param _from address The address which are token transferred from
-   * @param _value uint256 The amount of tokens transferred
-   * @param _data bytes Additional data with no specified format
+   * @param operator address The address which called `transferAndCall` or `transferFromAndCall` function
+   * @param from address The address which are token transferred from
+   * @param value uint256 The amount of tokens transferred
+   * @param data bytes Additional data with no specified format
    * @return `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
    *  unless throwing
    */
-  function onTransferReceived(address _operator, address _from, uint256 _value, bytes _data) external returns (bytes4); // solium-disable-line max-len, arg-overflow
+  function onTransferReceived(address operator, address from, uint256 value, bytes data) external returns (bytes4); // solium-disable-line max-len, arg-overflow
 }
