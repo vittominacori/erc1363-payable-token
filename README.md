@@ -22,10 +22,10 @@ npm install erc-payable-token
 ```solidity
 pragma solidity ^0.4.24;
 
-import "erc-payable-token/contracts/token/ERC1363/ERC1363BasicToken.sol";
+import "erc-payable-token/contracts/token/ERC1363/ERC1363.sol";
 
 
-contract MyToken is ERC1363BasicToken {
+contract MyToken is ERC1363 {
   // your stuff
 }
 ```
@@ -34,27 +34,27 @@ contract MyToken is ERC1363BasicToken {
 
 This repo contains:
 
+### IERC1363
+
+[IERC1363.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363.sol)
+
+Interface for a Payable Token contract as defined in [ERC-1363 Payable Token](https://github.com/ethereum/EIPs/issues/1363).
+
 ### ERC1363
 
 [ERC1363.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363.sol)
 
-Interface for a Payable Token contract as defined in [ERC-1363 Payable Token](https://github.com/ethereum/EIPs/issues/1363).
+Implementation of an IERC1363 interface.
 
-### ERC1363BasicToken
+### IERC1363Receiver
 
-[ERC1363BasicToken.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363BasicToken.sol)
-
-Implementation of an ERC1363 interface.
-
-### ERC1363Receiver
-
-[ERC1363Receiver.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363Receiver.sol)
+[IERC1363Receiver.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363Receiver.sol)
 
 Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall` from ERC1363 token contracts.
 
-### ERC1363Spender
+### IERC1363Spender
 
-[ERC1363Spender.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363Spender.sol)
+[IERC1363Spender.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363Spender.sol)
 
 Interface for any contract that wants to support `approveAndCall` from ERC1363 token contracts.
 

@@ -2,13 +2,13 @@ pragma solidity ^0.4.24;
 
 
 /**
- * @title ERC1363Spender interface
+ * @title IERC1363Spender Interface
  * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev Interface for any contract that wants to support approveAndCall
  *  from ERC1363 token contracts as defined in
  *  https://github.com/ethereum/EIPs/issues/1363
  */
-contract ERC1363Spender {
+contract IERC1363Spender {
   /*
    * Note: the ERC-165 identifier for this interface is 0x7b04a2d0.
    * 0x7b04a2d0 === bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))

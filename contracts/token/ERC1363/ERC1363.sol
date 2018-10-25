@@ -5,8 +5,8 @@ import "openzeppelin-solidity/contracts/introspection/ERC165Checker.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 
 import "./IERC1363.sol";
-import "./ERC1363Receiver.sol";
-import "./ERC1363Spender.sol";
+import "./IERC1363Receiver.sol";
+import "./IERC1363Spender.sol";
 
 
 /**
@@ -36,11 +36,11 @@ contract ERC1363 is ERC20, IERC1363 { // solium-disable-line max-len
   bytes4 internal constant _InterfaceId_ERC1363Approve = 0xfb9ec8ce;
 
   // Equals to `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
-  // which can be also obtained as `ERC1363Receiver(0).onTransferReceived.selector`
+  // which can be also obtained as `IERC1363Receiver(0).onTransferReceived.selector`
   bytes4 private constant _ERC1363_RECEIVED = 0x88a7ca5c;
 
   // Equals to `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
-  // which can be also obtained as `ERC1363Spender(0).onApprovalReceived.selector`
+  // which can be also obtained as `IERC1363Spender(0).onApprovalReceived.selector`
   bytes4 private constant _ERC1363_APPROVED = 0x7b04a2d0;
 
   constructor() public {
@@ -162,7 +162,7 @@ contract ERC1363 is ERC20, IERC1363 { // solium-disable-line max-len
     if (!to.isContract()) {
       return false;
     }
-    bytes4 retval = ERC1363Receiver(to).onTransferReceived(
+    bytes4 retval = IERC1363Receiver(to).onTransferReceived(
       msg.sender, from, value, data
     );
     return (retval == _ERC1363_RECEIVED);
@@ -187,7 +187,7 @@ contract ERC1363 is ERC20, IERC1363 { // solium-disable-line max-len
     if (!spender.isContract()) {
       return false;
     }
-    bytes4 retval = ERC1363Spender(spender).onApprovalReceived(
+    bytes4 retval = IERC1363Spender(spender).onApprovalReceived(
       msg.sender, value, data
     );
     return (retval == _ERC1363_APPROVED);

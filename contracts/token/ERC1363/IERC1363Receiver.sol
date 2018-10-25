@@ -2,13 +2,13 @@ pragma solidity ^0.4.24;
 
 
 /**
- * @title ERC1363Receiver interface
+ * @title IERC1363Receiver Interface
  * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev Interface for any contract that wants to support transferAndCall or transferFromAndCall
  *  from ERC1363 token contracts as defined in
  *  https://github.com/ethereum/EIPs/issues/1363
  */
-contract ERC1363Receiver {
+contract IERC1363Receiver {
   /*
    * Note: the ERC-165 identifier for this interface is 0x88a7ca5c.
    * 0x88a7ca5c === bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))

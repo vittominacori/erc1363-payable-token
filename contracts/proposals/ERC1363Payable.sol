@@ -3,8 +3,8 @@ pragma solidity ^0.4.24;
 import "openzeppelin-solidity/contracts/introspection/ERC165Checker.sol";
 
 import "../token/ERC1363/IERC1363.sol";
-import "../token/ERC1363/ERC1363Receiver.sol";
-import "../token/ERC1363/ERC1363Spender.sol";
+import "../token/ERC1363/IERC1363Receiver.sol";
+import "../token/ERC1363/IERC1363Spender.sol";
 
 
 /**
@@ -12,20 +12,20 @@ import "../token/ERC1363/ERC1363Spender.sol";
  * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev Implementation proposal of a contract that wants to accept ERC1363 payments
  */
-contract ERC1363Payable is ERC1363Receiver, ERC1363Spender, ERC165 { // solium-disable-line max-len
+contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165 { // solium-disable-line max-len
   using ERC165Checker for address;
 
   /**
    * @dev Magic value to be returned upon successful reception of ERC1363 tokens
    *  Equals to `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`,
-   *  which can be also obtained as `ERC1363Receiver(0).onTransferReceived.selector`
+   *  which can be also obtained as `IERC1363Receiver(0).onTransferReceived.selector`
    */
   bytes4 internal constant _InterfaceId_ERC1363Receiver = 0x88a7ca5c;
 
   /**
    * @dev Magic value to be returned upon successful approval of ERC1363 tokens
    *  Equals to `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`,
-   *  which can be also obtained as `ERC1363Spender(0).onApprovalReceived.selector`
+   *  which can be also obtained as `IERC1363Spender(0).onApprovalReceived.selector`
    */
   bytes4 internal constant _InterfaceId_ERC1363Spender = 0x7b04a2d0;
 
@@ -75,7 +75,7 @@ contract ERC1363Payable is ERC1363Receiver, ERC1363Spender, ERC165 { // solium-d
 
     _acceptedToken = acceptedToken;
 
-    // register the supported interface to conform to ERC1363Receiver and ERC1363Spender via ERC165
+    // register the supported interface to conform to IERC1363Receiver and IERC1363Spender via ERC165
     _registerInterface(_InterfaceId_ERC1363Receiver);
     _registerInterface(_InterfaceId_ERC1363Spender);
   }
