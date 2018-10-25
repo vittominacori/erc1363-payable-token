@@ -40,26 +40,26 @@
   },
   "homepage": "https://github.com/vittominacori/erc1363-payable-token",
   "dependencies": {
-    "openzeppelin-solidity": "^2.0.0"
+    "openzeppelin-solidity": "2.0.0"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "chai-bignumber": "^2.0.2",
-    "coveralls": "^3.0.1",
-    "dotenv": "^4.0.0",
-    "eslint": "^4.19.1",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-node": "^5.2.1",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0",
+    "coveralls": "^3.0.2",
+    "dotenv": "^6.1.0",
+    "eslint": "^5.7.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
     "ethjs-abi": "^0.2.1",
-    "ganache-cli": "6.1.0",
-    "solidity-coverage": "^0.5.4",
+    "ganache-cli": "6.1.8",
+    "solidity-coverage": "^0.5.11",
     "solium": "^1.1.8",
     "truffle": "^4.1.14",
-    "truffle-hdwallet-provider": "0.0.5",
+    "truffle-hdwallet-provider": "0.0.6",
     "vuepress": "^0.14.4",
-    "web3-utils": "^1.0.0-beta.34"
+    "web3-utils": "^1.0.0-beta.36"
   }
 }
