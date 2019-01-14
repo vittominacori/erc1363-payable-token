@@ -20,10 +20,9 @@ npm install erc-payable-token
 ## Usage
 
 ```solidity
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
 import "erc-payable-token/contracts/token/ERC1363/ERC1363.sol";
-
 
 contract MyToken is ERC1363 {
   // your stuff
@@ -80,7 +79,7 @@ As example: an Implementation of a classic token Crowdsale, but paid with ERC136
 Install Truffle
 
 ```bash
-npm install -g truffle      // Version 4.1.14+ required.
+npm install -g truffle      // Version 4.1.15+ required
 ```
 
 ### Install dependencies
@@ -91,7 +90,7 @@ npm install
 
 ### Linter
 
-Use Solium
+Use Ethlint
 
 ```bash
 npm run lint:sol
