@@ -1,6 +1,7 @@
 # ERC-1363 Payable Token
 
-[![NPM Package](https://img.shields.io/npm/v/erc-payable-token.svg?style=flat-square)](https://www.npmjs.org/package/erc-payable-token) 
+[![NPM Package](https://img.shields.io/npm/v/erc-payable-token.svg?style=flat-square)](https://www.npmjs.org/package/erc-payable-token)
+[![MIT licensed](https://img.shields.io/github/license/FriendsFingers/dao-smartcontracts.svg)](https://github.com/vittominacori/erc1363-payable-token/blob/master/LICENSE) 
 [![Build Status](https://travis-ci.org/vittominacori/erc1363-payable-token.svg?branch=master)](https://travis-ci.org/vittominacori/erc1363-payable-token) 
 [![Coverage Status](https://coveralls.io/repos/github/vittominacori/erc1363-payable-token/badge.svg?branch=master)](https://coveralls.io/github/vittominacori/erc1363-payable-token?branch=master) 
 
@@ -113,19 +114,19 @@ npm run lint:fix
 Open the Truffle console
 
 ```bash
-truffle develop
+npm run console
 ```
 
 Compile 
 
 ```bash
-compile 
+npm run compile 
 ```
 
 Test
 
 ```bash
-test
+npm run test
 ```
 
 ## License
