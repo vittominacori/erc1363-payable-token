@@ -1,12 +1,12 @@
-const { shouldBehaveLikeERC1363PayableCrowdsale } = require('./ERC1363PayableCrowdsale.behaviour');
+const { BN } = require('openzeppelin-test-helpers');
 
-const BigNumber = web3.BigNumber;
+const { shouldBehaveLikeERC1363PayableCrowdsale } = require('./ERC1363PayableCrowdsale.behaviour');
 
 const ERC20Token = artifacts.require('ERC20Mock');
 const ERC1363 = artifacts.require('ERC1363Mock');
 
 contract('ERC1363PayableCrowdsale', function ([_, wallet, beneficiary, operator]) {
-  const erc1363tTokenSupply = new BigNumber('1e22');
+  const erc1363tTokenSupply = new BN('1e22');
 
   beforeEach(async function () {
     this.erc1363Token = await ERC1363.new(beneficiary, erc1363tTokenSupply);

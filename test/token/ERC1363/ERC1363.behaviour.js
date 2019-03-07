@@ -1,16 +1,8 @@
-const shouldFail = require('openzeppelin-solidity/test/helpers/shouldFail');
-const { decodeLogs } = require('openzeppelin-solidity/test/helpers/decodeLogs');
-const { sendTransaction } = require('openzeppelin-solidity/test/helpers/sendTransaction');
+const { BN, shouldFail, expectEvent } = require('openzeppelin-test-helpers');
 const { shouldSupportInterfaces } = require('../../introspection/SupportsInterface.behavior');
 
 const ERC1363Receiver = artifacts.require('ERC1363ReceiverMock');
 const ERC1363Spender = artifacts.require('ERC1363SpenderMock');
-
-const BigNumber = web3.BigNumber;
-
-require('chai')
-  .use(require('chai-bignumber')(BigNumber))
-  .should();
 
 function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
   const value = balance;
@@ -25,23 +17,13 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     });
 
     const transferFromAndCallWithData = function (from, to, value, opts) {
-      return sendTransaction(
-        this.token,
-        'transferFromAndCall',
-        'address,address,uint256,bytes',
-        [from, to, value, data],
-        opts
+      return this.token.methods['transferFromAndCall(address,address,uint256,bytes)'](
+        from, to, value, data, opts
       );
     };
 
     const transferFromAndCallWithoutData = function (from, to, value, opts) {
-      return sendTransaction(
-        this.token,
-        'transferFromAndCall',
-        'address,address,uint256',
-        [from, to, value],
-        opts
-      );
+      return this.token.methods['transferFromAndCall(address,address,uint256)'](from, to, value, opts);
     };
 
     const shouldTransferFromSafely = function (transferFun, data) {
@@ -52,14 +34,14 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
         });
 
         it('should call onTransferReceived', async function () {
-          const result = await transferFun.call(this, owner, this.to, value, { from: spender });
-          result.receipt.logs.length.should.be.equal(2);
-          const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Receiver, this.receiver.address);
-          log.event.should.be.eq('Received');
-          log.args.operator.should.be.equal(spender);
-          log.args.from.should.be.equal(owner);
-          log.args.value.should.be.bignumber.equal(value);
-          log.args.data.should.be.equal(data);
+          const receipt = await transferFun.call(this, owner, this.to, value, { from: spender });
+
+          await expectEvent.inTransaction(receipt.tx, ERC1363Receiver, 'Received', {
+            operator: spender,
+            from: owner,
+            value: value,
+            data: data,
+          });
         });
       });
     };
@@ -99,20 +81,20 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
             await transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender });
 
             const senderBalance = await this.token.balanceOf(sender);
-            assert.equal(senderBalance, 0);
+            senderBalance.should.be.bignumber.equal(new BN(0));
 
             const recipientBalance = await this.token.balanceOf(receiver);
-            assert.equal(recipientBalance, amount);
+            recipientBalance.should.be.bignumber.equal(amount);
           });
 
           it('emits a transfer event', async function () {
             const { logs } = await transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender });
 
-            assert.equal(logs.length, 1);
-            assert.equal(logs[0].event, 'Transfer');
-            assert.equal(logs[0].args.from, sender);
-            assert.equal(logs[0].args.to, receiver);
-            assert(logs[0].args.value.eq(amount));
+            expectEvent.inLogs(logs, 'Transfer', {
+              from: sender,
+              to: receiver,
+              value: amount,
+            });
           });
         });
 
@@ -121,10 +103,10 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
             await transferFromAndCallWithoutData.call(this, sender, receiver, amount, { from: spender });
 
             const senderBalance = await this.token.balanceOf(sender);
-            assert.equal(senderBalance, 0);
+            senderBalance.should.be.bignumber.equal(new BN(0));
 
             const recipientBalance = await this.token.balanceOf(receiver);
-            assert.equal(recipientBalance, amount);
+            recipientBalance.should.be.bignumber.equal(amount);
           });
 
           it('emits a transfer event', async function () {
@@ -132,11 +114,11 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
               this, sender, receiver, amount, { from: spender }
             );
 
-            assert.equal(logs.length, 1);
-            assert.equal(logs[0].event, 'Transfer');
-            assert.equal(logs[0].args.from, sender);
-            assert.equal(logs[0].args.to, receiver);
-            assert(logs[0].args.value.eq(amount));
+            expectEvent.inLogs(logs, 'Transfer', {
+              from: sender,
+              to: receiver,
+              value: amount,
+            });
           });
         });
       });
@@ -147,7 +129,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     });
 
     describe('without data', function () {
-      shouldTransferFromSafely(transferFromAndCallWithoutData, '0x');
+      shouldTransferFromSafely(transferFromAndCallWithoutData, null);
     });
 
     describe('testing ERC20 behaviours', function () {
@@ -192,23 +174,11 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
   describe('via transferAndCall', function () {
     const transferAndCallWithData = function (to, value, opts) {
-      return sendTransaction(
-        this.token,
-        'transferAndCall',
-        'address,uint256,bytes',
-        [to, value, data],
-        opts
-      );
+      return this.token.methods['transferAndCall(address,uint256,bytes)'](to, value, data, opts);
     };
 
     const transferAndCallWithoutData = function (to, value, opts) {
-      return sendTransaction(
-        this.token,
-        'transferAndCall',
-        'address,uint256',
-        [to, value],
-        opts
-      );
+      return this.token.methods['transferAndCall(address,uint256)'](to, value, opts);
     };
 
     const shouldTransferSafely = function (transferFun, data) {
@@ -219,14 +189,14 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
         });
 
         it('should call onTransferReceived', async function () {
-          const result = await transferFun.call(this, this.to, value, { from: owner });
-          result.receipt.logs.length.should.be.equal(2);
-          const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Receiver, this.receiver.address);
-          log.event.should.be.eq('Received');
-          log.args.operator.should.be.equal(owner);
-          log.args.from.should.be.equal(owner);
-          log.args.value.should.be.bignumber.equal(value);
-          log.args.data.should.be.equal(data);
+          const receipt = await transferFun.call(this, this.to, value, { from: owner });
+
+          await expectEvent.inTransaction(receipt.tx, ERC1363Receiver, 'Received', {
+            operator: owner,
+            from: owner,
+            value: value,
+            data: data,
+          });
         });
       });
     };
@@ -262,20 +232,20 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
             await transferAndCallWithData.call(this, receiver, amount, { from: sender });
 
             const senderBalance = await this.token.balanceOf(sender);
-            assert.equal(senderBalance, 0);
+            senderBalance.should.be.bignumber.equal(new BN(0));
 
             const recipientBalance = await this.token.balanceOf(receiver);
-            assert.equal(recipientBalance, amount);
+            recipientBalance.should.be.bignumber.equal(amount);
           });
 
           it('emits a transfer event', async function () {
             const { logs } = await transferAndCallWithData.call(this, receiver, amount, { from: sender });
 
-            assert.equal(logs.length, 1);
-            assert.equal(logs[0].event, 'Transfer');
-            assert.equal(logs[0].args.from, sender);
-            assert.equal(logs[0].args.to, receiver);
-            assert(logs[0].args.value.eq(amount));
+            expectEvent.inLogs(logs, 'Transfer', {
+              from: sender,
+              to: receiver,
+              value: amount,
+            });
           });
         });
 
@@ -284,20 +254,20 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
             await transferAndCallWithoutData.call(this, receiver, amount, { from: sender });
 
             const senderBalance = await this.token.balanceOf(sender);
-            assert.equal(senderBalance, 0);
+            senderBalance.should.be.bignumber.equal(new BN(0));
 
             const recipientBalance = await this.token.balanceOf(receiver);
-            assert.equal(recipientBalance, amount);
+            recipientBalance.should.be.bignumber.equal(amount);
           });
 
           it('emits a transfer event', async function () {
             const { logs } = await transferAndCallWithoutData.call(this, receiver, amount, { from: sender });
 
-            assert.equal(logs.length, 1);
-            assert.equal(logs[0].event, 'Transfer');
-            assert.equal(logs[0].args.from, sender);
-            assert.equal(logs[0].args.to, receiver);
-            assert(logs[0].args.value.eq(amount));
+            expectEvent.inLogs(logs, 'Transfer', {
+              from: sender,
+              to: receiver,
+              value: amount,
+            });
           });
         });
       });
@@ -308,7 +278,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     });
 
     describe('without data', function () {
-      shouldTransferSafely(transferAndCallWithoutData, '0x');
+      shouldTransferSafely(transferAndCallWithoutData, null);
     });
 
     describe('testing ERC20 behaviours', function () {
@@ -353,23 +323,11 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
   describe('via approveAndCall', function () {
     const approveAndCallWithData = function (spender, value, opts) {
-      return sendTransaction(
-        this.token,
-        'approveAndCall',
-        'address,uint256,bytes',
-        [spender, value, data],
-        opts
-      );
+      return this.token.methods['approveAndCall(address,uint256,bytes)'](spender, value, data, opts);
     };
 
     const approveAndCallWithoutData = function (spender, value, opts) {
-      return sendTransaction(
-        this.token,
-        'approveAndCall',
-        'address,uint256',
-        [spender, value],
-        opts
-      );
+      return this.token.methods['approveAndCall(address,uint256)'](spender, value, opts);
     };
 
     const shouldApproveSafely = function (approveFun, data) {
@@ -380,13 +338,13 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
         });
 
         it('should call onApprovalReceived', async function () {
-          const result = await approveFun.call(this, this.to, value, { from: owner });
-          result.receipt.logs.length.should.be.equal(2);
-          const [log] = decodeLogs([result.receipt.logs[1]], ERC1363Spender, this.spender.address);
-          log.event.should.be.eq('Approved');
-          log.args.owner.should.be.equal(owner);
-          log.args.value.should.be.bignumber.equal(value);
-          log.args.data.should.be.equal(data);
+          const receipt = await approveFun.call(this, this.to, value, { from: owner });
+
+          await expectEvent.inTransaction(receipt.tx, ERC1363Spender, 'Approved', {
+            owner: owner,
+            value: value,
+            data: data,
+          });
         });
       });
     };
@@ -404,17 +362,17 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
           await approveAndCallWithData.call(this, spender, amount, { from: sender });
 
           const spenderAllowance = await this.token.allowance(sender, spender);
-          assert.equal(spenderAllowance, amount);
+          spenderAllowance.should.be.bignumber.equal(amount);
         });
 
         it('emits an approval event', async function () {
           const { logs } = await approveAndCallWithData.call(this, spender, amount, { from: sender });
 
-          assert.equal(logs.length, 1);
-          assert.equal(logs[0].event, 'Approval');
-          assert.equal(logs[0].args.owner, sender);
-          assert.equal(logs[0].args.spender, spender);
-          assert(logs[0].args.value.eq(amount));
+          expectEvent.inLogs(logs, 'Approval', {
+            owner: sender,
+            spender: spender,
+            value: amount,
+          });
         });
       });
 
@@ -423,17 +381,17 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
           await approveAndCallWithoutData.call(this, spender, amount, { from: sender });
 
           const spenderAllowance = await this.token.allowance(sender, spender);
-          assert.equal(spenderAllowance, amount);
+          spenderAllowance.should.be.bignumber.equal(amount);
         });
 
         it('emits an approval event', async function () {
           const { logs } = await approveAndCallWithoutData.call(this, spender, amount, { from: sender });
 
-          assert.equal(logs.length, 1);
-          assert.equal(logs[0].event, 'Approval');
-          assert.equal(logs[0].args.owner, sender);
-          assert.equal(logs[0].args.spender, spender);
-          assert(logs[0].args.value.eq(amount));
+          expectEvent.inLogs(logs, 'Approval', {
+            owner: sender,
+            spender: spender,
+            value: amount,
+          });
         });
       });
     };
@@ -443,7 +401,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     });
 
     describe('without data', function () {
-      shouldApproveSafely(approveAndCallWithoutData, '0x');
+      shouldApproveSafely(approveAndCallWithoutData, null);
     });
 
     describe('testing ERC20 behaviours', function () {

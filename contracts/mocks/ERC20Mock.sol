@@ -1,7 +1,6 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.5;
 
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
-
 
 /**
  * @title ERC20Mock
@@ -11,16 +10,12 @@ import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
  */
 contract ERC20Mock is ERC20 {
 
-  string public constant name = "ERC20Token";
-  string public constant symbol = "ERC20";
-  uint8 public constant decimals = 18;
+    uint256 public constant INITIAL_SUPPLY = 10000 * (10 ** 18);
 
-  uint256 public constant INITIAL_SUPPLY = 10000 * (10 ** uint256(decimals));
-
-  /**
-   * @dev Constructor that gives msg.sender all of existing tokens.
-   */
-  constructor() public {
-    _mint(msg.sender, INITIAL_SUPPLY);
-  }
+    /**
+     * @dev Constructor that gives msg.sender all of existing tokens.
+     */
+    constructor() public {
+        _mint(msg.sender, INITIAL_SUPPLY);
+    }
 }
