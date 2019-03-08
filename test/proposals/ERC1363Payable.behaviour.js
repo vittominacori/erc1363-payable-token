@@ -41,10 +41,10 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
 
     const shouldTransferFromSafely = function (transferFun, data) {
       describe('using an accepted ERC1363', function () {
-        it.skip('should call onTransferReceived', async function () {
-          const { logs } = await transferFun.call(this, owner, this.mock.address, value, { from: spender });
+        it('should call onTransferReceived', async function () {
+          const receipt = await transferFun.call(this, owner, this.mock.address, value, { from: spender });
 
-          expectEvent.inLogs(logs, 'TokensReceived', {
+          await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensReceived', {
             operator: spender,
             from: owner,
             value: value,
@@ -74,7 +74,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
     });
 
     describe('without data', function () {
-      shouldTransferFromSafely(transferFromAndCallWithoutData, '0x');
+      shouldTransferFromSafely(transferFromAndCallWithoutData, null);
     });
   });
 
@@ -89,10 +89,10 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
 
     const shouldTransferSafely = function (transferFun, data) {
       describe('using an accepted ERC1363', function () {
-        it.skip('should call onTransferReceived', async function () {
+        it('should call onTransferReceived', async function () {
           const receipt = await transferFun.call(this, this.mock.address, value, { from: owner });
 
-          await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensPurchased', {
+          await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensReceived', {
             operator: owner,
             from: owner,
             value: value,
@@ -122,7 +122,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
     });
 
     describe('without data', function () {
-      shouldTransferSafely(transferAndCallWithoutData, '0x');
+      shouldTransferSafely(transferAndCallWithoutData, null);
     });
   });
 
@@ -137,11 +137,11 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
 
     const shouldApproveSafely = function (approveFun, data) {
       describe('using an accepted ERC1363', function () {
-        it.skip('should call onApprovalReceived', async function () {
+        it('should call onApprovalReceived', async function () {
           const receipt = await approveFun.call(this, this.mock.address, value, { from: owner });
 
-          await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensPurchased', {
-            from: owner,
+          await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensApproved', {
+            owner: owner,
             value: value,
             data: data,
           });
@@ -169,7 +169,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
     });
 
     describe('without data', function () {
-      shouldApproveSafely(approveAndCallWithoutData, '0x');
+      shouldApproveSafely(approveAndCallWithoutData, null);
     });
   });
 
