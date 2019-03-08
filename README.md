@@ -1,8 +1,9 @@
 # ERC-1363 Payable Token
 
-[![NPM Package](https://img.shields.io/npm/v/erc-payable-token.svg?style=flat-square)](https://www.npmjs.org/package/erc-payable-token) 
+[![NPM Package](https://img.shields.io/npm/v/erc-payable-token.svg?style=flat-square)](https://www.npmjs.org/package/erc-payable-token)
 [![Build Status](https://travis-ci.org/vittominacori/erc1363-payable-token.svg?branch=master)](https://travis-ci.org/vittominacori/erc1363-payable-token) 
 [![Coverage Status](https://coveralls.io/repos/github/vittominacori/erc1363-payable-token/badge.svg?branch=master)](https://coveralls.io/github/vittominacori/erc1363-payable-token?branch=master) 
+[![MIT licensed](https://img.shields.io/github/license/vittominacori/erc1363-payable-token.svg)](https://github.com/vittominacori/erc1363-payable-token/blob/master/LICENSE) 
 
 This is an implementation of the [ERC-1363 Payable Token](https://github.com/ethereum/EIPs/issues/1363) that defines a Payable Token, a Token Receiver and a Token Spender.
 
@@ -20,7 +21,7 @@ npm install erc-payable-token
 ## Usage
 
 ```solidity
-pragma solidity ^0.4.25;
+pragma solidity ^0.5.5;
 
 import "erc-payable-token/contracts/token/ERC1363/ERC1363.sol";
 
@@ -79,7 +80,7 @@ As example: an Implementation of a classic token Crowdsale, but paid with ERC136
 Install Truffle
 
 ```bash
-npm install -g truffle      // Version 4.1.15+ required
+npm install -g truffle      // Version 5.0.7+ required
 ```
 
 ### Install dependencies
@@ -90,7 +91,7 @@ npm install
 
 ### Linter
 
-Use Ethlint
+Use Solhint
 
 ```bash
 npm run lint:sol
@@ -102,7 +103,7 @@ Use ESLint
 npm run lint:js
 ```
 
-Use both and fix
+Use Eslint and fix
 
 ```bash
 npm run lint:fix
@@ -113,19 +114,19 @@ npm run lint:fix
 Open the Truffle console
 
 ```bash
-truffle develop
+npm run console
 ```
 
 Compile 
 
 ```bash
-compile 
+npm run compile 
 ```
 
 Test
 
 ```bash
-test
+npm run test
 ```
 
 ## License

@@ -32,14 +32,17 @@ npm-debug.log
 # truffle build directory
 build/
 
-# lol macs
-.DS_Store/
+# macOS
+.DS_Store
 
 # truffle
 .node-xmlhttprequest-*
 
 # npm package
 package-lock.json
+
+# IntelliJ IDE
+.idea
 
 # vuepress
 docs/.vuepress/dist/
