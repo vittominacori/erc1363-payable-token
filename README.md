@@ -60,9 +60,9 @@ Interface for any contract that wants to support `approveAndCall` from ERC1363 t
 
 ### ERC1363Payable
 
-[ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/proposals/ERC1363Payable.sol)
+[ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/payment/ERC1363Payable.sol)
 
-Implementation proposal of a contract that wants to accept ERC1363 payments. It intercepts what is the ERC1363 token desired for payments and throws is another is sent.   
+Implementation proposal of a contract that wants to accept ERC1363 payments. It intercepts what is the ERC1363 token desired for payments and throws if another is sent.   
 It emits a `TokensReceived` event to notify the transfer received by the contract.  
 It also implements a `transferReceived` function that can be overridden to make your stuffs within your contract after a `onTransferReceived`.  
 It emits a `TokensApproved` event to notify the approval received by the contract.  

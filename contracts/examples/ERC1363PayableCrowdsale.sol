@@ -4,7 +4,7 @@ import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol";
 import "openzeppelin-solidity/contracts/utils/ReentrancyGuard.sol";
-import "../proposals/ERC1363Payable.sol";
+import "../payment/ERC1363Payable.sol";
 
 /**
  * @title ERC1363PayableCrowdsale
