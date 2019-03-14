@@ -1,6 +1,6 @@
 {
   "name": "erc-payable-token",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "ERC-1363 Payable Token Implementation",
   "files": [
     "contracts",
