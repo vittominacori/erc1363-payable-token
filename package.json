@@ -1,13 +1,13 @@
 {
   "name": "erc-payable-token",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "ERC-1363 Payable Token Implementation",
   "files": [
     "contracts",
     "test"
   ],
   "scripts": {
-    "compile": "truffle compile",
+    "compile": "truffle compile --all",
     "console": "truffle develop",
     "coverage": "scripts/coverage.sh",
     "test": "npm run compile && scripts/test.sh",
@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/vittominacori/erc1363-payable-token",
   "dependencies": {
-    "openzeppelin-solidity": "2.1.3"
+    "openzeppelin-solidity": "2.2.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
