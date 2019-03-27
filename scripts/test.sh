@@ -38,11 +38,21 @@ start_ganache() {
     --account="0x2bdd21761a483f71054e14f5b827213567971c676928d9a1808cbfa4b7501209,1000000000000000000000000"
   )
 
-  node_modules/.bin/ganache-cli --gasLimit 0xfffffffffff --port "$ganache_port" "${accounts[@]}" > /dev/null &
+  if [ "$SOLIDITY_COVERAGE" = true ]; then
+    node_modules/.bin/ganache-cli-coverage --emitFreeLogs true --allowUnlimitedContractSize true --gasLimit 0xfffffffffff --port "$ganache_port" "${accounts[@]}" > /dev/null &
+  else
+    node_modules/.bin/ganache-cli --gasLimit 0xfffffffffff --port "$ganache_port" "${accounts[@]}" > /dev/null &
+  fi
 
   ganache_pid=$!
 
-  sleep 1
+  echo "Waiting for ganache to launch on port "$ganache_port"..."
+
+  while ! ganache_running; do
+    sleep 0.1 # wait for 1/10 of the second before check again
+  done
+
+  echo "Ganache launched!"
 }
 
 if ganache_running; then

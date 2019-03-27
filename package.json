@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/vittominacori/erc1363-payable-token",
   "dependencies": {
-    "openzeppelin-solidity": "2.2.0"
+    "openzeppelin-solidity": "2.2.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -55,11 +55,12 @@
     "ethereumjs-util": "^6.1.0",
     "ethjs-abi": "^0.2.1",
     "ganache-cli": "6.4.1",
-    "openzeppelin-test-helpers": "^0.1.2",
+    "ganache-cli-coverage": "github:Agusx1211/ganache-cli#c462b3fc48fe9b16756f7799885c0741114d9ed3",
+    "openzeppelin-test-helpers": "^0.3.0",
     "pify": "^4.0.1",
     "solhint": "^1.5.1",
-    "solidity-coverage": "https://github.com:rotcivegaf/solidity-coverage.git#5875f5b7bc74d447f3312c9c0e9fc7814b482477",
-    "truffle": "^5.0.7",
+    "solidity-coverage": "github:rotcivegaf/solidity-coverage#5875f5b7bc74d447f3312c9c0e9fc7814b482477",
+    "truffle": "^5.0.9",
     "vuepress": "^0.14.10"
   }
 }
