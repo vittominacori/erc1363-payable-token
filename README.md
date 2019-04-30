@@ -80,7 +80,7 @@ As example: an Implementation of a classic token Crowdsale, but paid with ERC136
 Install Truffle
 
 ```bash
-npm install -g truffle      // Version 5.0.7+ required
+npm install -g truffle
 ```
 
 ### Install dependencies
