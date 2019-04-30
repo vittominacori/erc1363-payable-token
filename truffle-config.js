@@ -17,12 +17,13 @@ module.exports = {
   },
   compilers: {
     solc: {
-      version: '0.5.7',
+      version: '0.5.8',
       settings: {
         optimizer: {
           enabled: true,
           runs: 200,
         },
+        // evmVersion: 'petersburg',
       },
     },
   },
