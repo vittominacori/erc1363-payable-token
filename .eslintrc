@@ -1,23 +1,23 @@
 {
   "extends" : [
     "standard",
-    "plugin:promise/recommended",
+    "plugin:promise/recommended"
   ],
   "plugins": [
     "mocha-no-only",
-    "promise",
+    "promise"
   ],
   "env": {
     "browser" : true,
     "node"    : true,
     "mocha"   : true,
-    "jest"    : true,
+    "jest"    : true
   },
   "globals" : {
     "artifacts": false,
     "contract": false,
     "assert": false,
-    "web3": false,
+    "web3": false
   },
   "rules": {
 
@@ -53,6 +53,6 @@
     "mocha-no-only/mocha-no-only": ["error"],
 
     "promise/always-return": "off",
-    "promise/avoid-new": "off",
+    "promise/avoid-new": "off"
   }
 }
