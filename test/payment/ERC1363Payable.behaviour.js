@@ -1,4 +1,4 @@
-const { BN, constants, shouldFail, expectEvent } = require('openzeppelin-test-helpers');
+const { BN, constants, expectRevert, expectEvent } = require('openzeppelin-test-helpers');
 const { shouldSupportInterfaces } = require('../introspection/SupportsInterface.behavior');
 const { ZERO_ADDRESS } = constants;
 
@@ -12,14 +12,14 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
   describe('creating a valid contract', function () {
     describe('if accepted token is the zero address', function () {
       it('reverts', async function () {
-        await shouldFail.reverting(ERC1363Payable.new(ZERO_ADDRESS));
+        await expectRevert.unspecified(ERC1363Payable.new(ZERO_ADDRESS));
       });
     });
 
     describe('if token does not support ERC1363 interface', function () {
       it('reverts', async function () {
         const erc20Token = await ERC20.new();
-        await shouldFail.reverting(ERC1363Payable.new(erc20Token.address));
+        await expectRevert.unspecified(ERC1363Payable.new(erc20Token.address));
       });
     });
   });
@@ -64,7 +64,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
       describe('using a not accepted ERC1363', function () {
         it('reverts', async function () {
           this.token = this.notAcceptedToken;
-          await shouldFail.reverting(transferFun.call(this, owner, this.mock.address, value, { from: spender }));
+          await expectRevert.unspecified(transferFun.call(this, owner, this.mock.address, value, { from: spender }));
         });
       });
     };
@@ -112,7 +112,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
       describe('using a not accepted ERC1363', function () {
         it('reverts', async function () {
           this.token = this.notAcceptedToken;
-          await shouldFail.reverting(transferFun.call(this, this.mock.address, value, { from: owner }));
+          await expectRevert.unspecified(transferFun.call(this, this.mock.address, value, { from: owner }));
         });
       });
     };
@@ -159,7 +159,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
       describe('using a not accepted ERC1363', function () {
         it('reverts', async function () {
           this.token = this.notAcceptedToken;
-          await shouldFail.reverting(approveFun.call(this, this.mock.address, value, { from: owner }));
+          await expectRevert.unspecified(approveFun.call(this, this.mock.address, value, { from: owner }));
         });
       });
     };
