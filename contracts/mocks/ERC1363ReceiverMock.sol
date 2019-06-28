@@ -1,4 +1,4 @@
-pragma solidity ^0.5.9;
+pragma solidity ^0.5.10;
 
 import "../token/ERC1363/IERC1363Receiver.sol";
 
