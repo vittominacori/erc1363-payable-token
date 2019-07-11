@@ -7,8 +7,8 @@
     "test"
   ],
   "scripts": {
-    "compile": "truffle compile --all",
     "console": "truffle develop",
+    "compile": "scripts/compile.sh",
     "coverage": "scripts/coverage.sh",
     "test": "npm run compile && scripts/test.sh",
     "lint": "npm run lint:js && npm run lint:sol",
