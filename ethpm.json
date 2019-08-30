@@ -1,6 +1,6 @@
 {
   "package_name": "erc-payable-token",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "ERC-1363 Payable Token Implementation",
   "authors": [
     "Vittorio Minacori (https://github.com/vittominacori)"

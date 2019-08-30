@@ -1,6 +1,6 @@
-pragma solidity ^0.5.10;
+pragma solidity ^0.5.11;
 
-import "openzeppelin-solidity/contracts/introspection/ERC165Checker.sol";
+import "@openzeppelin/contracts/introspection/ERC165Checker.sol";
 
 import "../token/ERC1363/IERC1363.sol";
 import "../token/ERC1363/IERC1363Receiver.sol";

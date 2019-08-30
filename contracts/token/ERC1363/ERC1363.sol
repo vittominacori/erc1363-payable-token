@@ -1,8 +1,8 @@
-pragma solidity ^0.5.10;
+pragma solidity ^0.5.11;
 
-import "openzeppelin-solidity/contracts/utils/Address.sol";
-import "openzeppelin-solidity/contracts/introspection/ERC165Checker.sol";
-import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts/introspection/ERC165Checker.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 import "./IERC1363.sol";
 import "./IERC1363Receiver.sol";
