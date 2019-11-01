@@ -31,7 +31,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
 
     const transferFromAndCallWithData = function (from, to, value, opts) {
       return this.token.methods['transferFromAndCall(address,address,uint256,bytes)'](
-        from, to, value, data, opts
+        from, to, value, data, opts,
       );
     };
 

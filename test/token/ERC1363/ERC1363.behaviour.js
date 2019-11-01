@@ -18,7 +18,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
     const transferFromAndCallWithData = function (from, to, value, opts) {
       return this.token.methods['transferFromAndCall(address,address,uint256,bytes)'](
-        from, to, value, data, opts
+        from, to, value, data, opts,
       );
     };
 
@@ -60,7 +60,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
         describe('with data', function () {
           it('reverts', async function () {
             await expectRevert.unspecified(
-              transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender })
+              transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender }),
             );
           });
         });
@@ -68,7 +68,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
         describe('without data', function () {
           it('reverts', async function () {
             await expectRevert.unspecified(
-              transferFromAndCallWithoutData.call(this, sender, receiver, amount, { from: spender })
+              transferFromAndCallWithoutData.call(this, sender, receiver, amount, { from: spender }),
             );
           });
         });
@@ -111,7 +111,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
           it('emits a transfer event', async function () {
             const { logs } = await transferFromAndCallWithoutData.call(
-              this, sender, receiver, amount, { from: spender }
+              this, sender, receiver, amount, { from: spender },
             );
 
             expectEvent.inLogs(logs, 'Transfer', {
@@ -139,7 +139,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     describe('to a receiver that is not a contract', function () {
       it('reverts', async function () {
         await expectRevert.unspecified(
-          transferFromAndCallWithoutData.call(this, owner, recipient, value, { from: owner })
+          transferFromAndCallWithoutData.call(this, owner, recipient, value, { from: owner }),
         );
       });
     });
@@ -148,7 +148,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
       it('reverts', async function () {
         const invalidReceiver = await ERC1363Receiver.new(data, false);
         await expectRevert.unspecified(
-          transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender })
+          transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender }),
         );
       });
     });
@@ -157,7 +157,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
       it('reverts', async function () {
         const invalidReceiver = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, true);
         await expectRevert.unspecified(
-          transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender })
+          transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender }),
         );
       });
     });
@@ -166,7 +166,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
       it('reverts', async function () {
         const invalidReceiver = this.token;
         await expectRevert.unspecified(
-          transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender })
+          transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender }),
         );
       });
     });
@@ -288,7 +288,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     describe('to a receiver that is not a contract', function () {
       it('reverts', async function () {
         await expectRevert.unspecified(
-          transferAndCallWithoutData.call(this, recipient, value, { from: owner })
+          transferAndCallWithoutData.call(this, recipient, value, { from: owner }),
         );
       });
     });
@@ -297,7 +297,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
       it('reverts', async function () {
         const invalidReceiver = await ERC1363Receiver.new(data, false);
         await expectRevert.unspecified(
-          transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner })
+          transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner }),
         );
       });
     });
@@ -306,7 +306,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
       it('reverts', async function () {
         const invalidReceiver = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, true);
         await expectRevert.unspecified(
-          transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner })
+          transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner }),
         );
       });
     });
@@ -315,7 +315,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
       it('reverts', async function () {
         const invalidReceiver = this.token;
         await expectRevert.unspecified(
-          transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner })
+          transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner }),
         );
       });
     });
@@ -411,7 +411,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     describe('to a spender that is not a contract', function () {
       it('reverts', async function () {
         await expectRevert.unspecified(
-          approveAndCallWithoutData.call(this, recipient, value, { from: owner })
+          approveAndCallWithoutData.call(this, recipient, value, { from: owner }),
         );
       });
     });
@@ -420,7 +420,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
       it('reverts', async function () {
         const invalidSpender = await ERC1363Spender.new(data, false);
         await expectRevert.unspecified(
-          approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner })
+          approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner }),
         );
       });
     });
@@ -429,7 +429,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
       it('reverts', async function () {
         const invalidSpender = await ERC1363Spender.new(SPENDER_MAGIC_VALUE, true);
         await expectRevert.unspecified(
-          approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner })
+          approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner }),
         );
       });
     });
@@ -438,7 +438,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
       it('reverts', async function () {
         const invalidSpender = this.token;
         await expectRevert.unspecified(
-          approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner })
+          approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner }),
         );
       });
     });
