@@ -1,4 +1,4 @@
-const { BN } = require('openzeppelin-test-helpers');
+const { BN } = require('@openzeppelin/test-helpers');
 
 const { shouldBehaveLikeERC1363 } = require('./ERC1363.behaviour');
 

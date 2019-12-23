@@ -1,4 +1,4 @@
-pragma solidity ^0.5.12;
+pragma solidity ^0.5.15;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "../payment/ERC1363Payable.sol";

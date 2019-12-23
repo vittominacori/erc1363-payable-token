@@ -4,7 +4,7 @@ usePlugin('@nomiclabs/buidler-truffle5'); // eslint-disable-line no-undef
 module.exports = {
   defaultNetwork: 'buidlerevm',
   solc: {
-    version: '0.5.12',
+    version: '0.5.15',
     optimizer: {
       enabled: true,
       runs: 200,

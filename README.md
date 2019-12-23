@@ -1,16 +1,16 @@
 # ERC-1363 Payable Token
 
 [![NPM Package](https://img.shields.io/npm/v/erc-payable-token.svg?style=flat-square)](https://www.npmjs.org/package/erc-payable-token)
-[![Build Status](https://travis-ci.org/vittominacori/erc1363-payable-token.svg?branch=master)](https://travis-ci.org/vittominacori/erc1363-payable-token) 
-[![Coverage Status](https://coveralls.io/repos/github/vittominacori/erc1363-payable-token/badge.svg?branch=master)](https://coveralls.io/github/vittominacori/erc1363-payable-token?branch=master) 
-[![MIT licensed](https://img.shields.io/github/license/vittominacori/erc1363-payable-token.svg)](https://github.com/vittominacori/erc1363-payable-token/blob/master/LICENSE) 
+[![Build Status](https://travis-ci.org/vittominacori/erc1363-payable-token.svg?branch=master)](https://travis-ci.org/vittominacori/erc1363-payable-token)
+[![Coverage Status](https://coveralls.io/repos/github/vittominacori/erc1363-payable-token/badge.svg?branch=master)](https://coveralls.io/github/vittominacori/erc1363-payable-token?branch=master)
+[![MIT licensed](https://img.shields.io/github/license/vittominacori/erc1363-payable-token.svg)](https://github.com/vittominacori/erc1363-payable-token/blob/master/LICENSE)
 
 This is an implementation of the [ERC-1363 Payable Token](https://github.com/ethereum/EIPs/issues/1363) that defines a Payable Token, a Token Receiver and a Token Spender.
 
 The ERC-1363 is an ERC-20 compatible token that can make a callback on the receiver contract to notify token transfers or token approvals.
 It can be used to create a token payable crowdsale, selling services for tokens, paying invoices, making subscriptions, use them for a specific utility and many other purposes.
 
-This proposal allows to implement an ERC-20 token that can be used for payments (like the `payable` keyword does for Ethereum). 
+This proposal allows to implement an ERC-20 token that can be used for payments (like the `payable` keyword does for Ethereum).
 
 ## Install
 
@@ -21,7 +21,7 @@ npm install erc-payable-token
 ## Usage
 
 ```solidity
-pragma solidity ^0.5.12;
+pragma solidity ^0.5.15;
 
 import "erc-payable-token/contracts/token/ERC1363/ERC1363.sol";
 
@@ -62,11 +62,11 @@ Interface for any contract that wants to support `approveAndCall` from ERC1363 t
 
 [ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/payment/ERC1363Payable.sol)
 
-Implementation proposal of a contract that wants to accept ERC1363 payments. It intercepts what is the ERC1363 token desired for payments and throws if another is sent.   
-It emits a `TokensReceived` event to notify the transfer received by the contract.  
-It also implements a `transferReceived` function that can be overridden to make your stuffs within your contract after a `onTransferReceived`.  
-It emits a `TokensApproved` event to notify the approval received by the contract.  
-It also implements a `approvalReceived` function that can be overridden to make your stuffs within your contract after a `onApprovalReceived`. 
+Implementation proposal of a contract that wants to accept ERC1363 payments. It intercepts what is the ERC1363 token desired for payments and throws if another is sent.
+It emits a `TokensReceived` event to notify the transfer received by the contract.
+It also implements a `transferReceived` function that can be overridden to make your stuffs within your contract after a `onTransferReceived`.
+It emits a `TokensApproved` event to notify the approval received by the contract.
+It also implements a `approvalReceived` function that can be overridden to make your stuffs within your contract after a `onApprovalReceived`.
 
 ### ERC1363PayableCrowdsale
 
@@ -117,10 +117,10 @@ npm run console
 npm run compile
 ```
 
-#### Test 
+#### Test
 
 ```bash
-npm run test 
+npm run test
 ```
 
 ### Usage (using Buidler)
@@ -137,10 +137,10 @@ npm run buidler:console
 npm run buidler:compile
 ```
 
-#### Test 
+#### Test
 
 ```bash
-npm run buidler:test 
+npm run buidler:test
 ```
 
 ## License
