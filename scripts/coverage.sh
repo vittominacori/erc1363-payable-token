@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-SOLIDITY_COVERAGE=true scripts/test.sh
+npx truffle run coverage --network coverage
+
+cat coverage/lcov.info | coveralls

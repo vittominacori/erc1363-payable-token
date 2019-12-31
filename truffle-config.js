@@ -7,6 +7,7 @@ const solcStable = {
       enabled: true,
       runs: 200,
     },
+    evmVersion: 'istanbul',
   },
 };
 
@@ -35,4 +36,5 @@ module.exports = {
   compilers: {
     solc: useSolcNightly ? solcNightly : solcStable,
   },
+  plugins: ['solidity-coverage'],
 };

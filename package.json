@@ -9,7 +9,7 @@
   "scripts": {
     "compile": "scripts/compile.sh",
     "console": "truffle develop",
-    "coverage": "scripts/coverage.sh",
+    "coverage": "npm run compile && scripts/coverage.sh",
     "test": "npm run compile && scripts/test.sh",
     "buidler:compile": "buidler compile",
     "buidler:console": "buidler console",
@@ -61,12 +61,11 @@
     "eslint-plugin-standard": "^4.0.1",
     "ethereumjs-util": "^6.2.0",
     "ethjs-abi": "^0.2.1",
-    "ganache-cli": "^6.7.0",
-    "ganache-cli-coverage": "https://github.com/frangio/ganache-cli/releases/download/v6.4.1-coverage/ganache-cli-coverage-6.4.1.tgz",
+    "ganache-cli": "^6.8.0-istanbul.0",
     "pify": "^4.0.1",
     "solhint": "^2.3.0",
-    "solidity-coverage": "github:rotcivegaf/solidity-coverage#5875f5b7bc74d447f3312c9c0e9fc7814b482477",
-    "truffle": "^5.1.5",
+    "solidity-coverage": "^0.7.0-beta.3",
+    "truffle": "^5.1.6",
     "vuepress": "^0.14.11",
     "web3": "^1.2.4"
   }
