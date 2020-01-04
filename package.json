@@ -1,6 +1,6 @@
 {
   "name": "erc-payable-token",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "ERC-1363 Payable Token Implementation",
   "files": [
     "contracts",
@@ -64,7 +64,7 @@
     "ganache-cli": "^6.8.0-istanbul.0",
     "pify": "^4.0.1",
     "solhint": "^2.3.0",
-    "solidity-coverage": "^0.7.0-beta.3",
+    "solidity-coverage": "^0.7.0",
     "truffle": "^5.1.6",
     "vuepress": "^0.14.11",
     "web3": "^1.2.4"

@@ -21,7 +21,7 @@ npm install erc-payable-token
 ## Usage
 
 ```solidity
-pragma solidity ^0.5.15;
+pragma solidity ^0.5.16;
 
 import "erc-payable-token/contracts/token/ERC1363/ERC1363.sol";
 
