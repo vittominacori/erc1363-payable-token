@@ -1,4 +1,4 @@
-pragma solidity ^0.5.16;
+pragma solidity ^0.6.0;
 
 /**
  * @title IERC1363Receiver Interface
@@ -7,7 +7,7 @@ pragma solidity ^0.5.16;
  *  from ERC1363 token contracts as defined in
  *  https://github.com/ethereum/EIPs/issues/1363
  */
-contract IERC1363Receiver {
+interface IERC1363Receiver {
     /*
      * Note: the ERC-165 identifier for this interface is 0x88a7ca5c.
      * 0x88a7ca5c === bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))
@@ -27,5 +27,5 @@ contract IERC1363Receiver {
      * @return `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
      *  unless throwing
      */
-    function onTransferReceived(address operator, address from, uint256 value, bytes memory data) public returns (bytes4); // solhint-disable-line  max-line-length
+    function onTransferReceived(address operator, address from, uint256 value, bytes calldata data) external returns (bytes4); // solhint-disable-line  max-line-length
 }

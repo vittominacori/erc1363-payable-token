@@ -1,4 +1,4 @@
-pragma solidity ^0.5.16;
+pragma solidity ^0.6.0;
 
 import "../token/ERC1363/IERC1363Receiver.sol";
 
@@ -20,7 +20,7 @@ contract ERC1363ReceiverMock is IERC1363Receiver {
         _reverts = reverts;
     }
 
-    function onTransferReceived(address operator, address from, uint256 value, bytes memory data) public returns (bytes4) { // solhint-disable-line  max-line-length
+    function onTransferReceived(address operator, address from, uint256 value, bytes memory data) public override returns (bytes4) { // solhint-disable-line  max-line-length
         require(!_reverts);
         emit Received(operator, from, value, data, gasleft());
         return _retval;
