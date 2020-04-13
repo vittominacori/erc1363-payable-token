@@ -15,7 +15,10 @@ contract ERC20Mock is ERC20 {
     /**
      * @dev Constructor that gives msg.sender all of existing tokens.
      */
-    constructor() public {
+    constructor (
+        string memory name,
+        string memory symbol
+    ) public payable ERC20(name, symbol) {
         _mint(msg.sender, INITIAL_SUPPLY);
     }
 }

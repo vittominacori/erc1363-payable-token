@@ -43,7 +43,10 @@ contract ERC1363 is ERC20, IERC1363, ERC165 {
     // which can be also obtained as `IERC1363Spender(0).onApprovalReceived.selector`
     bytes4 private constant _ERC1363_APPROVED = 0x7b04a2d0;
 
-    constructor() public {
+    constructor (
+        string memory name,
+        string memory symbol
+    ) public payable ERC20(name, symbol) {
         // register the supported interfaces to conform to ERC1363 via ERC165
         _registerInterface(_INTERFACE_ID_ERC1363_TRANSFER);
         _registerInterface(_INTERFACE_ID_ERC1363_APPROVE);
