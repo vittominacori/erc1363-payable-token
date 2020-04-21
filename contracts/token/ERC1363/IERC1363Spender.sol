@@ -1,4 +1,4 @@
-pragma solidity ^0.5.16;
+pragma solidity ^0.6.0;
 
 /**
  * @title IERC1363Spender Interface
@@ -7,7 +7,7 @@ pragma solidity ^0.5.16;
  *  from ERC1363 token contracts as defined in
  *  https://github.com/ethereum/EIPs/issues/1363
  */
-contract IERC1363Spender {
+interface IERC1363Spender {
     /*
      * Note: the ERC-165 identifier for this interface is 0x7b04a2d0.
      * 0x7b04a2d0 === bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))
@@ -26,5 +26,5 @@ contract IERC1363Spender {
      * @return `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
      *  unless throwing
      */
-    function onApprovalReceived(address owner, uint256 value, bytes memory data) public returns (bytes4);
+    function onApprovalReceived(address owner, uint256 value, bytes calldata data) external returns (bytes4);
 }

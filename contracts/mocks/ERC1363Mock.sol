@@ -1,4 +1,4 @@
-pragma solidity ^0.5.16;
+pragma solidity ^0.6.0;
 
 import "../token/ERC1363/ERC1363.sol";
 
@@ -8,7 +8,12 @@ contract ERC1363Mock is ERC1363 {
     /**
      * @dev Constructor that gives msg.sender all of existing tokens.
      */
-    constructor(address initialAccount, uint256 initialBalance) public {
+    constructor (
+        string memory name,
+        string memory symbol,
+        address initialAccount,
+        uint256 initialBalance
+    ) public payable ERC1363(name, symbol) {
         _mint(initialAccount, initialBalance);
     }
 }

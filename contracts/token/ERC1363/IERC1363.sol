@@ -1,7 +1,7 @@
-pragma solidity ^0.5.16;
+pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/introspection/ERC165.sol";
+import "@openzeppelin/contracts/introspection/IERC165.sol";
 
 /**
  * @title IERC1363 Interface
@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/introspection/ERC165.sol";
  * @dev Interface for a Payable Token contract as defined in
  *  https://github.com/ethereum/EIPs/issues/1363
  */
-contract IERC1363 is IERC20, ERC165 {
+interface IERC1363 is IERC20, IERC165 {
     /*
      * Note: the ERC-165 identifier for this interface is 0x4bbee2df.
      * 0x4bbee2df ===
@@ -32,7 +32,7 @@ contract IERC1363 is IERC20, ERC165 {
      * @param value uint256 The amount of tokens to be transferred
      * @return true unless throwing
      */
-    function transferAndCall(address to, uint256 value) public returns (bool);
+    function transferAndCall(address to, uint256 value) external returns (bool);
 
     /**
      * @notice Transfer tokens from `msg.sender` to another address and then call `onTransferReceived` on receiver
@@ -41,7 +41,7 @@ contract IERC1363 is IERC20, ERC165 {
      * @param data bytes Additional data with no specified format, sent in call to `to`
      * @return true unless throwing
      */
-    function transferAndCall(address to, uint256 value, bytes memory data) public returns (bool);
+    function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);
 
     /**
      * @notice Transfer tokens from one address to another and then call `onTransferReceived` on receiver
@@ -50,7 +50,7 @@ contract IERC1363 is IERC20, ERC165 {
      * @param value uint256 The amount of tokens to be transferred
      * @return true unless throwing
      */
-    function transferFromAndCall(address from, address to, uint256 value) public returns (bool);
+    function transferFromAndCall(address from, address to, uint256 value) external returns (bool);
 
 
     /**
@@ -61,7 +61,7 @@ contract IERC1363 is IERC20, ERC165 {
      * @param data bytes Additional data with no specified format, sent in call to `to`
      * @return true unless throwing
      */
-    function transferFromAndCall(address from, address to, uint256 value, bytes memory data) public returns (bool);
+    function transferFromAndCall(address from, address to, uint256 value, bytes calldata data) external returns (bool);
 
     /**
      * @notice Approve the passed address to spend the specified amount of tokens on behalf of msg.sender
@@ -73,7 +73,7 @@ contract IERC1363 is IERC20, ERC165 {
      * @param spender address The address which will spend the funds
      * @param value uint256 The amount of tokens to be spent
      */
-    function approveAndCall(address spender, uint256 value) public returns (bool);
+    function approveAndCall(address spender, uint256 value) external returns (bool);
 
     /**
      * @notice Approve the passed address to spend the specified amount of tokens on behalf of msg.sender
@@ -86,5 +86,5 @@ contract IERC1363 is IERC20, ERC165 {
      * @param value uint256 The amount of tokens to be spent
      * @param data bytes Additional data with no specified format, sent in call to `spender`
      */
-    function approveAndCall(address spender, uint256 value, bytes memory data) public returns (bool);
+    function approveAndCall(address spender, uint256 value, bytes calldata data) external returns (bool);
 }

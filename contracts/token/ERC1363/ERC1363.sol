@@ -1,8 +1,9 @@
-pragma solidity ^0.5.16;
+pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/introspection/ERC165Checker.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/introspection/ERC165.sol";
 
 import "./IERC1363.sol";
 import "./IERC1363Receiver.sol";
@@ -13,7 +14,7 @@ import "./IERC1363Spender.sol";
  * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev Implementation of an ERC1363 interface
  */
-contract ERC1363 is ERC20, IERC1363 {
+contract ERC1363 is ERC20, IERC1363, ERC165 {
     using Address for address;
 
     /*
@@ -42,37 +43,40 @@ contract ERC1363 is ERC20, IERC1363 {
     // which can be also obtained as `IERC1363Spender(0).onApprovalReceived.selector`
     bytes4 private constant _ERC1363_APPROVED = 0x7b04a2d0;
 
-    constructor() public {
+    constructor (
+        string memory name,
+        string memory symbol
+    ) public payable ERC20(name, symbol) {
         // register the supported interfaces to conform to ERC1363 via ERC165
         _registerInterface(_INTERFACE_ID_ERC1363_TRANSFER);
         _registerInterface(_INTERFACE_ID_ERC1363_APPROVE);
     }
 
-    function transferAndCall(address to, uint256 value) public returns (bool) {
+    function transferAndCall(address to, uint256 value) public override returns (bool) {
         return transferAndCall(to, value, "");
     }
 
-    function transferAndCall(address to, uint256 value, bytes memory data) public returns (bool) {
+    function transferAndCall(address to, uint256 value, bytes memory data) public override returns (bool) {
         require(transfer(to, value));
         require(_checkAndCallTransfer(msg.sender, to, value, data));
         return true;
     }
 
-    function transferFromAndCall(address from, address to, uint256 value) public returns (bool) {
+    function transferFromAndCall(address from, address to, uint256 value) public override returns (bool) {
         return transferFromAndCall(from, to, value, "");
     }
 
-    function transferFromAndCall(address from, address to, uint256 value, bytes memory data) public returns (bool) {
+    function transferFromAndCall(address from, address to, uint256 value, bytes memory data) public override returns (bool) {
         require(transferFrom(from, to, value));
         require(_checkAndCallTransfer(from, to, value, data));
         return true;
     }
 
-    function approveAndCall(address spender, uint256 value) public returns (bool) {
+    function approveAndCall(address spender, uint256 value) public override returns (bool) {
         return approveAndCall(spender, value, "");
     }
 
-    function approveAndCall(address spender, uint256 value, bytes memory data) public returns (bool) {
+    function approveAndCall(address spender, uint256 value, bytes memory data) public override returns (bool) {
         approve(spender, value);
         require(_checkAndCallApprove(spender, value, data));
         return true;

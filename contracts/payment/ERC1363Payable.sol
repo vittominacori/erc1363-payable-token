@@ -1,6 +1,7 @@
-pragma solidity ^0.5.16;
+pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/introspection/ERC165Checker.sol";
+import "@openzeppelin/contracts/introspection/ERC165.sol";
 
 import "../token/ERC1363/IERC1363.sol";
 import "../token/ERC1363/IERC1363Receiver.sol";
@@ -86,7 +87,7 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165 {
      * @param value uint256 The amount of tokens transferred
      * @param data bytes Additional data with no specified format
      */
-    function onTransferReceived(address operator, address from, uint256 value, bytes memory data) public returns (bytes4) { // solhint-disable-line  max-line-length
+    function onTransferReceived(address operator, address from, uint256 value, bytes memory data) public override returns (bytes4) { // solhint-disable-line  max-line-length
         require(msg.sender == address(_acceptedToken));
 
         emit TokensReceived(operator, from, value, data);
@@ -102,7 +103,7 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165 {
      * @param value uint256 The amount of tokens to be spent
      * @param data bytes Additional data with no specified format
      */
-    function onApprovalReceived(address owner, uint256 value, bytes memory data) public returns (bytes4) {
+    function onApprovalReceived(address owner, uint256 value, bytes memory data) public override returns (bytes4) {
         require(msg.sender == address(_acceptedToken));
 
         emit TokensApproved(owner, value, data);
@@ -127,7 +128,7 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165 {
      * @param value uint256 The amount of tokens transferred
      * @param data bytes Additional data with no specified format
      */
-    function _transferReceived(address operator, address from, uint256 value, bytes memory data) internal {
+    function _transferReceived(address operator, address from, uint256 value, bytes memory data) internal virtual {
         // solhint-disable-previous-line no-empty-blocks
 
         // optional override
@@ -140,7 +141,7 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165 {
      * @param value uint256 The amount of tokens to be spent
      * @param data bytes Additional data with no specified format
      */
-    function _approvalReceived(address owner, uint256 value, bytes memory data) internal {
+    function _approvalReceived(address owner, uint256 value, bytes memory data) internal virtual {
         // solhint-disable-previous-line no-empty-blocks
 
         // optional override

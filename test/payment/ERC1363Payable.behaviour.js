@@ -18,7 +18,10 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
 
     describe('if token does not support ERC1363 interface', function () {
       it('reverts', async function () {
-        const erc20Token = await ERC20.new();
+        const name = 'TEST';
+        const symbol = 'TEST';
+
+        const erc20Token = await ERC20.new(name, symbol);
         await expectRevert.unspecified(ERC1363Payable.new(erc20Token.address));
       });
     });

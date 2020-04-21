@@ -1,4 +1,4 @@
-pragma solidity ^0.5.16;
+pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -99,7 +99,7 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @param value The amount of tokens transferred
      * @param data Additional data with no specified format
      */
-    function _transferReceived(address operator, address from, uint256 value, bytes memory data) internal {
+    function _transferReceived(address operator, address from, uint256 value, bytes memory data) internal override {
         _buyTokens(operator, from, value, data);
     }
 
@@ -110,7 +110,7 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @param value uint256 The amount of tokens to be spent
      * @param data bytes Additional data with no specified format
      */
-    function _approvalReceived(address owner, uint256 value, bytes memory data) internal {
+    function _approvalReceived(address owner, uint256 value, bytes memory data) internal override {
         IERC20(acceptedToken()).transferFrom(owner, address(this), value);
         _buyTokens(owner, owner, value, data);
     }
