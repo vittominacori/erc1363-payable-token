@@ -21,7 +21,7 @@ contract ERC1363ReceiverMock is IERC1363Receiver {
     }
 
     function onTransferReceived(address operator, address from, uint256 value, bytes memory data) public override returns (bytes4) { // solhint-disable-line  max-line-length
-        require(!_reverts);
+        require(!_reverts, "ERC1363ReceiverMock: throwing");
         emit Received(operator, from, value, data, gasleft());
         return _retval;
     }

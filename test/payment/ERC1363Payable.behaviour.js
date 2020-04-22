@@ -12,7 +12,9 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
   describe('creating a valid contract', function () {
     describe('if accepted token is the zero address', function () {
       it('reverts', async function () {
-        await expectRevert.unspecified(ERC1363Payable.new(ZERO_ADDRESS));
+        await expectRevert(
+          ERC1363Payable.new(ZERO_ADDRESS),
+          'ERC1363Payable: acceptedToken is zero address');
       });
     });
 
@@ -30,6 +32,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
   describe('via transferFromAndCall', function () {
     beforeEach(async function () {
       await this.token.approve(spender, value, { from: owner });
+      await this.notAcceptedToken.approve(spender, value, { from: owner });
     });
 
     const transferFromAndCallWithData = function (from, to, value, opts) {
@@ -67,7 +70,10 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
       describe('using a not accepted ERC1363', function () {
         it('reverts', async function () {
           this.token = this.notAcceptedToken;
-          await expectRevert.unspecified(transferFun.call(this, owner, this.mock.address, value, { from: spender }));
+          await expectRevert(
+            transferFun.call(this, owner, this.mock.address, value, { from: spender }),
+            'ERC1363Payable: acceptedToken is not message sender',
+          );
         });
       });
     };
@@ -115,7 +121,10 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
       describe('using a not accepted ERC1363', function () {
         it('reverts', async function () {
           this.token = this.notAcceptedToken;
-          await expectRevert.unspecified(transferFun.call(this, this.mock.address, value, { from: owner }));
+          await expectRevert(
+            transferFun.call(this, this.mock.address, value, { from: owner }),
+            'ERC1363Payable: acceptedToken is not message sender',
+          );
         });
       });
     };
@@ -162,7 +171,10 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
       describe('using a not accepted ERC1363', function () {
         it('reverts', async function () {
           this.token = this.notAcceptedToken;
-          await expectRevert.unspecified(approveFun.call(this, this.mock.address, value, { from: owner }));
+          await expectRevert(
+            approveFun.call(this, this.mock.address, value, { from: owner }),
+            'ERC1363Payable: acceptedToken is not message sender',
+          );
         });
       });
     };

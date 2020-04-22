@@ -59,16 +59,18 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
         describe('with data', function () {
           it('reverts', async function () {
-            await expectRevert.unspecified(
+            await expectRevert(
               transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender }),
+              'ERC20: transfer amount exceeds balance',
             );
           });
         });
 
         describe('without data', function () {
           it('reverts', async function () {
-            await expectRevert.unspecified(
+            await expectRevert(
               transferFromAndCallWithoutData.call(this, sender, receiver, amount, { from: spender }),
+              'ERC20: transfer amount exceeds balance',
             );
           });
         });
@@ -138,8 +140,9 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
     describe('to a receiver that is not a contract', function () {
       it('reverts', async function () {
-        await expectRevert.unspecified(
-          transferFromAndCallWithoutData.call(this, owner, recipient, value, { from: owner }),
+        await expectRevert(
+          transferFromAndCallWithoutData.call(this, owner, recipient, value, { from: spender }),
+          'ERC1363: _checkAndCallTransfer reverts',
         );
       });
     });
@@ -147,8 +150,9 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     describe('to a receiver contract returning unexpected value', function () {
       it('reverts', async function () {
         const invalidReceiver = await ERC1363Receiver.new(data, false);
-        await expectRevert.unspecified(
+        await expectRevert(
           transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender }),
+          'ERC1363: _checkAndCallTransfer reverts',
         );
       });
     });
@@ -156,8 +160,9 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     describe('to a receiver contract that throws', function () {
       it('reverts', async function () {
         const invalidReceiver = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, true);
-        await expectRevert.unspecified(
+        await expectRevert(
           transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender }),
+          'ERC1363ReceiverMock: throwing',
         );
       });
     });
@@ -214,13 +219,19 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
         describe('with data', function () {
           it('reverts', async function () {
-            await expectRevert.unspecified(transferAndCallWithData.call(this, receiver, amount, { from: sender }));
+            await expectRevert(
+              transferAndCallWithData.call(this, receiver, amount, { from: sender }),
+              'ERC20: transfer amount exceeds balance',
+            );
           });
         });
 
         describe('without data', function () {
           it('reverts', async function () {
-            await expectRevert.unspecified(transferAndCallWithoutData.call(this, receiver, amount, { from: sender }));
+            await expectRevert(
+              transferAndCallWithoutData.call(this, receiver, amount, { from: sender }),
+              'ERC20: transfer amount exceeds balance',
+            );
           });
         });
       });
@@ -287,8 +298,9 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
     describe('to a receiver that is not a contract', function () {
       it('reverts', async function () {
-        await expectRevert.unspecified(
+        await expectRevert(
           transferAndCallWithoutData.call(this, recipient, value, { from: owner }),
+          'ERC1363: _checkAndCallTransfer reverts',
         );
       });
     });
@@ -296,8 +308,9 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     describe('to a receiver contract returning unexpected value', function () {
       it('reverts', async function () {
         const invalidReceiver = await ERC1363Receiver.new(data, false);
-        await expectRevert.unspecified(
+        await expectRevert(
           transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner }),
+          'ERC1363: _checkAndCallTransfer reverts',
         );
       });
     });
@@ -305,8 +318,9 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     describe('to a receiver contract that throws', function () {
       it('reverts', async function () {
         const invalidReceiver = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, true);
-        await expectRevert.unspecified(
+        await expectRevert(
           transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner }),
+          'ERC1363ReceiverMock: throwing',
         );
       });
     });
@@ -410,8 +424,9 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
     describe('to a spender that is not a contract', function () {
       it('reverts', async function () {
-        await expectRevert.unspecified(
+        await expectRevert(
           approveAndCallWithoutData.call(this, recipient, value, { from: owner }),
+          'ERC1363: _checkAndCallApprove reverts',
         );
       });
     });
@@ -419,8 +434,9 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     describe('to a spender contract returning unexpected value', function () {
       it('reverts', async function () {
         const invalidSpender = await ERC1363Spender.new(data, false);
-        await expectRevert.unspecified(
+        await expectRevert(
           approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner }),
+          'ERC1363: _checkAndCallApprove reverts',
         );
       });
     });
@@ -428,8 +444,9 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     describe('to a spender contract that throws', function () {
       it('reverts', async function () {
         const invalidSpender = await ERC1363Spender.new(SPENDER_MAGIC_VALUE, true);
-        await expectRevert.unspecified(
+        await expectRevert(
           approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner }),
+          'ERC1363SpenderMock: throwing',
         );
       });
     });

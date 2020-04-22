@@ -1,13 +1,14 @@
 pragma solidity ^0.6.0;
 
-import "@openzeppelin/contracts/utils/Address.sol";
-import "@openzeppelin/contracts/introspection/ERC165Checker.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/introspection/ERC165.sol";
-
 import "./IERC1363.sol";
 import "./IERC1363Receiver.sol";
 import "./IERC1363Spender.sol";
+
+import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts/introspection/ERC165Checker.sol";
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/introspection/ERC165.sol";
 
 /**
  * @title ERC1363
@@ -57,8 +58,8 @@ contract ERC1363 is ERC20, IERC1363, ERC165 {
     }
 
     function transferAndCall(address to, uint256 value, bytes memory data) public override returns (bool) {
-        require(transfer(to, value));
-        require(_checkAndCallTransfer(msg.sender, to, value, data));
+        transfer(to, value);
+        require(_checkAndCallTransfer(_msgSender(), to, value, data), "ERC1363: _checkAndCallTransfer reverts");
         return true;
     }
 
@@ -67,8 +68,8 @@ contract ERC1363 is ERC20, IERC1363, ERC165 {
     }
 
     function transferFromAndCall(address from, address to, uint256 value, bytes memory data) public override returns (bool) {
-        require(transferFrom(from, to, value));
-        require(_checkAndCallTransfer(from, to, value, data));
+        transferFrom(from, to, value);
+        require(_checkAndCallTransfer(from, to, value, data), "ERC1363: _checkAndCallTransfer reverts");
         return true;
     }
 
@@ -78,7 +79,7 @@ contract ERC1363 is ERC20, IERC1363, ERC165 {
 
     function approveAndCall(address spender, uint256 value, bytes memory data) public override returns (bool) {
         approve(spender, value);
-        require(_checkAndCallApprove(spender, value, data));
+        require(_checkAndCallApprove(spender, value, data), "ERC1363: _checkAndCallApprove reverts");
         return true;
     }
 
@@ -96,7 +97,7 @@ contract ERC1363 is ERC20, IERC1363, ERC165 {
             return false;
         }
         bytes4 retval = IERC1363Receiver(to).onTransferReceived(
-            msg.sender, from, value, data
+            _msgSender(), from, value, data
         );
         return (retval == _ERC1363_RECEIVED);
     }
@@ -114,7 +115,7 @@ contract ERC1363 is ERC20, IERC1363, ERC165 {
             return false;
         }
         bytes4 retval = IERC1363Spender(spender).onApprovalReceived(
-            msg.sender, value, data
+            _msgSender(), value, data
         );
         return (retval == _ERC1363_APPROVED);
     }

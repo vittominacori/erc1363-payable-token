@@ -1,18 +1,20 @@
 pragma solidity ^0.6.0;
 
-import "@openzeppelin/contracts/introspection/ERC165Checker.sol";
-import "@openzeppelin/contracts/introspection/ERC165.sol";
-
 import "../token/ERC1363/IERC1363.sol";
 import "../token/ERC1363/IERC1363Receiver.sol";
 import "../token/ERC1363/IERC1363Spender.sol";
+
+import "@openzeppelin/contracts/introspection/ERC165Checker.sol";
+
+import "@openzeppelin/contracts/GSN/Context.sol";
+import "@openzeppelin/contracts/introspection/ERC165.sol";
 
 /**
  * @title ERC1363Payable
  * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev Implementation proposal of a contract that wants to accept ERC1363 payments
  */
-contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165 {
+contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
     using ERC165Checker for address;
 
     /**
@@ -67,7 +69,7 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165 {
      * @param acceptedToken Address of the token being accepted
      */
     constructor(IERC1363 acceptedToken) public {
-        require(address(acceptedToken) != address(0));
+        require(address(acceptedToken) != address(0), "ERC1363Payable: acceptedToken is zero address");
         require(
             acceptedToken.supportsInterface(_INTERFACE_ID_ERC1363_TRANSFER) &&
             acceptedToken.supportsInterface(_INTERFACE_ID_ERC1363_APPROVE)
@@ -88,7 +90,7 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165 {
      * @param data bytes Additional data with no specified format
      */
     function onTransferReceived(address operator, address from, uint256 value, bytes memory data) public override returns (bytes4) { // solhint-disable-line  max-line-length
-        require(msg.sender == address(_acceptedToken));
+        require(_msgSender() == address(_acceptedToken), "ERC1363Payable: acceptedToken is not message sender");
 
         emit TokensReceived(operator, from, value, data);
 
@@ -104,7 +106,7 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165 {
      * @param data bytes Additional data with no specified format
      */
     function onApprovalReceived(address owner, uint256 value, bytes memory data) public override returns (bytes4) {
-        require(msg.sender == address(_acceptedToken));
+        require(_msgSender() == address(_acceptedToken), "ERC1363Payable: acceptedToken is not message sender");
 
         emit TokensApproved(owner, value, data);
 

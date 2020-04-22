@@ -19,6 +19,6 @@ contract ERC20Mock is ERC20 {
         string memory name,
         string memory symbol
     ) public payable ERC20(name, symbol) {
-        _mint(msg.sender, INITIAL_SUPPLY);
+        _mint(_msgSender(), INITIAL_SUPPLY);
     }
 }
