@@ -52,7 +52,6 @@ interface IERC1363 is IERC20, IERC165 {
      */
     function transferFromAndCall(address from, address to, uint256 value) external returns (bool);
 
-
     /**
      * @notice Transfer tokens from one address to another and then call `onTransferReceived` on receiver
      * @param from address The address which you want to send tokens from
