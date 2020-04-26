@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/vittominacori/erc1363-payable-token/badge.svg?branch=master)](https://coveralls.io/github/vittominacori/erc1363-payable-token?branch=master)
 [![MIT licensed](https://img.shields.io/github/license/vittominacori/erc1363-payable-token.svg)](https://github.com/vittominacori/erc1363-payable-token/blob/master/LICENSE)
 
-This is an implementation of the [ERC-1363 Payable Token](https://github.com/ethereum/EIPs/issues/1363) that defines a Payable Token, a Token Receiver and a Token Spender.
+This is an implementation of the [ERC-1363 Payable Token](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1363.md) that defines a Payable Token, a Token Receiver and a Token Spender.
 
 The ERC-1363 is an ERC-20 compatible token that can make a callback on the receiver contract to notify token transfers or token approvals.
 It can be used to create a token payable crowdsale, selling services for tokens, paying invoices, making subscriptions, use them for a specific utility and many other purposes.
@@ -44,7 +44,7 @@ This repo contains:
 
 [IERC1363.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363.sol)
 
-Interface for a Payable Token contract as defined in [ERC-1363 Payable Token](https://github.com/ethereum/EIPs/issues/1363).
+Interface for a Payable Token contract as defined in [ERC-1363 Payable Token](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1363.md).
 
 ### ERC1363
 

@@ -1,6 +1,6 @@
 {
   "name": "erc-payable-token",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "ERC-1363 Payable Token Implementation",
   "files": [
     "contracts",
@@ -42,7 +42,7 @@
   "bugs": {
     "url": "https://github.com/vittominacori/erc1363-payable-token/issues"
   },
-  "homepage": "https://github.com/vittominacori/erc1363-payable-token",
+  "homepage": "https://vittominacori.github.io/erc1363-payable-token",
   "dependencies": {
     "@openzeppelin/contracts": "3.0.0"
   },
