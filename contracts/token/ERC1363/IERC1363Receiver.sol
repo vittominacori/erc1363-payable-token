@@ -5,7 +5,7 @@ pragma solidity ^0.6.0;
  * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev Interface for any contract that wants to support transferAndCall or transferFromAndCall
  *  from ERC1363 token contracts as defined in
- *  https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1363.md
+ *  https://eips.ethereum.org/EIPS/eip-1363
  */
 interface IERC1363Receiver {
     /*
