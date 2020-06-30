@@ -1,6 +1,6 @@
 {
   "name": "erc-payable-token",
-  "version": "3.0.6",
+  "version": "3.1.0",
   "description": "ERC-1363 Payable Token Implementation",
   "files": [
     "contracts",
@@ -43,31 +43,32 @@
   },
   "homepage": "https://vittominacori.github.io/erc1363-payable-token",
   "dependencies": {
-    "@openzeppelin/contracts": "3.0.2"
+    "@openzeppelin/contracts": "3.1.0"
   },
   "devDependencies": {
-    "@nomiclabs/buidler": "^1.3.6",
+    "@nomiclabs/buidler": "^1.3.8",
     "@nomiclabs/buidler-ganache": "^1.3.3",
     "@nomiclabs/buidler-truffle5": "^1.3.4",
     "@nomiclabs/buidler-web3": "^1.3.4",
     "@openzeppelin/test-helpers": "^0.5.6",
+    "@vuepress/plugin-google-analytics": "^1.5.2",
     "chai": "^4.2.0",
     "coveralls": "^3.1.0",
-    "eslint": "^7.2.0",
+    "eslint": "^7.3.1",
     "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-mocha-no-only": "^1.1.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "ethereumjs-util": "^7.0.2",
     "ethjs-abi": "^0.2.1",
-    "ganache-cli": "^6.9.1",
+    "ganache-cli": "^6.10.0-beta.2",
     "pify": "^5.0.0",
     "solhint": "^3.0.0",
-    "solidity-coverage": "^0.7.7",
-    "truffle": "^5.1.29",
-    "vuepress": "^0.14.11",
+    "solidity-coverage": "^0.7.9",
+    "truffle": "^5.1.32",
+    "vuepress": "^1.5.2",
     "web3": "^1.2.9"
   }
 }
