@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.0;
 
 import "../token/ERC1363/IERC1363.sol";
 import "../token/ERC1363/IERC1363Receiver.sol";
@@ -78,7 +78,7 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
     /**
      * @param acceptedToken Address of the token being accepted
      */
-    constructor(IERC1363 acceptedToken) public {
+    constructor(IERC1363 acceptedToken) {
         require(address(acceptedToken) != address(0), "ERC1363Payable: acceptedToken is zero address");
         require(
             acceptedToken.supportsInterface(_INTERFACE_ID_ERC1363_TRANSFER) &&

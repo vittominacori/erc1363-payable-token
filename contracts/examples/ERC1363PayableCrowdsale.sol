@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -57,7 +57,7 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @param token Address of the token being sold
      * @param acceptedToken Address of the token being accepted
      */
-    constructor(uint256 rate, address wallet, IERC20 token, IERC1363 acceptedToken) public ERC1363Payable(acceptedToken) { // solhint-disable-line max-line-length
+    constructor(uint256 rate, address wallet, IERC20 token, IERC1363 acceptedToken) ERC1363Payable(acceptedToken) {
         require(rate > 0);
         require(wallet != address(0));
         require(address(token) != address(0));

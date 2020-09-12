@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.0;
 
 import "./IERC1363.sol";
 import "./IERC1363Receiver.sol";
@@ -50,10 +50,7 @@ contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param name Name of the token
      * @param symbol A symbol to be used as ticker
      */
-    constructor (
-        string memory name,
-        string memory symbol
-    ) public payable ERC20(name, symbol) {
+    constructor (string memory name, string memory symbol) ERC20(name, symbol) {
         // register the supported interfaces to conform to ERC1363 via ERC165
         _registerInterface(_INTERFACE_ID_ERC1363_TRANSFER);
         _registerInterface(_INTERFACE_ID_ERC1363_APPROVE);
