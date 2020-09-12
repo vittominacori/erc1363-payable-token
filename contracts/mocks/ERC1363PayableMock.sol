@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.0;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "../payment/ERC1363Payable.sol";
@@ -12,7 +12,7 @@ contract ERC1363PayableMock is ERC1363Payable {
     uint256 public transferNumber;
     uint256 public approvalNumber;
 
-    constructor(IERC1363 acceptedToken) public ERC1363Payable(acceptedToken) {} // solhint-disable-line no-empty-blocks
+    constructor(IERC1363 acceptedToken) ERC1363Payable(acceptedToken) {} // solhint-disable-line no-empty-blocks
 
     // solhint-disable-next-line no-unused-vars
     function _transferReceived(address operator, address from, uint256 value, bytes memory data) internal override {
