@@ -67,7 +67,7 @@
     "pify": "^5.0.0",
     "solhint": "^3.2.0",
     "solidity-coverage": "^0.7.10",
-    "truffle": "^5.1.44",
+    "truffle": "5.1.44",
     "vuepress": "^1.5.4",
     "web3": "^1.2.11"
   }
