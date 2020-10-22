@@ -1,18 +1,15 @@
-dist: trusty
+os: linux
+dist: xenial
 group: beta
 language: node_js
 node_js:
-  - "10"
+  - "12"
 
-# for some reason caching fails build
 cache:
   directories:
     - node_modules
 
 jobs:
-  # XXX fast_finish doesn't work with stages yet. See
-  # https://github.com/travis-ci/travis-ci/issues/8425
-  # --elopio - 20180531
   fast_finish: true
   allow_failures:
     - env: SOLC_NIGHTLY=true
