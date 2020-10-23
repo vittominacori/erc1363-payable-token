@@ -5,12 +5,26 @@
 [![Coverage Status](https://coveralls.io/repos/github/vittominacori/erc1363-payable-token/badge.svg?branch=master)](https://coveralls.io/github/vittominacori/erc1363-payable-token?branch=master)
 [![MIT licensed](https://img.shields.io/github/license/vittominacori/erc1363-payable-token.svg)](https://github.com/vittominacori/erc1363-payable-token/blob/master/LICENSE)
 
-This is an implementation of the [ERC-1363 Payable Token](https://eips.ethereum.org/EIPS/eip-1363) that defines a Payable Token, a Token Receiver and a Token Spender.
+This is an implementation of the [ERC-1363 Payable Token](https://eips.ethereum.org/EIPS/eip-1363) that defines a token interface for ERC-20 tokens that supports executing recipient code after `transfer` or `transferFrom`, or spender code after `approve`.
 
-The ERC-1363 is an ERC-20 compatible token that can make a callback on the receiver contract to notify token transfers or token approvals.
-It can be used to create a token payable crowdsale, selling services for tokens, paying invoices, making subscriptions, use them for a specific utility and many other purposes.
+ERC-1363 allows to implement an ERC-20 token that can be used for payments.
 
-This proposal allows to implement an ERC-20 token that can be used for payments (like the `payable` keyword does for Ethereum).
+There is no way to execute code after an ERC-20 transfer or approval (i.e. making a payment), so to make an action it is required to send another transaction and pay GAS twice.
+
+ERC-1363 makes token payments easier and working without the use of any other listener. It allows to make a callback after a transfer or approval in a single transaction.
+
+There are many proposed uses of Ethereum smart contracts that can accept ERC-20 payments.
+
+Examples could be:
+* to create a token payable crowdsale
+* selling services for tokens
+* paying invoices
+* making subscriptions
+
+For these reasons it was named as **"Payable Token"**.
+
+Anyway you can use it for specific utilities or for any other purposes who require the execution of a callback after a transfer or approval received.
+
 
 ## Install
 
