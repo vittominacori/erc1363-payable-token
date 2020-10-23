@@ -5,12 +5,12 @@
 [![Coverage Status](https://coveralls.io/repos/github/vittominacori/erc1363-payable-token/badge.svg?branch=master)](https://coveralls.io/github/vittominacori/erc1363-payable-token?branch=master)
 [![MIT licensed](https://img.shields.io/github/license/vittominacori/erc1363-payable-token.svg)](https://github.com/vittominacori/erc1363-payable-token/blob/master/LICENSE)
 
-This is an implementation of the [ERC-1363 Payable Token](https://eips.ethereum.org/EIPS/eip-1363) that defines a token interface for ERC-20 tokens that supports executing recipient code after `transfer` or `transferFrom`, or spender code after `approve`.
-
 ERC-1363 allows to implement an ERC-20 token that can be used for payments.
 
-There is no way to execute code after an ERC-20 transfer or approval (i.e. making a payment), so to make an action it is required to send another transaction and pay GAS twice.
+This is an implementation of the [ERC-1363 Payable Token](https://eips.ethereum.org/EIPS/eip-1363) that defines a token interface for ERC-20 tokens that supports executing recipient code after `transfer` or `transferFrom`, or spender code after `approve`.
 
+## Abstract
+There is no way to execute code after an ERC-20 transfer or approval (i.e. making a payment), so to make an action it is required to send another transaction and pay GAS twice.
 ERC-1363 makes token payments easier and working without the use of any other listener. It allows to make a callback after a transfer or approval in a single transaction.
 
 There are many proposed uses of Ethereum smart contracts that can accept ERC-20 payments.
@@ -57,6 +57,18 @@ This repo contains:
 
 Interface for a Payable Token contract as defined in [ERC-1363 Payable Token](https://eips.ethereum.org/EIPS/eip-1363).
 
+```solidity
+interface IERC1363 is IERC20, IERC165 {
+
+    function transferAndCall(address to, uint256 value) external returns (bool);
+    function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);
+    function transferFromAndCall(address from, address to, uint256 value) external returns (bool);
+    function transferFromAndCall(address from, address to, uint256 value, bytes calldata data) external returns (bool);
+    function approveAndCall(address spender, uint256 value) external returns (bool);
+    function approveAndCall(address spender, uint256 value, bytes calldata data) external returns (bool);
+}
+```
+
 ### ERC1363
 
 [ERC1363.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363.sol)
@@ -69,20 +81,38 @@ Implementation of an IERC1363 interface.
 
 Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall` from ERC1363 token contracts.
 
+```solidity
+interface IERC1363Receiver {
+
+    function onTransferReceived(address operator, address from, uint256 value, bytes calldata data) external returns (bytes4);
+}
+```
+
 ### IERC1363Spender
 
 [IERC1363Spender.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363Spender.sol)
 
 Interface for any contract that wants to support `approveAndCall` from ERC1363 token contracts.
 
+```solidity
+interface IERC1363Spender {
+
+    function onApprovalReceived(address owner, uint256 value, bytes calldata data) external returns (bytes4);
+}
+```
+
 ### ERC1363Payable
 
 [ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/payment/ERC1363Payable.sol)
 
 Implementation proposal of a contract that wants to accept ERC1363 payments. It intercepts what is the ERC1363 token desired for payments and throws if another is sent.
+
 It emits a `TokensReceived` event to notify the transfer received by the contract.
+
 It also implements a `transferReceived` function that can be overridden to make your stuffs within your contract after a `onTransferReceived`.
+
 It emits a `TokensApproved` event to notify the approval received by the contract.
+
 It also implements a `approvalReceived` function that can be overridden to make your stuffs within your contract after a `onApprovalReceived`.
 
 ### ERC1363PayableCrowdsale
