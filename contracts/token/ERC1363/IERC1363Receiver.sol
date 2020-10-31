@@ -29,5 +29,5 @@ interface IERC1363Receiver {
      * @return `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
      *  unless throwing
      */
-    function onTransferReceived(address operator, address from, uint256 value, bytes calldata data) external returns (bytes4); // solhint-disable-line  max-line-length
+    function onTransferReceived(address operator, address from, uint256 value, bytes calldata data) external returns (bytes4);
 }

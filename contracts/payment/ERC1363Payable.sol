@@ -76,16 +76,16 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
     IERC1363 private _acceptedToken;
 
     /**
-     * @param acceptedToken Address of the token being accepted
+     * @param acceptedToken_ Address of the token being accepted
      */
-    constructor(IERC1363 acceptedToken) {
-        require(address(acceptedToken) != address(0), "ERC1363Payable: acceptedToken is zero address");
+    constructor(IERC1363 acceptedToken_) {
+        require(address(acceptedToken_) != address(0), "ERC1363Payable: acceptedToken is zero address");
         require(
-            acceptedToken.supportsInterface(_INTERFACE_ID_ERC1363_TRANSFER) &&
-            acceptedToken.supportsInterface(_INTERFACE_ID_ERC1363_APPROVE)
+            acceptedToken_.supportsInterface(_INTERFACE_ID_ERC1363_TRANSFER) &&
+            acceptedToken_.supportsInterface(_INTERFACE_ID_ERC1363_APPROVE)
         );
 
-        _acceptedToken = acceptedToken;
+        _acceptedToken = acceptedToken_;
 
         // register the supported interface to conform to IERC1363Receiver and IERC1363Spender via ERC165
         _registerInterface(_INTERFACE_ID_ERC1363_RECEIVER);
@@ -99,7 +99,7 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
      * @param value The amount of tokens transferred
      * @param data Additional data with no specified format
      */
-    function onTransferReceived(address operator, address from, uint256 value, bytes memory data) public override returns (bytes4) { // solhint-disable-line  max-line-length
+    function onTransferReceived(address operator, address from, uint256 value, bytes memory data) public override returns (bytes4) {
         require(_msgSender() == address(_acceptedToken), "ERC1363Payable: acceptedToken is not message sender");
 
         emit TokensReceived(operator, from, value, data);
@@ -141,8 +141,6 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
      * @param data Additional data with no specified format
      */
     function _transferReceived(address operator, address from, uint256 value, bytes memory data) internal virtual {
-        // solhint-disable-previous-line no-empty-blocks
-
         // optional override
     }
 
@@ -154,8 +152,6 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
      * @param data Additional data with no specified format
      */
     function _approvalReceived(address owner, uint256 value, bytes memory data) internal virtual {
-        // solhint-disable-previous-line no-empty-blocks
-
         // optional override
     }
 }

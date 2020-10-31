@@ -52,19 +52,19 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
     );
 
     /**
-     * @param rate Number of token units a buyer gets per ERC1363 token
-     * @param wallet Address where collected funds will be forwarded to
-     * @param token Address of the token being sold
-     * @param acceptedToken Address of the token being accepted
+     * @param rate_ Number of token units a buyer gets per ERC1363 token
+     * @param wallet_ Address where collected funds will be forwarded to
+     * @param token_ Address of the token being sold
+     * @param acceptedToken_ Address of the token being accepted
      */
-    constructor(uint256 rate, address wallet, IERC20 token, IERC1363 acceptedToken) ERC1363Payable(acceptedToken) {
-        require(rate > 0);
-        require(wallet != address(0));
-        require(address(token) != address(0));
+    constructor(uint256 rate_, address wallet_, IERC20 token_, IERC1363 acceptedToken_) ERC1363Payable(acceptedToken_) {
+        require(rate_ > 0);
+        require(wallet_ != address(0));
+        require(address(token_) != address(0));
 
-        _rate = rate;
-        _wallet = wallet;
-        _token = token;
+        _rate = rate_;
+        _wallet = wallet_;
+        _token = token_;
     }
 
     /**
@@ -164,8 +164,6 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @param sentTokenAmount Value in ERC1363 tokens involved in the purchase
      */
     function _postValidatePurchase(address beneficiary, uint256 sentTokenAmount) internal {
-        // solhint-disable-previous-line no-empty-blocks
-
         // optional override
     }
 
@@ -195,8 +193,6 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @param data Additional data with no specified format (Maybe a referral code)
      */
     function _updatePurchasingState(address beneficiary, uint256 sentTokenAmount, bytes memory data) internal {
-        // solhint-disable-previous-line no-empty-blocks
-
         // optional override
     }
 
