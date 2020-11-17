@@ -3,7 +3,7 @@ dist: xenial
 group: beta
 language: node_js
 node_js:
-  - "14"
+  - "12"
 
 cache:
   directories:
@@ -23,8 +23,8 @@ jobs:
       script: npm run test
 
     - stage: tests
-      name: "Unit tests (using Buidler)"
-      script: npm run buidler:test
+      name: "Unit tests (using Hardhat)"
+      script: npm run hardhat:test
 
     - stage: tests
       name: "Unit tests with coverage report"

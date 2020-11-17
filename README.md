@@ -170,24 +170,24 @@ npm run compile
 npm run test
 ```
 
-### Usage (using Buidler)
+### Usage (using Hardhat)
 
-Open the Buidler console
+Open the Hardhat console
 
 ```bash
-npm run buidler:console
+npm run hardhat:console
 ```
 
 #### Compile
 
 ```bash
-npm run buidler:compile
+npm run hardhat:compile
 ```
 
 #### Test
 
 ```bash
-npm run buidler:test
+npm run hardhat:test
 ```
 
 ## License

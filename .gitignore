@@ -32,7 +32,7 @@ npm-debug.log
 # truffle build directory
 /build
 
-# Buidler files
+# Hardhat files
 /artifacts
 /cache
 
