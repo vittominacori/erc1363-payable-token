@@ -59,13 +59,12 @@ Interface for a Payable Token contract as defined in [ERC-1363 Payable Token](ht
 
 ```solidity
 interface IERC1363 is IERC20, IERC165 {
-
-    function transferAndCall(address to, uint256 value) external returns (bool);
-    function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);
-    function transferFromAndCall(address from, address to, uint256 value) external returns (bool);
-    function transferFromAndCall(address from, address to, uint256 value, bytes calldata data) external returns (bool);
-    function approveAndCall(address spender, uint256 value) external returns (bool);
-    function approveAndCall(address spender, uint256 value, bytes calldata data) external returns (bool);
+    function transferAndCall(address recipient, uint256 amount) external returns (bool);
+    function transferAndCall(address recipient, uint256 amount, bytes calldata data) external returns (bool);
+    function transferFromAndCall(address sender, address recipient, uint256 amount) external returns (bool);
+    function transferFromAndCall(address sender, address recipient, uint256 amount, bytes calldata data) external returns (bool);
+    function approveAndCall(address spender, uint256 amount) external returns (bool);
+    function approveAndCall(address spender, uint256 amount, bytes calldata data) external returns (bool);
 }
 ```
 
@@ -83,8 +82,7 @@ Interface for any contract that wants to support `transferAndCall` or `transferF
 
 ```solidity
 interface IERC1363Receiver {
-
-    function onTransferReceived(address operator, address from, uint256 value, bytes calldata data) external returns (bytes4);
+    function onTransferReceived(address operator, address sender, uint256 amount, bytes calldata data) external returns (bytes4);
 }
 ```
 
@@ -96,8 +94,7 @@ Interface for any contract that wants to support `approveAndCall` from ERC1363 t
 
 ```solidity
 interface IERC1363Spender {
-
-    function onApprovalReceived(address owner, uint256 value, bytes calldata data) external returns (bytes4);
+    function onApprovalReceived(address sender, uint256 amount, bytes calldata data) external returns (bytes4);
 }
 ```
 
