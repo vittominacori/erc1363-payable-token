@@ -52,23 +52,23 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
     bytes4 private constant _INTERFACE_ID_ERC1363_APPROVE = 0xfb9ec8ce;
 
     /**
-     * @dev Emitted when `value` tokens are moved from one account (`from`) to
+     * @dev Emitted when `amount` tokens are moved from one account (`sender`) to
      * this by operator (`operator`) using {transferAndCall} or {transferFromAndCall}.
      */
     event TokensReceived(
         address indexed operator,
-        address indexed from,
-        uint256 value,
+        address indexed sender,
+        uint256 amount,
         bytes data
     );
 
     /**
-     * @dev Emitted when the allowance of this for an `owner` is set by
-     * a call to {approveAndCall}. `value` is the new allowance.
+     * @dev Emitted when the allowance of this for a `sender` is set by
+     * a call to {approveAndCall}. `amount` is the new allowance.
      */
     event TokensApproved(
-        address indexed owner,
-        uint256 value,
+        address indexed sender,
+        uint256 amount,
         bytes data
     );
 
@@ -95,32 +95,32 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
     /*
      * @dev Note: remember that the token contract address is always the message sender.
      * @param operator The address which called `transferAndCall` or `transferFromAndCall` function
-     * @param from The address which are token transferred from
-     * @param value The amount of tokens transferred
+     * @param sender The address which are token transferred from
+     * @param amount The amount of tokens transferred
      * @param data Additional data with no specified format
      */
-    function onTransferReceived(address operator, address from, uint256 value, bytes memory data) public override returns (bytes4) {
+    function onTransferReceived(address operator, address sender, uint256 amount, bytes memory data) public override returns (bytes4) {
         require(_msgSender() == address(_acceptedToken), "ERC1363Payable: acceptedToken is not message sender");
 
-        emit TokensReceived(operator, from, value, data);
+        emit TokensReceived(operator, sender, amount, data);
 
-        _transferReceived(operator, from, value, data);
+        _transferReceived(operator, sender, amount, data);
 
         return _INTERFACE_ID_ERC1363_RECEIVER;
     }
 
     /*
      * @dev Note: remember that the token contract address is always the message sender.
-     * @param owner The address which called `approveAndCall` function
-     * @param value The amount of tokens to be spent
+     * @param sender The address which called `approveAndCall` function
+     * @param amount The amount of tokens to be spent
      * @param data Additional data with no specified format
      */
-    function onApprovalReceived(address owner, uint256 value, bytes memory data) public override returns (bytes4) {
+    function onApprovalReceived(address sender, uint256 amount, bytes memory data) public override returns (bytes4) {
         require(_msgSender() == address(_acceptedToken), "ERC1363Payable: acceptedToken is not message sender");
 
-        emit TokensApproved(owner, value, data);
+        emit TokensApproved(sender, amount, data);
 
-        _approvalReceived(owner, value, data);
+        _approvalReceived(sender, amount, data);
 
         return _INTERFACE_ID_ERC1363_SPENDER;
     }
@@ -136,22 +136,22 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
      * @dev Called after validating a `onTransferReceived`. Override this method to
      * make your stuffs within your contract.
      * @param operator The address which called `transferAndCall` or `transferFromAndCall` function
-     * @param from The address which are token transferred from
-     * @param value The amount of tokens transferred
+     * @param sender The address which are token transferred from
+     * @param amount The amount of tokens transferred
      * @param data Additional data with no specified format
      */
-    function _transferReceived(address operator, address from, uint256 value, bytes memory data) internal virtual {
+    function _transferReceived(address operator, address sender, uint256 amount, bytes memory data) internal virtual {
         // optional override
     }
 
     /**
      * @dev Called after validating a `onApprovalReceived`. Override this method to
      * make your stuffs within your contract.
-     * @param owner The address which called `approveAndCall` function
-     * @param value The amount of tokens to be spent
+     * @param sender The address which called `approveAndCall` function
+     * @param amount The amount of tokens to be spent
      * @param data Additional data with no specified format
      */
-    function _approvalReceived(address owner, uint256 value, bytes memory data) internal virtual {
+    function _approvalReceived(address sender, uint256 amount, bytes memory data) internal virtual {
         // optional override
     }
 }

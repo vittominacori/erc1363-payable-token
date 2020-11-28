@@ -1,6 +1,7 @@
 require('chai/register-should');
 require('@nomiclabs/hardhat-ganache');
 require('@nomiclabs/hardhat-truffle5');
+require('solidity-coverage');
 
 module.exports = {
   defaultNetwork: 'hardhat',
@@ -12,7 +13,7 @@ module.exports = {
     },
   },
   solidity: {
-    version: '0.7.4',
+    version: '0.7.5',
     settings: {
       optimizer: {
         enabled: true,

@@ -1,7 +1,7 @@
 require('chai/register-should');
 
 const solcStable = {
-  version: '0.7.4',
+  version: '0.7.5',
   settings: {
     optimizer: {
       enabled: true,

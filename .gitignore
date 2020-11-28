@@ -9,13 +9,18 @@ logs
 pids
 *.pid
 *.seed
-allFiredEvents
 scTopics
 
 # Coverage directory used by tools like istanbul
-coverage
+/coverage
+/coverageEnv
 coverage.json
-coverageEnv
+
+# temporary artifact from solidity-coverage
+allFiredEvents
+.coverage_artifacts
+.coverage_cache
+.coverage_contracts
 
 # node-waf configuration
 .lock-wscript

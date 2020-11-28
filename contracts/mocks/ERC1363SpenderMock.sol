@@ -10,8 +10,8 @@ contract ERC1363SpenderMock is IERC1363Spender {
     bool private _reverts;
 
     event Approved(
-        address owner,
-        uint256 value,
+        address sender,
+        uint256 amount,
         bytes data,
         uint256 gas
     );
@@ -21,9 +21,9 @@ contract ERC1363SpenderMock is IERC1363Spender {
         _reverts = reverts;
     }
 
-    function onApprovalReceived(address owner, uint256 value, bytes memory data) public override returns (bytes4) {
+    function onApprovalReceived(address sender, uint256 amount, bytes memory data) public override returns (bytes4) {
         require(!_reverts, "ERC1363SpenderMock: throwing");
-        emit Approved(owner, value, data, gasleft());
+        emit Approved(sender, amount, data, gasleft());
         return _retval;
     }
 }

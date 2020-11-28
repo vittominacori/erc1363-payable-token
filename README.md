@@ -1,7 +1,7 @@
 # ERC-1363 Payable Token
 
 [![NPM Package](https://img.shields.io/npm/v/erc-payable-token.svg?style=flat-square)](https://www.npmjs.org/package/erc-payable-token)
-[![Build Status](https://travis-ci.com/vittominacori/erc1363-payable-token.svg?branch=master)](https://travis-ci.com/vittominacori/erc1363-payable-token)
+[![CI](https://github.com/vittominacori/erc-payable-token/workflows/CI/badge.svg?branch=master)](https://github.com/vittominacori/erc-payable-token/actions/)
 [![Coverage Status](https://coveralls.io/repos/github/vittominacori/erc1363-payable-token/badge.svg?branch=master)](https://coveralls.io/github/vittominacori/erc1363-payable-token?branch=master)
 [![MIT licensed](https://img.shields.io/github/license/vittominacori/erc1363-payable-token.svg)](https://github.com/vittominacori/erc1363-payable-token/blob/master/LICENSE)
 
@@ -155,19 +155,19 @@ npm run lint:fix
 Open the Truffle console
 
 ```bash
-npm run console
+npm run truffle:console
 ```
 
 #### Compile
 
 ```bash
-npm run compile
+npm run truffle:compile
 ```
 
 #### Test
 
 ```bash
-npm run test
+npm run truffle:test
 ```
 
 ### Usage (using Hardhat)
@@ -188,6 +188,12 @@ npm run hardhat:compile
 
 ```bash
 npm run hardhat:test
+```
+
+#### Code Coverage
+
+```bash
+npm run hardhat:coverage
 ```
 
 ## License

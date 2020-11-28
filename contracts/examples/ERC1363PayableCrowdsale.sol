@@ -99,24 +99,24 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @dev This method is called after `onTransferReceived`.
      *  Note: remember that the token contract address is always the message sender.
      * @param operator The address which called `transferAndCall` or `transferFromAndCall` function
-     * @param from Address performing the token purchase
-     * @param value The amount of tokens transferred
+     * @param sender Address performing the token purchase
+     * @param amount The amount of tokens transferred
      * @param data Additional data with no specified format
      */
-    function _transferReceived(address operator, address from, uint256 value, bytes memory data) internal override {
-        _buyTokens(operator, from, value, data);
+    function _transferReceived(address operator, address sender, uint256 amount, bytes memory data) internal override {
+        _buyTokens(operator, sender, amount, data);
     }
 
     /**
      * @dev This method is called after `onApprovalReceived`.
      *  Note: remember that the token contract address is always the message sender.
-     * @param owner address The address which called `approveAndCall` function
-     * @param value uint256 The amount of tokens to be spent
+     * @param sender address The address which called `approveAndCall` function
+     * @param amount uint256 The amount of tokens to be spent
      * @param data bytes Additional data with no specified format
      */
-    function _approvalReceived(address owner, uint256 value, bytes memory data) internal override {
-        IERC20(acceptedToken()).transferFrom(owner, address(this), value);
-        _buyTokens(owner, owner, value, data);
+    function _approvalReceived(address sender, uint256 amount, bytes memory data) internal override {
+        IERC20(acceptedToken()).transferFrom(sender, address(this), amount);
+        _buyTokens(sender, sender, amount, data);
     }
 
     /**
@@ -124,12 +124,12 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * This function has a non-reentrancy guard, so it shouldn't be called by
      * another `nonReentrant` function.
      * @param operator The address which called `transferAndCall`, `transferFromAndCall` or `approveAndCall` function
-     * @param from Address performing the token purchase
-     * @param value The amount of tokens transferred
+     * @param sender Address performing the token purchase
+     * @param amount The amount of tokens transferred
      * @param data Additional data with no specified format
      */
-    function _buyTokens(address operator, address from, uint256 value, bytes memory data) internal nonReentrant {
-        uint256 sentTokenAmount = value;
+    function _buyTokens(address operator, address sender, uint256 amount, bytes memory data) internal nonReentrant {
+        uint256 sentTokenAmount = amount;
         _preValidatePurchase(sentTokenAmount);
 
         // calculate token amount to be created
@@ -138,13 +138,13 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
         // update state
         _tokenRaised = _tokenRaised.add(sentTokenAmount);
 
-        _processPurchase(from, tokens);
-        emit TokensPurchased(operator, from, sentTokenAmount, tokens);
+        _processPurchase(sender, tokens);
+        emit TokensPurchased(operator, sender, sentTokenAmount, tokens);
 
-        _updatePurchasingState(from, sentTokenAmount, data);
+        _updatePurchasingState(sender, sentTokenAmount, data);
 
         _forwardFunds(sentTokenAmount);
-        _postValidatePurchase(from, sentTokenAmount);
+        _postValidatePurchase(sender, sentTokenAmount);
     }
 
     /**

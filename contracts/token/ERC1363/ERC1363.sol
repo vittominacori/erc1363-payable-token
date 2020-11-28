@@ -58,90 +58,90 @@ contract ERC1363 is ERC20, IERC1363, ERC165 {
 
     /**
      * @dev Transfer tokens to a specified address and then execute a callback on recipient.
-     * @param to The address to transfer to.
-     * @param value The amount to be transferred.
+     * @param recipient The address to transfer to.
+     * @param amount The amount to be transferred.
      * @return A boolean that indicates if the operation was successful.
      */
-    function transferAndCall(address to, uint256 value) public override returns (bool) {
-        return transferAndCall(to, value, "");
+    function transferAndCall(address recipient, uint256 amount) public virtual override returns (bool) {
+        return transferAndCall(recipient, amount, "");
     }
 
     /**
      * @dev Transfer tokens to a specified address and then execute a callback on recipient.
-     * @param to The address to transfer to
-     * @param value The amount to be transferred
+     * @param recipient The address to transfer to
+     * @param amount The amount to be transferred
      * @param data Additional data with no specified format
      * @return A boolean that indicates if the operation was successful.
      */
-    function transferAndCall(address to, uint256 value, bytes memory data) public override returns (bool) {
-        transfer(to, value);
-        require(_checkAndCallTransfer(_msgSender(), to, value, data), "ERC1363: _checkAndCallTransfer reverts");
+    function transferAndCall(address recipient, uint256 amount, bytes memory data) public virtual override returns (bool) {
+        transfer(recipient, amount);
+        require(_checkAndCallTransfer(_msgSender(), recipient, amount, data), "ERC1363: _checkAndCallTransfer reverts");
         return true;
     }
 
     /**
      * @dev Transfer tokens from one address to another and then execute a callback on recipient.
-     * @param from The address which you want to send tokens from
-     * @param to The address which you want to transfer to
-     * @param value The amount of tokens to be transferred
+     * @param sender The address which you want to send tokens from
+     * @param recipient The address which you want to transfer to
+     * @param amount The amount of tokens to be transferred
      * @return A boolean that indicates if the operation was successful.
      */
-    function transferFromAndCall(address from, address to, uint256 value) public override returns (bool) {
-        return transferFromAndCall(from, to, value, "");
+    function transferFromAndCall(address sender, address recipient, uint256 amount) public virtual override returns (bool) {
+        return transferFromAndCall(sender, recipient, amount, "");
     }
 
     /**
      * @dev Transfer tokens from one address to another and then execute a callback on recipient.
-     * @param from The address which you want to send tokens from
-     * @param to The address which you want to transfer to
-     * @param value The amount of tokens to be transferred
+     * @param sender The address which you want to send tokens from
+     * @param recipient The address which you want to transfer to
+     * @param amount The amount of tokens to be transferred
      * @param data Additional data with no specified format
      * @return A boolean that indicates if the operation was successful.
      */
-    function transferFromAndCall(address from, address to, uint256 value, bytes memory data) public override returns (bool) {
-        transferFrom(from, to, value);
-        require(_checkAndCallTransfer(from, to, value, data), "ERC1363: _checkAndCallTransfer reverts");
+    function transferFromAndCall(address sender, address recipient, uint256 amount, bytes memory data) public virtual override returns (bool) {
+        transferFrom(sender, recipient, amount);
+        require(_checkAndCallTransfer(sender, recipient, amount, data), "ERC1363: _checkAndCallTransfer reverts");
         return true;
     }
 
     /**
      * @dev Approve spender to transfer tokens and then execute a callback on recipient.
      * @param spender The address allowed to transfer to
-     * @param value The amount allowed to be transferred
+     * @param amount The amount allowed to be transferred
      * @return A boolean that indicates if the operation was successful.
      */
-    function approveAndCall(address spender, uint256 value) public override returns (bool) {
-        return approveAndCall(spender, value, "");
+    function approveAndCall(address spender, uint256 amount) public virtual override returns (bool) {
+        return approveAndCall(spender, amount, "");
     }
 
     /**
      * @dev Approve spender to transfer tokens and then execute a callback on recipient.
      * @param spender The address allowed to transfer to.
-     * @param value The amount allowed to be transferred.
+     * @param amount The amount allowed to be transferred.
      * @param data Additional data with no specified format.
      * @return A boolean that indicates if the operation was successful.
      */
-    function approveAndCall(address spender, uint256 value, bytes memory data) public override returns (bool) {
-        approve(spender, value);
-        require(_checkAndCallApprove(spender, value, data), "ERC1363: _checkAndCallApprove reverts");
+    function approveAndCall(address spender, uint256 amount, bytes memory data) public virtual override returns (bool) {
+        approve(spender, amount);
+        require(_checkAndCallApprove(spender, amount, data), "ERC1363: _checkAndCallApprove reverts");
         return true;
     }
 
     /**
      * @dev Internal function to invoke `onTransferReceived` on a target address
      *  The call is not executed if the target address is not a contract
-     * @param from address Representing the previous owner of the given token value
-     * @param to address Target address that will receive the tokens
-     * @param value uint256 The amount mount of tokens to be transferred
+     * @param sender address Representing the previous owner of the given token value
+     * @param recipient address Target address that will receive the tokens
+     * @param amount uint256 The amount mount of tokens to be transferred
      * @param data bytes Optional data to send along with the call
      * @return whether the call correctly returned the expected magic value
      */
-    function _checkAndCallTransfer(address from, address to, uint256 value, bytes memory data) internal returns (bool) {
-        if (!to.isContract()) {
+    function _checkAndCallTransfer(address sender, address recipient, uint256 amount, bytes memory data) internal virtual returns (bool) {
+        if (!recipient.isContract()) {
             return false;
         }
-        bytes4 retval = IERC1363Receiver(to).onTransferReceived(
-            _msgSender(), from, value, data
+        bytes4 retval = IERC1363Receiver(recipient).onTransferReceived(
+            _msgSender(), sender, amount, data
         );
         return (retval == _ERC1363_RECEIVED);
     }
@@ -150,16 +150,16 @@ contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @dev Internal function to invoke `onApprovalReceived` on a target address
      *  The call is not executed if the target address is not a contract
      * @param spender address The address which will spend the funds
-     * @param value uint256 The amount of tokens to be spent
+     * @param amount uint256 The amount of tokens to be spent
      * @param data bytes Optional data to send along with the call
      * @return whether the call correctly returned the expected magic value
      */
-    function _checkAndCallApprove(address spender, uint256 value, bytes memory data) internal returns (bool) {
+    function _checkAndCallApprove(address spender, uint256 amount, bytes memory data) internal virtual returns (bool) {
         if (!spender.isContract()) {
             return false;
         }
         bytes4 retval = IERC1363Spender(spender).onApprovalReceived(
-            _msgSender(), value, data
+            _msgSender(), amount, data
         );
         return (retval == _ERC1363_APPROVED);
     }

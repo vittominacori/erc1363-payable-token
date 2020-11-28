@@ -38,8 +38,8 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Receiver, 'Received', {
             operator: spender,
-            from: owner,
-            value: value,
+            sender: owner,
+            amount: value,
             data: data,
           });
         });
@@ -198,8 +198,8 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Receiver, 'Received', {
             operator: owner,
-            from: owner,
-            value: value,
+            sender: owner,
+            amount: value,
             data: data,
           });
         });
@@ -355,8 +355,8 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
           const receipt = await approveFun.call(this, this.to, value, { from: owner });
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Spender, 'Approved', {
-            owner: owner,
-            value: value,
+            sender: owner,
+            amount: value,
             data: data,
           });
         });
