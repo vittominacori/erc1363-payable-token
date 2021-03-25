@@ -462,8 +462,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
   });
 
   shouldSupportInterfaces([
-    'ERC1363Transfer',
-    'ERC1363Approve',
+    'ERC1363',
   ]);
 }
 

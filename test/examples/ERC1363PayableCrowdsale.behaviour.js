@@ -29,15 +29,14 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, opera
   });
 
   it('requires a non-null ERC1363 token', async function () {
-    await expectRevert.unspecified(
+    await expectRevert(
       Crowdsale.new(rate, wallet, this.erc20Token.address, ZERO_ADDRESS),
+      'ERC1363Payable: acceptedToken is zero address',
     );
   });
 
   it('requires a ERC1363 valid token', async function () {
-    await expectRevert.unspecified(
-      Crowdsale.new(rate, wallet, this.erc20Token.address, this.erc20Token.address),
-    );
+    await expectRevert.unspecified(Crowdsale.new(rate, wallet, this.erc20Token.address, this.erc20Token.address));
   });
 
   context('once deployed', async function () {

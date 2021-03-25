@@ -1,59 +1,28 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.0;
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 import "./IERC1363.sol";
 import "./IERC1363Receiver.sol";
 import "./IERC1363Spender.sol";
-
-import "@openzeppelin/contracts/utils/Address.sol";
-import "@openzeppelin/contracts/introspection/ERC165Checker.sol";
-
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/introspection/ERC165.sol";
 
 /**
  * @title ERC1363
  * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev Implementation of an ERC1363 interface
  */
-contract ERC1363 is ERC20, IERC1363, ERC165 {
+abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
     using Address for address;
 
-    /*
-     * Note: the ERC-165 identifier for this interface is 0x4bbee2df.
-     * 0x4bbee2df ===
-     *   bytes4(keccak256('transferAndCall(address,uint256)')) ^
-     *   bytes4(keccak256('transferAndCall(address,uint256,bytes)')) ^
-     *   bytes4(keccak256('transferFromAndCall(address,address,uint256)')) ^
-     *   bytes4(keccak256('transferFromAndCall(address,address,uint256,bytes)'))
-     */
-    bytes4 internal constant _INTERFACE_ID_ERC1363_TRANSFER = 0x4bbee2df;
-
-    /*
-     * Note: the ERC-165 identifier for this interface is 0xfb9ec8ce.
-     * 0xfb9ec8ce ===
-     *   bytes4(keccak256('approveAndCall(address,uint256)')) ^
-     *   bytes4(keccak256('approveAndCall(address,uint256,bytes)'))
-     */
-    bytes4 internal constant _INTERFACE_ID_ERC1363_APPROVE = 0xfb9ec8ce;
-
-    // Equals to `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
-    // which can be also obtained as `IERC1363Receiver(0).onTransferReceived.selector`
-    bytes4 private constant _ERC1363_RECEIVED = 0x88a7ca5c;
-
-    // Equals to `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
-    // which can be also obtained as `IERC1363Spender(0).onApprovalReceived.selector`
-    bytes4 private constant _ERC1363_APPROVED = 0x7b04a2d0;
-
     /**
-     * @param name Name of the token
-     * @param symbol A symbol to be used as ticker
+     * @dev See {IERC165-supportsInterface}.
      */
-    constructor (string memory name, string memory symbol) ERC20(name, symbol) {
-        // register the supported interfaces to conform to ERC1363 via ERC165
-        _registerInterface(_INTERFACE_ID_ERC1363_TRANSFER);
-        _registerInterface(_INTERFACE_ID_ERC1363_APPROVE);
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
+        return interfaceId == type(IERC1363).interfaceId || super.supportsInterface(interfaceId);
     }
 
     /**
@@ -143,7 +112,7 @@ contract ERC1363 is ERC20, IERC1363, ERC165 {
         bytes4 retval = IERC1363Receiver(recipient).onTransferReceived(
             _msgSender(), sender, amount, data
         );
-        return (retval == _ERC1363_RECEIVED);
+        return (retval == IERC1363Receiver(recipient).onTransferReceived.selector);
     }
 
     /**
@@ -161,6 +130,6 @@ contract ERC1363 is ERC20, IERC1363, ERC165 {
         bytes4 retval = IERC1363Spender(spender).onApprovalReceived(
             _msgSender(), amount, data
         );
-        return (retval == _ERC1363_APPROVED);
+        return (retval == IERC1363Spender(spender).onApprovalReceived.selector);
     }
 }

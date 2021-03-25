@@ -1,16 +1,16 @@
 const { makeInterfaceId } = require('@openzeppelin/test-helpers');
 
+const { expect } = require('chai');
+
 const INTERFACES = {
   ERC165: [
     'supportsInterface(bytes4)',
   ],
-  ERC1363Transfer: [
+  ERC1363: [
     'transferAndCall(address,uint256)',
     'transferAndCall(address,uint256,bytes)',
     'transferFromAndCall(address,address,uint256)',
     'transferFromAndCall(address,address,uint256,bytes)',
-  ],
-  ERC1363Approve: [
     'approveAndCall(address,uint256)',
     'approveAndCall(address,uint256,bytes)',
   ],
@@ -35,27 +35,27 @@ for (const k of Object.getOwnPropertyNames(INTERFACES)) {
 function shouldSupportInterfaces (interfaces = []) {
   describe('Contract interface', function () {
     beforeEach(function () {
-      this.contractUnderTest = this.mock || this.token;
+      this.contractUnderTest = this.mock || this.token || this.holder;
     });
 
     for (const k of interfaces) {
       const interfaceId = INTERFACE_IDS[k];
       describe(k, function () {
         describe('ERC165\'s supportsInterface(bytes4)', function () {
-          it('should use less than 30k gas', async function () {
-            (await this.contractUnderTest.supportsInterface.estimateGas(interfaceId)).should.be.lte(30000);
+          it('uses less than 30k gas [skip-on-coverage]', async function () {
+            expect(await this.contractUnderTest.supportsInterface.estimateGas(interfaceId)).to.be.lte(30000);
           });
 
-          it('should claim support', async function () {
-            (await this.contractUnderTest.supportsInterface(interfaceId)).should.equal(true);
+          it('claims support', async function () {
+            expect(await this.contractUnderTest.supportsInterface(interfaceId)).to.equal(true);
           });
         });
 
         for (const fnName of INTERFACES[k]) {
           const fnSig = FN_SIGNATURES[fnName];
           describe(fnName, function () {
-            it('should be implemented', function () {
-              this.contractUnderTest.abi.filter(fn => fn.signature === fnSig).length.should.equal(1);
+            it('has to be implemented', function () {
+              expect(this.contractUnderTest.abi.filter(fn => fn.signature === fnSig).length).to.equal(1);
             });
           });
         }

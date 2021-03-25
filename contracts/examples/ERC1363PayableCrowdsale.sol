@@ -1,13 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.0;
+pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
-
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "../payment/ERC1363Payable.sol";
 
 /**
@@ -22,7 +18,6 @@ import "../payment/ERC1363Payable.sol";
  * behavior.
  */
 contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
-    using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
     // The token being sold
@@ -136,7 +131,7 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
         uint256 tokens = _getTokenAmount(sentTokenAmount);
 
         // update state
-        _tokenRaised = _tokenRaised.add(sentTokenAmount);
+        _tokenRaised += sentTokenAmount;
 
         _processPurchase(sender, tokens);
         emit TokensPurchased(operator, sender, sentTokenAmount, tokens);
@@ -202,7 +197,7 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @return Number of tokens that can be purchased with the specified _sentTokenAmount
      */
     function _getTokenAmount(uint256 sentTokenAmount) internal view returns (uint256) {
-        return sentTokenAmount.mul(_rate);
+        return sentTokenAmount * _rate;
     }
 
     /**

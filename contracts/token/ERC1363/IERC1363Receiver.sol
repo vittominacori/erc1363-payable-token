@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.0;
+pragma solidity ^0.8.0;
 
 /**
  * @title IERC1363Receiver Interface
@@ -10,10 +10,6 @@ pragma solidity ^0.7.0;
  *  https://eips.ethereum.org/EIPS/eip-1363
  */
 interface IERC1363Receiver {
-    /*
-     * Note: the ERC-165 identifier for this interface is 0x88a7ca5c.
-     * 0x88a7ca5c === bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))
-     */
 
     /**
      * @notice Handle the receipt of ERC1363 tokens

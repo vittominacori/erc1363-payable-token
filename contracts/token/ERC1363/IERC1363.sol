@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.0;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/introspection/IERC165.sol";
+import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 
 /**
  * @title IERC1363 Interface
@@ -12,21 +12,6 @@ import "@openzeppelin/contracts/introspection/IERC165.sol";
  *  https://eips.ethereum.org/EIPS/eip-1363
  */
 interface IERC1363 is IERC20, IERC165 {
-    /*
-     * Note: the ERC-165 identifier for this interface is 0x4bbee2df.
-     * 0x4bbee2df ===
-     *   bytes4(keccak256('transferAndCall(address,uint256)')) ^
-     *   bytes4(keccak256('transferAndCall(address,uint256,bytes)')) ^
-     *   bytes4(keccak256('transferFromAndCall(address,address,uint256)')) ^
-     *   bytes4(keccak256('transferFromAndCall(address,address,uint256,bytes)'))
-     */
-
-    /*
-     * Note: the ERC-165 identifier for this interface is 0xfb9ec8ce.
-     * 0xfb9ec8ce ===
-     *   bytes4(keccak256('approveAndCall(address,uint256)')) ^
-     *   bytes4(keccak256('approveAndCall(address,uint256,bytes)'))
-     */
 
     /**
      * @notice Transfer tokens from `msg.sender` to another address and then call `onTransferReceived` on receiver
