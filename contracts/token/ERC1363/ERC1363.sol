@@ -42,7 +42,11 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param data Additional data with no specified format
      * @return A boolean that indicates if the operation was successful.
      */
-    function transferAndCall(address recipient, uint256 amount, bytes memory data) public virtual override returns (bool) {
+    function transferAndCall(
+        address recipient,
+        uint256 amount,
+        bytes memory data
+    ) public virtual override returns (bool) {
         transfer(recipient, amount);
         require(_checkAndCallTransfer(_msgSender(), recipient, amount, data), "ERC1363: _checkAndCallTransfer reverts");
         return true;
@@ -55,7 +59,11 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param amount The amount of tokens to be transferred
      * @return A boolean that indicates if the operation was successful.
      */
-    function transferFromAndCall(address sender, address recipient, uint256 amount) public virtual override returns (bool) {
+    function transferFromAndCall(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) public virtual override returns (bool) {
         return transferFromAndCall(sender, recipient, amount, "");
     }
 
@@ -67,7 +75,12 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param data Additional data with no specified format
      * @return A boolean that indicates if the operation was successful.
      */
-    function transferFromAndCall(address sender, address recipient, uint256 amount, bytes memory data) public virtual override returns (bool) {
+    function transferFromAndCall(
+        address sender,
+        address recipient,
+        uint256 amount,
+        bytes memory data
+    ) public virtual override returns (bool) {
         transferFrom(sender, recipient, amount);
         require(_checkAndCallTransfer(sender, recipient, amount, data), "ERC1363: _checkAndCallTransfer reverts");
         return true;
@@ -90,7 +103,11 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param data Additional data with no specified format.
      * @return A boolean that indicates if the operation was successful.
      */
-    function approveAndCall(address spender, uint256 amount, bytes memory data) public virtual override returns (bool) {
+    function approveAndCall(
+        address spender,
+        uint256 amount,
+        bytes memory data
+    ) public virtual override returns (bool) {
         approve(spender, amount);
         require(_checkAndCallApprove(spender, amount, data), "ERC1363: _checkAndCallApprove reverts");
         return true;
@@ -105,13 +122,16 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param data bytes Optional data to send along with the call
      * @return whether the call correctly returned the expected magic value
      */
-    function _checkAndCallTransfer(address sender, address recipient, uint256 amount, bytes memory data) internal virtual returns (bool) {
+    function _checkAndCallTransfer(
+        address sender,
+        address recipient,
+        uint256 amount,
+        bytes memory data
+    ) internal virtual returns (bool) {
         if (!recipient.isContract()) {
             return false;
         }
-        bytes4 retval = IERC1363Receiver(recipient).onTransferReceived(
-            _msgSender(), sender, amount, data
-        );
+        bytes4 retval = IERC1363Receiver(recipient).onTransferReceived(_msgSender(), sender, amount, data);
         return (retval == IERC1363Receiver(recipient).onTransferReceived.selector);
     }
 
@@ -123,13 +143,15 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param data bytes Optional data to send along with the call
      * @return whether the call correctly returned the expected magic value
      */
-    function _checkAndCallApprove(address spender, uint256 amount, bytes memory data) internal virtual returns (bool) {
+    function _checkAndCallApprove(
+        address spender,
+        uint256 amount,
+        bytes memory data
+    ) internal virtual returns (bool) {
         if (!spender.isContract()) {
             return false;
         }
-        bytes4 retval = IERC1363Spender(spender).onApprovalReceived(
-            _msgSender(), amount, data
-        );
+        bytes4 retval = IERC1363Spender(spender).onApprovalReceived(_msgSender(), amount, data);
         return (retval == IERC1363Spender(spender).onApprovalReceived.selector);
     }
 }

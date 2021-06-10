@@ -10,7 +10,6 @@ pragma solidity ^0.8.0;
  *  https://eips.ethereum.org/EIPS/eip-1363
  */
 interface IERC1363Spender {
-
     /**
      * @notice Handle the approval of ERC1363 tokens
      * @dev Any ERC1363 smart contract calls this function on the recipient
@@ -23,5 +22,9 @@ interface IERC1363Spender {
      * @param data bytes Additional data with no specified format
      * @return `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))` unless throwing
      */
-    function onApprovalReceived(address sender, uint256 amount, bytes calldata data) external returns (bytes4);
+    function onApprovalReceived(
+        address sender,
+        uint256 amount,
+        bytes calldata data
+    ) external returns (bytes4);
 }

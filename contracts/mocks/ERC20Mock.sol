@@ -11,13 +11,12 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
  * `ERC20` functions.
  */
 contract ERC20Mock is ERC20 {
-
-    uint256 public constant INITIAL_SUPPLY = 10000 * (10 ** 18);
+    uint256 public constant INITIAL_SUPPLY = 10000 * (10**18);
 
     /**
      * @dev Constructor that gives msg.sender all of existing tokens.
      */
-    constructor (string memory name, string memory symbol) ERC20(name, symbol) {
+    constructor(string memory name, string memory symbol) ERC20(name, symbol) {
         _mint(_msgSender(), INITIAL_SUPPLY);
     }
 }

@@ -39,12 +39,7 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @param value ERC1363 tokens paid for purchase
      * @param amount amount of tokens purchased
      */
-    event TokensPurchased(
-        address indexed operator,
-        address indexed beneficiary,
-        uint256 value,
-        uint256 amount
-    );
+    event TokensPurchased(address indexed operator, address indexed beneficiary, uint256 value, uint256 amount);
 
     /**
      * @param rate_ Number of token units a buyer gets per ERC1363 token
@@ -52,7 +47,12 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @param token_ Address of the token being sold
      * @param acceptedToken_ Address of the token being accepted
      */
-    constructor(uint256 rate_, address wallet_, IERC20 token_, IERC1363 acceptedToken_) ERC1363Payable(acceptedToken_) {
+    constructor(
+        uint256 rate_,
+        address wallet_,
+        IERC20 token_,
+        IERC1363 acceptedToken_
+    ) ERC1363Payable(acceptedToken_) {
         require(rate_ > 0);
         require(wallet_ != address(0));
         require(address(token_) != address(0));
@@ -98,7 +98,12 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @param amount The amount of tokens transferred
      * @param data Additional data with no specified format
      */
-    function _transferReceived(address operator, address sender, uint256 amount, bytes memory data) internal override {
+    function _transferReceived(
+        address operator,
+        address sender,
+        uint256 amount,
+        bytes memory data
+    ) internal override {
         _buyTokens(operator, sender, amount, data);
     }
 
@@ -109,7 +114,11 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @param amount uint256 The amount of tokens to be spent
      * @param data bytes Additional data with no specified format
      */
-    function _approvalReceived(address sender, uint256 amount, bytes memory data) internal override {
+    function _approvalReceived(
+        address sender,
+        uint256 amount,
+        bytes memory data
+    ) internal override {
         IERC20(acceptedToken()).transferFrom(sender, address(this), amount);
         _buyTokens(sender, sender, amount, data);
     }
@@ -123,7 +132,12 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @param amount The amount of tokens transferred
      * @param data Additional data with no specified format
      */
-    function _buyTokens(address operator, address sender, uint256 amount, bytes memory data) internal nonReentrant {
+    function _buyTokens(
+        address operator,
+        address sender,
+        uint256 amount,
+        bytes memory data
+    ) internal nonReentrant {
         uint256 sentTokenAmount = amount;
         _preValidatePurchase(sentTokenAmount);
 
@@ -187,7 +201,11 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
      * @param sentTokenAmount Value in ERC1363 tokens involved in the purchase
      * @param data Additional data with no specified format (Maybe a referral code)
      */
-    function _updatePurchasingState(address beneficiary, uint256 sentTokenAmount, bytes memory data) internal {
+    function _updatePurchasingState(
+        address beneficiary,
+        uint256 sentTokenAmount,
+        bytes memory data
+    ) internal {
         // optional override
     }
 
