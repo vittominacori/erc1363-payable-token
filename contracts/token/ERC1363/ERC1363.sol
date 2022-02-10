@@ -87,7 +87,7 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
     }
 
     /**
-     * @dev Approve spender to transfer tokens and then execute a callback on `to`.
+     * @dev Approve spender to transfer tokens and then execute a callback on `spender`.
      * @param spender The address allowed to transfer to
      * @param amount The amount allowed to be transferred
      * @return A boolean that indicates if the operation was successful.
@@ -97,7 +97,7 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
     }
 
     /**
-     * @dev Approve spender to transfer tokens and then execute a callback on spender.
+     * @dev Approve spender to transfer tokens and then execute a callback on `spender`.
      * @param spender The address allowed to transfer to.
      * @param amount The amount allowed to be transferred.
      * @param data Additional data with no specified format.
