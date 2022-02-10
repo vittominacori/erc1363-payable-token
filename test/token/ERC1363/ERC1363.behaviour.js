@@ -61,7 +61,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
           it('reverts', async function () {
             await expectRevert(
               transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender }),
-              'ERC20: transfer amount exceeds balance',
+              'ERC20: insufficient allowance',
             );
           });
         });
@@ -70,7 +70,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
           it('reverts', async function () {
             await expectRevert(
               transferFromAndCallWithoutData.call(this, sender, receiver, amount, { from: spender }),
-              'ERC20: transfer amount exceeds balance',
+              'ERC20: insufficient allowance',
             );
           });
         });
