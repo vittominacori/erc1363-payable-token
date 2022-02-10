@@ -64,10 +64,10 @@ Interface for a Payable Token contract as defined in [ERC-1363 Payable Token](ht
 
 ```solidity
 interface IERC1363 is IERC20, IERC165 {
-    function transferAndCall(address recipient, uint256 amount) external returns (bool);
-    function transferAndCall(address recipient, uint256 amount, bytes calldata data) external returns (bool);
-    function transferFromAndCall(address sender, address recipient, uint256 amount) external returns (bool);
-    function transferFromAndCall(address sender, address recipient, uint256 amount, bytes calldata data) external returns (bool);
+    function transferAndCall(address to, uint256 amount) external returns (bool);
+    function transferAndCall(address to, uint256 amount, bytes calldata data) external returns (bool);
+    function transferFromAndCall(address from, address to, uint256 amount) external returns (bool);
+    function transferFromAndCall(address from, address to, uint256 amount, bytes calldata data) external returns (bool);
     function approveAndCall(address spender, uint256 amount) external returns (bool);
     function approveAndCall(address spender, uint256 amount, bytes calldata data) external returns (bool);
 }
