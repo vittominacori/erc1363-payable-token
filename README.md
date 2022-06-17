@@ -7,21 +7,22 @@
 
 ERC-1363 allows to implement an ERC-20 token that can be used for payments.
 
-This is an implementation of the [ERC-1363 Payable Token](https://eips.ethereum.org/EIPS/eip-1363) that defines a token interface for ERC-20 tokens that supports executing recipient code after `transfer` or `transferFrom`, or spender code after `approve`.
+This is an implementation of the [ERC-1363 Payable Token](https://eips.ethereum.org/EIPS/eip-1363) that defines a token interface for ERC-20 tokens that supports executing recipient code after `transfer` or `transferFrom`, or spender code after `approve` in a single transaction.
 
 ## Abstract
 There is no way to execute code after an ERC-20 transfer or approval (i.e. making a payment), so to make an action it is required to send another transaction and pay GAS twice.
-ERC-1363 makes token payments easier and working without the use of any other listener. It allows to make a callback after a transfer or approval in a single transaction.
+
+This proposal wants to make token payments easier and working without the use of any other listener. It allows to make a callback after a transfer or approval in a single transaction.
 
 There are many proposed uses of Ethereum smart contracts that can accept ERC-20 payments.
 
-Examples could be:
+Examples could be
 * to create a token payable crowdsale
 * selling services for tokens
 * paying invoices
 * making subscriptions
 
-For these reasons it was named as **"Payable Token"**.
+For these reasons it was originally named as **"Payable Token"**.
 
 Anyway you can use it for specific utilities or for any other purposes who require the execution of a callback after a transfer or approval received.
 

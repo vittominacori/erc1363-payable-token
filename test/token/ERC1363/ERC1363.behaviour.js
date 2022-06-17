@@ -142,7 +142,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
       it('reverts', async function () {
         await expectRevert(
           transferFromAndCallWithoutData.call(this, owner, recipient, value, { from: spender }),
-          'ERC1363: _checkAndCallTransfer reverts',
+          'ERC1363: _checkOnTransferReceived reverts',
         );
       });
     });
@@ -152,7 +152,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
         const invalidReceiver = await ERC1363Receiver.new(data, false);
         await expectRevert(
           transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender }),
-          'ERC1363: _checkAndCallTransfer reverts',
+          'ERC1363: _checkOnTransferReceived reverts',
         );
       });
     });
@@ -300,7 +300,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
       it('reverts', async function () {
         await expectRevert(
           transferAndCallWithoutData.call(this, recipient, value, { from: owner }),
-          'ERC1363: _checkAndCallTransfer reverts',
+          'ERC1363: _checkOnTransferReceived reverts',
         );
       });
     });
@@ -310,7 +310,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
         const invalidReceiver = await ERC1363Receiver.new(data, false);
         await expectRevert(
           transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner }),
-          'ERC1363: _checkAndCallTransfer reverts',
+          'ERC1363: _checkOnTransferReceived reverts',
         );
       });
     });
@@ -426,7 +426,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
       it('reverts', async function () {
         await expectRevert(
           approveAndCallWithoutData.call(this, recipient, value, { from: owner }),
-          'ERC1363: _checkAndCallApprove reverts',
+          'ERC1363: _checkOnApprovalReceived reverts',
         );
       });
     });
@@ -436,7 +436,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
         const invalidSpender = await ERC1363Spender.new(data, false);
         await expectRevert(
           approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner }),
-          'ERC1363: _checkAndCallApprove reverts',
+          'ERC1363: _checkOnApprovalReceived reverts',
         );
       });
     });
