@@ -20,7 +20,7 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
 
     /**
      * @dev Emitted when `amount` tokens are moved from one account (`sender`) to
-     * this by operator (`operator`) using {transferAndCall} or {transferFromAndCall}.
+     * this by spender (`operator`) using {transferAndCall} or {transferFromAndCall}.
      */
     event TokensReceived(address indexed operator, address indexed sender, uint256 amount, bytes data);
 
@@ -55,22 +55,22 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
 
     /*
      * @dev Note: remember that the token contract address is always the message sender.
-     * @param operator The address which called `transferAndCall` or `transferFromAndCall` function
+     * @param spender The address which called `transferAndCall` or `transferFromAndCall` function
      * @param sender The address which are token transferred from
      * @param amount The amount of tokens transferred
      * @param data Additional data with no specified format
      */
     function onTransferReceived(
-        address operator,
+        address spender,
         address sender,
         uint256 amount,
         bytes memory data
     ) public override returns (bytes4) {
         require(_msgSender() == address(_acceptedToken), "ERC1363Payable: acceptedToken is not message sender");
 
-        emit TokensReceived(operator, sender, amount, data);
+        emit TokensReceived(spender, sender, amount, data);
 
-        _transferReceived(operator, sender, amount, data);
+        _transferReceived(spender, sender, amount, data);
 
         return IERC1363Receiver(this).onTransferReceived.selector;
     }
@@ -105,13 +105,13 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
     /**
      * @dev Called after validating a `onTransferReceived`. Override this method to
      * make your stuffs within your contract.
-     * @param operator The address which called `transferAndCall` or `transferFromAndCall` function
+     * @param spender The address which called `transferAndCall` or `transferFromAndCall` function
      * @param sender The address which are token transferred from
      * @param amount The amount of tokens transferred
      * @param data Additional data with no specified format
      */
     function _transferReceived(
-        address operator,
+        address spender,
         address sender,
         uint256 amount,
         bytes memory data

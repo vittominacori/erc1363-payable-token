@@ -54,35 +54,35 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
 
     /**
      * @dev Transfer tokens from one address to another and then execute a callback on `to`.
-     * @param from The address which you want to send tokens from
+     * @param sender The address which you want to send tokens from
      * @param to The address which you want to transfer to
      * @param amount The amount of tokens to be transferred
      * @return A boolean that indicates if the operation was successful.
      */
     function transferFromAndCall(
-        address from,
+        address sender,
         address to,
         uint256 amount
     ) public virtual override returns (bool) {
-        return transferFromAndCall(from, to, amount, "");
+        return transferFromAndCall(sender, to, amount, "");
     }
 
     /**
      * @dev Transfer tokens from one address to another and then execute a callback on `to`.
-     * @param from The address which you want to send tokens from
+     * @param sender The address which you want to send tokens from
      * @param to The address which you want to transfer to
      * @param amount The amount of tokens to be transferred
      * @param data Additional data with no specified format
      * @return A boolean that indicates if the operation was successful.
      */
     function transferFromAndCall(
-        address from,
+        address sender,
         address to,
         uint256 amount,
         bytes memory data
     ) public virtual override returns (bool) {
-        transferFrom(from, to, amount);
-        require(_checkOnTransferReceived(from, to, amount, data), "ERC1363: _checkOnTransferReceived reverts");
+        transferFrom(sender, to, amount);
+        require(_checkOnTransferReceived(sender, to, amount, data), "ERC1363: _checkOnTransferReceived reverts");
         return true;
     }
 

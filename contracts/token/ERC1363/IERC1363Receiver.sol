@@ -17,14 +17,14 @@ interface IERC1363Receiver {
      * transfer. Return of other than the magic value MUST result in the
      * transaction being reverted.
      * Note: the token contract address is always the message sender.
-     * @param operator address The address which called `transferAndCall` or `transferFromAndCall` function
+     * @param spender address The address which called `transferAndCall` or `transferFromAndCall` function
      * @param sender address The address which are token transferred from
      * @param amount uint256 The amount of tokens transferred
      * @param data bytes Additional data with no specified format
      * @return `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))` unless throwing
      */
     function onTransferReceived(
-        address operator,
+        address spender,
         address sender,
         uint256 amount,
         bytes calldata data
