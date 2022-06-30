@@ -5,8 +5,8 @@ const Crowdsale = artifacts.require('ERC1363PayableCrowdsale');
 
 function shouldBehaveLikeERC1363PayableCrowdsale ([_, wallet, beneficiary, operator]) {
   const rate = new BN(1);
-  const value = new BN('1e18');
-  const tokenSupply = new BN('1e22');
+  const value = new BN('1000000000000000000');
+  const tokenSupply = new BN('10000000000000000000000');
   const expectedTokenAmount = rate.mul(value);
   const data = '0x42';
 

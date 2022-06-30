@@ -9,7 +9,7 @@ contract('ERC1363PayableCrowdsale', function ([_, wallet, beneficiary, operator]
   const name = 'TEST';
   const symbol = 'TEST';
 
-  const erc1363tTokenSupply = new BN('1e22');
+  const erc1363tTokenSupply = new BN('10000000000000000000000');
 
   beforeEach(async function () {
     this.erc1363Token = await ERC1363.new(name, symbol, beneficiary, erc1363tTokenSupply);
