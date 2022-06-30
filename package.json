@@ -1,6 +1,6 @@
 {
   "name": "erc-payable-token",
-  "version": "4.6.0",
+  "version": "4.7.0",
   "description": "ERC-1363 Payable Token Implementation",
   "files": [
     "contracts",
@@ -47,7 +47,7 @@
   },
   "homepage": "https://vittominacori.github.io/erc1363-payable-token",
   "dependencies": {
-    "@openzeppelin/contracts": "4.6.0"
+    "@openzeppelin/contracts": "4.7.0"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ganache": "^2.0.1",
@@ -70,7 +70,7 @@
     "solhint": "^3.3.7",
     "solhint-plugin-prettier": "^0.0.5",
     "solidity-coverage": "^0.7.21",
-    "truffle": "^5.5.18",
+    "truffle": "^5.5.19",
     "vuepress": "^1.9.7"
   }
 }
