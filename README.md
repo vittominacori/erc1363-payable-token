@@ -6,6 +6,7 @@
 [![MIT licensed](https://img.shields.io/github/license/vittominacori/erc1363-payable-token.svg)](https://github.com/vittominacori/erc1363-payable-token/blob/master/LICENSE)
 
 ERC-1363 allows to implement an ERC-20 smart token. 
+
 It means that we can add a callback after transferring or approving tokens to be executed.
 
 This is an implementation of the [EIP-1363 Payable Token](https://eips.ethereum.org/EIPS/eip-1363) that defines a token interface for EIP-20 tokens that supports executing recipient contract code after `transfer` or `transferFrom`, or spender contract code after `approve` in a single transaction.
@@ -67,7 +68,7 @@ This repo contains:
 
 [IERC1363.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363.sol)
 
-Interface for a Payable Token contract as defined in [ERC-1363 Payable Token](https://eips.ethereum.org/EIPS/eip-1363).
+Interface for a Payable Token contract as defined in [EIP-1363 Payable Token](https://eips.ethereum.org/EIPS/eip-1363).
 
 ```solidity
 interface IERC1363 is IERC20, IERC165 {
