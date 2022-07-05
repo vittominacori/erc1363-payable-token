@@ -24,6 +24,8 @@
     "lint:js:fix": "eslint --ignore-path .gitignore . --fix",
     "lint:sol": "solhint 'contracts/**/*.sol' && prettier -c 'contracts/**/*.sol'",
     "lint:sol:fix": "prettier --write \"contracts/**/*.sol\"",
+    "flat": "scripts/flat.sh",
+    "analyze": "scripts/analyze.sh",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "docs:deploy": "vuepress build docs && sh docs/deploy/deploy.sh"
@@ -67,9 +69,11 @@
     "hardhat": "^2.9.9",
     "prettier": "^2.7.1",
     "prettier-plugin-solidity": "^1.0.0-beta.19",
+    "sol2uml": "^1.1.29",
     "solhint": "^3.3.7",
     "solhint-plugin-prettier": "^0.0.5",
     "solidity-coverage": "^0.7.21",
+    "surya": "^0.4.6",
     "truffle": "^5.5.20",
     "vuepress": "^1.9.7"
   }
