@@ -48,41 +48,41 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
         bytes memory data
     ) public virtual override returns (bool) {
         transfer(to, amount);
-        require(_checkOnTransferReceived(_msgSender(), to, amount, data), "ERC1363: _checkOnTransferReceived reverts");
+        require(_checkOnTransferReceived(_msgSender(), to, amount, data), "ERC1363: receiver returned wrong data");
         return true;
     }
 
     /**
      * @dev Transfer tokens from one address to another and then execute a callback on `to`.
-     * @param sender The address which you want to send tokens from
+     * @param from The address which you want to send tokens from
      * @param to The address which you want to transfer to
      * @param amount The amount of tokens to be transferred
      * @return A boolean that indicates if the operation was successful.
      */
     function transferFromAndCall(
-        address sender,
+        address from,
         address to,
         uint256 amount
     ) public virtual override returns (bool) {
-        return transferFromAndCall(sender, to, amount, "");
+        return transferFromAndCall(from, to, amount, "");
     }
 
     /**
      * @dev Transfer tokens from one address to another and then execute a callback on `to`.
-     * @param sender The address which you want to send tokens from
+     * @param from The address which you want to send tokens from
      * @param to The address which you want to transfer to
      * @param amount The amount of tokens to be transferred
      * @param data Additional data with no specified format
      * @return A boolean that indicates if the operation was successful.
      */
     function transferFromAndCall(
-        address sender,
+        address from,
         address to,
         uint256 amount,
         bytes memory data
     ) public virtual override returns (bool) {
-        transferFrom(sender, to, amount);
-        require(_checkOnTransferReceived(sender, to, amount, data), "ERC1363: _checkOnTransferReceived reverts");
+        transferFrom(from, to, amount);
+        require(_checkOnTransferReceived(from, to, amount, data), "ERC1363: receiver returned wrong data");
         return true;
     }
 
@@ -109,14 +109,14 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
         bytes memory data
     ) public virtual override returns (bool) {
         approve(spender, amount);
-        require(_checkOnApprovalReceived(spender, amount, data), "ERC1363: _checkOnApprovalReceived reverts");
+        require(_checkOnApprovalReceived(spender, amount, data), "ERC1363: spender returned wrong data");
         return true;
     }
 
     /**
-     * @dev Internal function to invoke `onTransferReceived` on a target address
+     * @dev Internal function to invoke {IERC1363Receiver-onTransferReceived} on a target address
      *  The call is not executed if the target address is not a contract
-     * @param sender address Representing the previous owner of the given token value
+     * @param sender address Representing the previous owner of the given token amount
      * @param recipient address Target address that will receive the tokens
      * @param amount uint256 The amount mount of tokens to be transferred
      * @param data bytes Optional data to send along with the call
@@ -129,14 +129,25 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
         bytes memory data
     ) internal virtual returns (bool) {
         if (!recipient.isContract()) {
-            return false;
+            revert("ERC1363: transfer to non contract address");
         }
-        bytes4 retval = IERC1363Receiver(recipient).onTransferReceived(_msgSender(), sender, amount, data);
-        return retval == IERC1363Receiver.onTransferReceived.selector;
+
+        try IERC1363Receiver(recipient).onTransferReceived(_msgSender(), sender, amount, data) returns (bytes4 retval) {
+            return retval == IERC1363Receiver.onTransferReceived.selector;
+        } catch (bytes memory reason) {
+            if (reason.length == 0) {
+                revert("ERC1363: transfer to non ERC1363Receiver implementer");
+            } else {
+                /// @solidity memory-safe-assembly
+                assembly {
+                    revert(add(32, reason), mload(reason))
+                }
+            }
+        }
     }
 
     /**
-     * @dev Internal function to invoke `onApprovalReceived` on a target address
+     * @dev Internal function to invoke {IERC1363Receiver-onApprovalReceived} on a target address
      *  The call is not executed if the target address is not a contract
      * @param spender address The address which will spend the funds
      * @param amount uint256 The amount of tokens to be spent
@@ -149,9 +160,20 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
         bytes memory data
     ) internal virtual returns (bool) {
         if (!spender.isContract()) {
-            return false;
+            revert("ERC1363: approve a non contract address");
         }
-        bytes4 retval = IERC1363Spender(spender).onApprovalReceived(_msgSender(), amount, data);
-        return retval == IERC1363Spender.onApprovalReceived.selector;
+
+        try IERC1363Spender(spender).onApprovalReceived(_msgSender(), amount, data) returns (bytes4 retval) {
+            return retval == IERC1363Spender.onApprovalReceived.selector;
+        } catch (bytes memory reason) {
+            if (reason.length == 0) {
+                revert("ERC1363: approve a non ERC1363Spender implementer");
+            } else {
+                /// @solidity memory-safe-assembly
+                assembly {
+                    revert(add(32, reason), mload(reason))
+                }
+            }
+        }
     }
 }
