@@ -5,26 +5,32 @@
 [![Coverage Status](https://coveralls.io/repos/github/vittominacori/erc1363-payable-token/badge.svg?branch=master)](https://coveralls.io/github/vittominacori/erc1363-payable-token?branch=master)
 [![MIT licensed](https://img.shields.io/github/license/vittominacori/erc1363-payable-token.svg)](https://github.com/vittominacori/erc1363-payable-token/blob/master/LICENSE)
 
-ERC-1363 allows to implement an ERC-20 token that can be used for payments.
+ERC-1363 allows to implement an ERC-20 smart token. 
+It means that we can add a callback after transferring or approving tokens to be executed.
 
-This is an implementation of the [ERC-1363 Payable Token](https://eips.ethereum.org/EIPS/eip-1363) that defines a token interface for ERC-20 tokens that supports executing recipient code after `transfer` or `transferFrom`, or spender code after `approve` in a single transaction.
+This is an implementation of the [EIP-1363 Payable Token](https://eips.ethereum.org/EIPS/eip-1363) that defines a token interface for EIP-20 tokens that supports executing recipient contract code after `transfer` or `transferFrom`, or spender contract code after `approve` in a single transaction.
 
 ## Abstract
-There is no way to execute code after an ERC-20 transfer or approval (i.e. making a payment), so to make an action it is required to send another transaction and pay GAS twice.
+There is no way to execute any code on a receiver or spender contract after an EIP-20 `transfer`, `transferFrom` or `approve` so, to make an action, it is required to send another transaction.
 
-This proposal wants to make token payments easier and working without the use of any other listener. It allows to make a callback after a transfer or approval in a single transaction.
+This introduces complexity on UI development and friction on adoption because users must wait for the first transaction to be executed and then send the second one. They must also pay GAS twice.
 
-There are many proposed uses of Ethereum smart contracts that can accept ERC-20 payments.
+This proposal aims to make tokens capable of performing actions more easily and working without the use of any other listener.
+It allows to make a callback on a receiver or spender contract, after a transfer or an approval, in a single transaction.
+
+There are many proposed uses of Ethereum smart contracts that can accept EIP-20 callbacks.
 
 Examples could be
+
 * to create a token payable crowdsale
 * selling services for tokens
 * paying invoices
 * making subscriptions
 
-For these reasons it was originally named as **"Payable Token"**.
+For these reasons it was originally named **"Payable Token"**.
 
 Anyway you can use it for specific utilities or for any other purposes who require the execution of a callback after a transfer or approval received.
+
 
 
 ## Install
@@ -88,7 +94,7 @@ Interface for any contract that wants to support `transferAndCall` or `transferF
 
 ```solidity
 interface IERC1363Receiver {
-    function onTransferReceived(address operator, address sender, uint256 amount, bytes calldata data) external returns (bytes4);
+    function onTransferReceived(address spender, address sender, uint256 amount, bytes calldata data) external returns (bytes4);
 }
 ```
 
