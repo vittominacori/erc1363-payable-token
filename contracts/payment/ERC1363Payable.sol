@@ -72,7 +72,7 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
 
         _transferReceived(spender, sender, amount, data);
 
-        return IERC1363Receiver(this).onTransferReceived.selector;
+        return IERC1363Receiver.onTransferReceived.selector;
     }
 
     /*
@@ -92,7 +92,7 @@ contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
 
         _approvalReceived(sender, amount, data);
 
-        return IERC1363Spender(this).onApprovalReceived.selector;
+        return IERC1363Spender.onApprovalReceived.selector;
     }
 
     /**
