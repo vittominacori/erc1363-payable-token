@@ -6,4 +6,4 @@ npx surya graph flat/ERC1363.flat.sol | dot -Tpng > analysis/control-flow/ERC136
 
 npx surya mdreport analysis/description-table/ERC1363.md flat/ERC1363.flat.sol
 
-npx sol2uml flat/ERC1363.flat.sol -o analysis/uml/ERC1363.svg
+npx sol2uml -hn flat/ERC1363.flat.sol -o analysis/uml/ERC1363.svg

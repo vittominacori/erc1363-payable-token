@@ -132,6 +132,12 @@ It also implements a `approvalReceived` function that can be overridden to make 
 As example: an Implementation of a classic token Crowdsale, but paid with ERC1363 tokens instead of ETH.
 
 
+## Code Analysis
+
+* [Control Flow](./analysis/control-flow/ERC1363.png)
+* [Inheritance Tree](./analysis/inheritance-tree/ERC1363.png)
+* [UML](./analysis/uml/ERC1363.svg)
+
 ## Development
 
 ### Install dependencies
