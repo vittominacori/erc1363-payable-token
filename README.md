@@ -134,9 +134,9 @@ As example: an Implementation of a classic token Crowdsale, but paid with ERC136
 
 ## Code Analysis
 
-* [Control Flow](./analysis/control-flow/ERC1363.png)
-* [Inheritance Tree](./analysis/inheritance-tree/ERC1363.png)
-* [UML](./analysis/uml/ERC1363.svg)
+* [Control Flow](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/control-flow/ERC1363.png)
+* [Inheritance Tree](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/inheritance-tree/ERC1363.png)
+* [UML](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/uml/ERC1363.svg)
 
 ## Development
 
