@@ -142,7 +142,7 @@ abstract contract Context {
 // File: @openzeppelin/contracts/token/ERC20/ERC20.sol
 
 // SPDX-License-Identifier: MIT
-// OpenZeppelin Contracts (last updated v4.7.0) (token/ERC20/ERC20.sol)
+// OpenZeppelin Contracts (last updated v4.8.0) (token/ERC20/ERC20.sol)
 
 pragma solidity ^0.8.0;
 
@@ -156,7 +156,7 @@ pragma solidity ^0.8.0;
  * For a generic mechanism see {ERC20PresetMinterPauser}.
  *
  * TIP: For a detailed writeup see our guide
- * https://forum.zeppelin.solutions/t/how-to-implement-erc20-supply-mechanisms/226[How
+ * https://forum.openzeppelin.com/t/how-to-implement-erc20-supply-mechanisms/226[How
  * to implement supply mechanisms].
  *
  * We have followed general OpenZeppelin Contracts guidelines: functions revert
@@ -378,8 +378,10 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         require(fromBalance >= amount, "ERC20: transfer amount exceeds balance");
         unchecked {
             _balances[from] = fromBalance - amount;
+            // Overflow not possible: the sum of all balances is capped by totalSupply, and the sum is preserved by
+            // decrementing then incrementing.
+            _balances[to] += amount;
         }
-        _balances[to] += amount;
 
         emit Transfer(from, to, amount);
 
@@ -401,7 +403,10 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         _beforeTokenTransfer(address(0), account, amount);
 
         _totalSupply += amount;
-        _balances[account] += amount;
+        unchecked {
+            // Overflow not possible: balance + amount is at most totalSupply + amount, which is checked above.
+            _balances[account] += amount;
+        }
         emit Transfer(address(0), account, amount);
 
         _afterTokenTransfer(address(0), account, amount);
@@ -427,8 +432,9 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
         unchecked {
             _balances[account] = accountBalance - amount;
+            // Overflow not possible: amount <= accountBalance <= totalSupply.
+            _totalSupply -= amount;
         }
-        _totalSupply -= amount;
 
         emit Transfer(account, address(0), amount);
 
@@ -526,7 +532,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 // File: @openzeppelin/contracts/utils/Address.sol
 
 // SPDX-License-Identifier: MIT
-// OpenZeppelin Contracts (last updated v4.7.0) (utils/Address.sol)
+// OpenZeppelin Contracts (last updated v4.8.0) (utils/Address.sol)
 
 pragma solidity ^0.8.1;
 
@@ -610,7 +616,7 @@ library Address {
      * _Available since v3.1._
      */
     function functionCall(address target, bytes memory data) internal returns (bytes memory) {
-        return functionCall(target, data, "Address: low-level call failed");
+        return functionCallWithValue(target, data, 0, "Address: low-level call failed");
     }
 
     /**
@@ -659,10 +665,8 @@ library Address {
         string memory errorMessage
     ) internal returns (bytes memory) {
         require(address(this).balance >= value, "Address: insufficient balance for call");
-        require(isContract(target), "Address: call to non-contract");
-
         (bool success, bytes memory returndata) = target.call{value: value}(data);
-        return verifyCallResult(success, returndata, errorMessage);
+        return verifyCallResultFromTarget(target, success, returndata, errorMessage);
     }
 
     /**
@@ -686,10 +690,8 @@ library Address {
         bytes memory data,
         string memory errorMessage
     ) internal view returns (bytes memory) {
-        require(isContract(target), "Address: static call to non-contract");
-
         (bool success, bytes memory returndata) = target.staticcall(data);
-        return verifyCallResult(success, returndata, errorMessage);
+        return verifyCallResultFromTarget(target, success, returndata, errorMessage);
     }
 
     /**
@@ -713,15 +715,37 @@ library Address {
         bytes memory data,
         string memory errorMessage
     ) internal returns (bytes memory) {
-        require(isContract(target), "Address: delegate call to non-contract");
-
         (bool success, bytes memory returndata) = target.delegatecall(data);
-        return verifyCallResult(success, returndata, errorMessage);
+        return verifyCallResultFromTarget(target, success, returndata, errorMessage);
     }
 
     /**
-     * @dev Tool to verifies that a low level call was successful, and revert if it wasn't, either by bubbling the
-     * revert reason using the provided one.
+     * @dev Tool to verify that a low level call to smart-contract was successful, and revert (either by bubbling
+     * the revert reason or using the provided one) in case of unsuccessful call or if target was not a contract.
+     *
+     * _Available since v4.8._
+     */
+    function verifyCallResultFromTarget(
+        address target,
+        bool success,
+        bytes memory returndata,
+        string memory errorMessage
+    ) internal view returns (bytes memory) {
+        if (success) {
+            if (returndata.length == 0) {
+                // only check isContract if the call was successful and the return data is empty
+                // otherwise we already know that it was a contract
+                require(isContract(target), "Address: call to non-contract");
+            }
+            return returndata;
+        } else {
+            _revert(returndata, errorMessage);
+        }
+    }
+
+    /**
+     * @dev Tool to verify that a low level call was successful, and revert if it wasn't, either by bubbling the
+     * revert reason or using the provided one.
      *
      * _Available since v4.3._
      */
@@ -733,17 +757,21 @@ library Address {
         if (success) {
             return returndata;
         } else {
-            // Look for revert reason and bubble it up if present
-            if (returndata.length > 0) {
-                // The easiest way to bubble the revert reason is using memory via assembly
-                /// @solidity memory-safe-assembly
-                assembly {
-                    let returndata_size := mload(returndata)
-                    revert(add(32, returndata), returndata_size)
-                }
-            } else {
-                revert(errorMessage);
+            _revert(returndata, errorMessage);
+        }
+    }
+
+    function _revert(bytes memory returndata, string memory errorMessage) private pure {
+        // Look for revert reason and bubble it up if present
+        if (returndata.length > 0) {
+            // The easiest way to bubble the revert reason is using memory via assembly
+            /// @solidity memory-safe-assembly
+            assembly {
+                let returndata_size := mload(returndata)
+                revert(add(32, returndata), returndata_size)
             }
+        } else {
+            revert(errorMessage);
         }
     }
 }
@@ -835,11 +863,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @param data bytes Additional data with no specified format, sent in call to `to`
      * @return true unless throwing
      */
-    function transferAndCall(
-        address to,
-        uint256 amount,
-        bytes calldata data
-    ) external returns (bool);
+    function transferAndCall(address to, uint256 amount, bytes calldata data) external returns (bool);
 
     /**
      * @notice Transfer tokens from one address to another and then call `onTransferReceived` on receiver
@@ -848,11 +872,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @param amount uint256 The amount of tokens to be transferred
      * @return true unless throwing
      */
-    function transferFromAndCall(
-        address from,
-        address to,
-        uint256 amount
-    ) external returns (bool);
+    function transferFromAndCall(address from, address to, uint256 amount) external returns (bool);
 
     /**
      * @notice Transfer tokens from one address to another and then call `onTransferReceived` on receiver
@@ -862,12 +882,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @param data bytes Additional data with no specified format, sent in call to `to`
      * @return true unless throwing
      */
-    function transferFromAndCall(
-        address from,
-        address to,
-        uint256 amount,
-        bytes calldata data
-    ) external returns (bool);
+    function transferFromAndCall(address from, address to, uint256 amount, bytes calldata data) external returns (bool);
 
     /**
      * @notice Approve the passed address to spend the specified amount of tokens on behalf of msg.sender
@@ -892,11 +907,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @param amount uint256 The amount of tokens to be spent
      * @param data bytes Additional data with no specified format, sent in call to `spender`
      */
-    function approveAndCall(
-        address spender,
-        uint256 amount,
-        bytes calldata data
-    ) external returns (bool);
+    function approveAndCall(address spender, uint256 amount, bytes calldata data) external returns (bool);
 }
 
 // File: contracts/token/ERC1363/IERC1363Receiver.sol
@@ -960,11 +971,7 @@ interface IERC1363Spender {
      * @param data bytes Additional data with no specified format
      * @return `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))` unless throwing
      */
-    function onApprovalReceived(
-        address sender,
-        uint256 amount,
-        bytes calldata data
-    ) external returns (bytes4);
+    function onApprovalReceived(address sender, uint256 amount, bytes calldata data) external returns (bytes4);
 }
 
 // File: contracts/token/ERC1363/ERC1363.sol
@@ -1009,11 +1016,7 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param data Additional data with no specified format
      * @return A boolean that indicates if the operation was successful.
      */
-    function transferAndCall(
-        address to,
-        uint256 amount,
-        bytes memory data
-    ) public virtual override returns (bool) {
+    function transferAndCall(address to, uint256 amount, bytes memory data) public virtual override returns (bool) {
         transfer(to, amount);
         require(_checkOnTransferReceived(_msgSender(), to, amount, data), "ERC1363: receiver returned wrong data");
         return true;
@@ -1026,11 +1029,7 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param amount The amount of tokens to be transferred
      * @return A boolean that indicates if the operation was successful.
      */
-    function transferFromAndCall(
-        address from,
-        address to,
-        uint256 amount
-    ) public virtual override returns (bool) {
+    function transferFromAndCall(address from, address to, uint256 amount) public virtual override returns (bool) {
         return transferFromAndCall(from, to, amount, "");
     }
 
@@ -1070,11 +1069,7 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param data Additional data with no specified format.
      * @return A boolean that indicates if the operation was successful.
      */
-    function approveAndCall(
-        address spender,
-        uint256 amount,
-        bytes memory data
-    ) public virtual override returns (bool) {
+    function approveAndCall(address spender, uint256 amount, bytes memory data) public virtual override returns (bool) {
         approve(spender, amount);
         require(_checkOnApprovalReceived(spender, amount, data), "ERC1363: spender returned wrong data");
         return true;

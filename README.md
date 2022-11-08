@@ -49,10 +49,7 @@ import "erc-payable-token/contracts/token/ERC1363/ERC1363.sol";
 
 contract MyToken is ERC1363 {
 
-    constructor (
-        string memory name,
-        string memory symbol
-    ) ERC20(name, symbol) {
+    constructor(string memory name, string memory symbol) ERC20(name, symbol) {
         // your stuff
     }
 

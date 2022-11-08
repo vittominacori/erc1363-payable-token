@@ -27,11 +27,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @param data bytes Additional data with no specified format, sent in call to `to`
      * @return true unless throwing
      */
-    function transferAndCall(
-        address to,
-        uint256 amount,
-        bytes calldata data
-    ) external returns (bool);
+    function transferAndCall(address to, uint256 amount, bytes calldata data) external returns (bool);
 
     /**
      * @notice Transfer tokens from one address to another and then call `onTransferReceived` on receiver
@@ -40,11 +36,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @param amount uint256 The amount of tokens to be transferred
      * @return true unless throwing
      */
-    function transferFromAndCall(
-        address from,
-        address to,
-        uint256 amount
-    ) external returns (bool);
+    function transferFromAndCall(address from, address to, uint256 amount) external returns (bool);
 
     /**
      * @notice Transfer tokens from one address to another and then call `onTransferReceived` on receiver
@@ -54,12 +46,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @param data bytes Additional data with no specified format, sent in call to `to`
      * @return true unless throwing
      */
-    function transferFromAndCall(
-        address from,
-        address to,
-        uint256 amount,
-        bytes calldata data
-    ) external returns (bool);
+    function transferFromAndCall(address from, address to, uint256 amount, bytes calldata data) external returns (bool);
 
     /**
      * @notice Approve the passed address to spend the specified amount of tokens on behalf of msg.sender
@@ -84,9 +71,5 @@ interface IERC1363 is IERC20, IERC165 {
      * @param amount uint256 The amount of tokens to be spent
      * @param data bytes Additional data with no specified format, sent in call to `spender`
      */
-    function approveAndCall(
-        address spender,
-        uint256 amount,
-        bytes calldata data
-    ) external returns (bool);
+    function approveAndCall(address spender, uint256 amount, bytes calldata data) external returns (bool);
 }

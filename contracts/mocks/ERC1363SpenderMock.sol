@@ -16,11 +16,7 @@ contract ERC1363SpenderMock is IERC1363Spender {
         _reverts = reverts;
     }
 
-    function onApprovalReceived(
-        address sender,
-        uint256 amount,
-        bytes memory data
-    ) public override returns (bytes4) {
+    function onApprovalReceived(address sender, uint256 amount, bytes memory data) public override returns (bytes4) {
         require(!_reverts, "ERC1363SpenderMock: throwing");
         emit Approved(sender, amount, data, gasleft());
         return _retval;

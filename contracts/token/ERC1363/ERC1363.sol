@@ -42,11 +42,7 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param data Additional data with no specified format
      * @return A boolean that indicates if the operation was successful.
      */
-    function transferAndCall(
-        address to,
-        uint256 amount,
-        bytes memory data
-    ) public virtual override returns (bool) {
+    function transferAndCall(address to, uint256 amount, bytes memory data) public virtual override returns (bool) {
         transfer(to, amount);
         require(_checkOnTransferReceived(_msgSender(), to, amount, data), "ERC1363: receiver returned wrong data");
         return true;
@@ -59,11 +55,7 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param amount The amount of tokens to be transferred
      * @return A boolean that indicates if the operation was successful.
      */
-    function transferFromAndCall(
-        address from,
-        address to,
-        uint256 amount
-    ) public virtual override returns (bool) {
+    function transferFromAndCall(address from, address to, uint256 amount) public virtual override returns (bool) {
         return transferFromAndCall(from, to, amount, "");
     }
 
@@ -103,11 +95,7 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      * @param data Additional data with no specified format.
      * @return A boolean that indicates if the operation was successful.
      */
-    function approveAndCall(
-        address spender,
-        uint256 amount,
-        bytes memory data
-    ) public virtual override returns (bool) {
+    function approveAndCall(address spender, uint256 amount, bytes memory data) public virtual override returns (bool) {
         approve(spender, amount);
         require(_checkOnApprovalReceived(spender, amount, data), "ERC1363: spender returned wrong data");
         return true;
