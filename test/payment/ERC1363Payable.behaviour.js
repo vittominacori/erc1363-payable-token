@@ -189,6 +189,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
   });
 
   shouldSupportInterfaces([
+    'ERC165',
     'ERC1363Receiver',
     'ERC1363Spender',
   ]);
