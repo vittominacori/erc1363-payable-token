@@ -1,4 +1,5 @@
 const { BN, constants, expectRevert, expectEvent } = require('@openzeppelin/test-helpers');
+const { expect } = require('chai');
 const { shouldSupportInterfaces } = require('../introspection/SupportsInterface.behavior');
 const { ZERO_ADDRESS } = constants;
 
@@ -12,9 +13,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
   describe('creating a valid contract', function () {
     describe('if accepted token is the zero address', function () {
       it('reverts', async function () {
-        await expectRevert(
-          ERC1363Payable.new(ZERO_ADDRESS),
-          'ERC1363Payable: acceptedToken is zero address');
+        await expectRevert(ERC1363Payable.new(ZERO_ADDRESS), 'ERC1363Payable: acceptedToken is zero address');
       });
     });
 
@@ -36,9 +35,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
     });
 
     const transferFromAndCallWithData = function (from, to, value, opts) {
-      return this.token.methods['transferFromAndCall(address,address,uint256,bytes)'](
-        from, to, value, data, opts,
-      );
+      return this.token.methods['transferFromAndCall(address,address,uint256,bytes)'](from, to, value, data, opts);
     };
 
     const transferFromAndCallWithoutData = function (from, to, value, opts) {
@@ -60,10 +57,10 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
 
         it('should execute transferReceived', async function () {
           let transferNumber = await this.mock.transferNumber();
-          transferNumber.should.be.bignumber.equal(new BN(0));
+          expect(transferNumber).to.be.bignumber.equal(new BN(0));
           await transferFun.call(this, owner, this.mock.address, value, { from: spender });
           transferNumber = await this.mock.transferNumber();
-          transferNumber.should.be.bignumber.equal(new BN(1));
+          expect(transferNumber).to.be.bignumber.equal(new BN(1));
         });
       });
 
@@ -111,10 +108,10 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
 
         it('should execute transferReceived', async function () {
           let transferNumber = await this.mock.transferNumber();
-          transferNumber.should.be.bignumber.equal(new BN(0));
+          expect(transferNumber).to.be.bignumber.equal(new BN(0));
           await transferFun.call(this, this.mock.address, value, { from: owner });
           transferNumber = await this.mock.transferNumber();
-          transferNumber.should.be.bignumber.equal(new BN(1));
+          expect(transferNumber).to.be.bignumber.equal(new BN(1));
         });
       });
 
@@ -161,10 +158,10 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
 
         it('should execute approvalReceived', async function () {
           let approvalNumber = await this.mock.approvalNumber();
-          approvalNumber.should.be.bignumber.equal(new BN(0));
+          expect(approvalNumber).to.be.bignumber.equal(new BN(0));
           await approveFun.call(this, this.mock.address, value, { from: owner });
           approvalNumber = await this.mock.approvalNumber();
-          approvalNumber.should.be.bignumber.equal(new BN(1));
+          expect(approvalNumber).to.be.bignumber.equal(new BN(1));
         });
       });
 
@@ -188,11 +185,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
     });
   });
 
-  shouldSupportInterfaces([
-    'ERC165',
-    'ERC1363Receiver',
-    'ERC1363Spender',
-  ]);
+  shouldSupportInterfaces(['ERC165', 'ERC1363Receiver', 'ERC1363Spender']);
 }
 
 module.exports = {

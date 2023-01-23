@@ -1,30 +1,26 @@
 {
-  "extends" : [
-    "standard",
-    "plugin:promise/recommended",
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "prettier"
   ],
   "plugins": [
-    "mocha-no-only",
-    "promise",
+    "mocha-no-only"
   ],
   "env": {
-    "browser" : true,
-    "node"    : true,
-    "mocha"   : true,
-    "jest"    : true,
+    "es2022": true,
+    "browser": true,
+    "node": true,
+    "mocha": true
   },
-  "globals" : {
-    "artifacts": false,
-    "contract": false,
-    "assert": false,
-    "web3": false,
+  "globals": {
+    "artifacts": "readonly",
+    "contract": "readonly",
+    "web3": "readonly",
+    "extendEnvironment": "readonly",
+    "expect": "readonly"
   },
   "rules": {
-
-    // Strict mode
-    "strict": ["error", "global"],
-
-    // Code style
     "array-bracket-spacing": ["off"],
     "camelcase": ["error", {"properties": "always"}],
     "comma-dangle": ["error", "always-multiline"],
@@ -51,12 +47,6 @@
     "semi": ["error", "always"],
     "space-before-function-paren": ["error", "always"],
 
-    "mocha-no-only/mocha-no-only": ["error"],
-
-    "promise/always-return": "off",
-    "promise/avoid-new": "off",
-  },
-  "parserOptions": {
-    "ecmaVersion": 2018
+    "mocha-no-only/mocha-no-only": ["error"]
   }
 }

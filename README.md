@@ -143,70 +143,50 @@ As example: an Implementation of a classic token Crowdsale, but paid with ERC136
 npm install
 ```
 
-### Linter
-
-Use Solhint
-
-```bash
-npm run lint:sol
-```
-
-Use ESLint
-
-```bash
-npm run lint:js
-```
-
-Use Eslint and fix
-
-```bash
-npm run lint:fix
-```
-
-### Usage (using Truffle)
-
-Open the Truffle console
-
-```bash
-npm run truffle:console
-```
-
-#### Compile
-
-```bash
-npm run truffle:compile
-```
-
-#### Test
-
-```bash
-npm run truffle:test
-```
-
 ### Usage (using Hardhat)
 
-Open the Hardhat console
+Open the console
 
 ```bash
-npm run hardhat:console
+npm run console
 ```
 
 #### Compile
 
 ```bash
-npm run hardhat:compile
+npm run compile
 ```
 
 #### Test
 
 ```bash
-npm run hardhat:test
+npm test
 ```
 
 #### Code Coverage
 
 ```bash
-npm run hardhat:coverage
+npm run coverage
+```
+
+### Linter
+
+Check Solidity files
+
+```bash
+npm run lint:sol
+```
+
+Check JS/TS files
+
+```bash
+npm run lint:js
+```
+
+Fix JS and Solidity files
+
+```bash
+npm run lint:fix
 ```
 
 ## License

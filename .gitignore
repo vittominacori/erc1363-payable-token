@@ -12,9 +12,9 @@ pids
 scTopics
 
 # Coverage directory used by tools like istanbul
-/coverage
-/coverageEnv
+coverage
 coverage.json
+coverageEnv
 
 # temporary artifact from solidity-coverage
 allFiredEvents
@@ -37,6 +37,9 @@ npm-debug.log
 # truffle build directory
 /build
 
+# hardat-exposed
+contracts-exposed
+
 # Hardhat files
 /artifacts
 /cache
@@ -54,5 +57,5 @@ package-lock.json
 .idea
 
 # vuepress
-docs/.vuepress/dist/
+docs/.vuepress/dist
 docs/.vuepress/.env.json

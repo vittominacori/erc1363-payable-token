@@ -12,10 +12,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
   const RECEIVER_MAGIC_VALUE = '0x88a7ca5c';
   const SPENDER_MAGIC_VALUE = '0x7b04a2d0';
 
-  shouldSupportInterfaces([
-    'ERC165',
-    'ERC1363',
-  ]);
+  shouldSupportInterfaces(['ERC165', 'ERC1363']);
 
   describe('via transferFromAndCall', function () {
     beforeEach(async function () {
@@ -23,9 +20,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
     });
 
     const transferFromAndCallWithData = function (from, to, value, opts) {
-      return this.token.methods['transferFromAndCall(address,address,uint256,bytes)'](
-        from, to, value, data, opts,
-      );
+      return this.token.methods['transferFromAndCall(address,address,uint256,bytes)'](from, to, value, data, opts);
     };
 
     const transferFromAndCallWithoutData = function (from, to, value, opts) {
@@ -114,9 +109,9 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
           });
 
           it('emits a transfer event', async function () {
-            const { logs } = await transferFromAndCallWithoutData.call(
-              this, sender, receiver, amount, { from: spender },
-            );
+            const { logs } = await transferFromAndCallWithoutData.call(this, sender, receiver, amount, {
+              from: spender,
+            });
 
             expectEvent.inLogs(logs, 'Transfer', {
               from: sender,

@@ -3,9 +3,7 @@ const { makeInterfaceId } = require('@openzeppelin/test-helpers');
 const { expect } = require('chai');
 
 const INTERFACES = {
-  ERC165: [
-    'supportsInterface(bytes4)',
-  ],
+  ERC165: ['supportsInterface(bytes4)'],
   ERC1363: [
     'transferAndCall(address,uint256)',
     'transferAndCall(address,uint256,bytes)',
@@ -14,12 +12,8 @@ const INTERFACES = {
     'approveAndCall(address,uint256)',
     'approveAndCall(address,uint256,bytes)',
   ],
-  ERC1363Receiver: [
-    'onTransferReceived(address,address,uint256,bytes)',
-  ],
-  ERC1363Spender: [
-    'onApprovalReceived(address,uint256,bytes)',
-  ],
+  ERC1363Receiver: ['onTransferReceived(address,address,uint256,bytes)'],
+  ERC1363Spender: ['onApprovalReceived(address,uint256,bytes)'],
 };
 
 const INTERFACE_IDS = {};
