@@ -41,7 +41,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
             operator: spender,
             sender: owner,
             amount: value,
-            data: data,
+            data,
           });
         });
       });
@@ -198,7 +198,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
             operator: owner,
             sender: owner,
             amount: value,
-            data: data,
+            data,
           });
         });
       });
@@ -352,7 +352,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
           await expectEvent.inTransaction(receipt.tx, ERC1363Spender, 'Approved', {
             sender: owner,
             amount: value,
-            data: data,
+            data,
           });
         });
       });
@@ -378,7 +378,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
           expectEvent.inLogs(logs, 'Approval', {
             owner: sender,
-            spender: spender,
+            spender,
             value: amount,
           });
         });
@@ -396,7 +396,7 @@ function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
 
           expectEvent.inLogs(logs, 'Approval', {
             owner: sender,
-            spender: spender,
+            spender,
             value: amount,
           });
         });

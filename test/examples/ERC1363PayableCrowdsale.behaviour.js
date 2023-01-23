@@ -95,9 +95,9 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([deployer, wallet, beneficiary
             });
 
             await expectEvent.inTransaction(receipt.tx, Crowdsale, 'TokensPurchased', {
-              operator: operator,
-              beneficiary: beneficiary,
-              value: value,
+              operator,
+              beneficiary,
+              value,
               amount: expectedTokenAmount,
             });
           });
@@ -159,9 +159,9 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([deployer, wallet, beneficiary
             );
 
             await expectEvent.inTransaction(receipt.tx, Crowdsale, 'TokensPurchased', {
-              operator: operator,
-              beneficiary: beneficiary,
-              value: value,
+              operator,
+              beneficiary,
+              value,
               amount: expectedTokenAmount,
             });
           });
@@ -228,8 +228,8 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([deployer, wallet, beneficiary
 
             await expectEvent.inTransaction(receipt.tx, Crowdsale, 'TokensPurchased', {
               operator: beneficiary,
-              beneficiary: beneficiary,
-              value: value,
+              beneficiary,
+              value,
               amount: expectedTokenAmount,
             });
           });
@@ -280,8 +280,8 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([deployer, wallet, beneficiary
 
             await expectEvent.inTransaction(receipt.tx, Crowdsale, 'TokensPurchased', {
               operator: beneficiary,
-              beneficiary: beneficiary,
-              value: value,
+              beneficiary,
+              value,
               amount: expectedTokenAmount,
             });
           });
@@ -342,8 +342,8 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([deployer, wallet, beneficiary
 
             await expectEvent.inTransaction(receipt.tx, Crowdsale, 'TokensPurchased', {
               operator: beneficiary,
-              beneficiary: beneficiary,
-              value: value,
+              beneficiary,
+              value,
               amount: expectedTokenAmount,
             });
           });
@@ -394,8 +394,8 @@ function shouldBehaveLikeERC1363PayableCrowdsale ([deployer, wallet, beneficiary
 
             await expectEvent.inTransaction(receipt.tx, Crowdsale, 'TokensPurchased', {
               operator: beneficiary,
-              beneficiary: beneficiary,
-              value: value,
+              beneficiary,
+              value,
               amount: expectedTokenAmount,
             });
           });

@@ -51,7 +51,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
             operator: spender,
             sender: owner,
             amount: value,
-            data: data,
+            data,
           });
         });
 
@@ -102,7 +102,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
             operator: owner,
             sender: owner,
             amount: value,
-            data: data,
+            data,
           });
         });
 
@@ -152,7 +152,7 @@ function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
           await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensApproved', {
             sender: owner,
             amount: value,
-            data: data,
+            data,
           });
         });
 
