@@ -24,7 +24,7 @@ jobs:
         run: npm run lint
 
   test:
-    name: Run Test
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Setup Code
@@ -33,7 +33,7 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup
 
-      - name: Test
+      - name: Run Test
         run: npm test
 
   coverage:
