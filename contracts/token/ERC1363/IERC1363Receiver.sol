@@ -12,7 +12,7 @@ interface IERC1363Receiver {
      * Note: the ERC-165 identifier for this interface is 0x88a7ca5c.
      * 0x88a7ca5c === bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))
      */
-    
+
     /**
      * @notice Handle the receipt of ERC1363 tokens.
      * @dev Any ERC1363 smart contract calls this function on the recipient

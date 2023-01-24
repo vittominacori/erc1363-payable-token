@@ -20,7 +20,7 @@ interface IERC1363 is IERC20, IERC165 {
      *   bytes4(keccak256('approveAndCall(address,uint256)')) ^
      *   bytes4(keccak256('approveAndCall(address,uint256,bytes)'))
      */
-    
+
     /**
      * @notice Transfer tokens from `msg.sender` to another address and then call `onTransferReceived` on receiver.
      * @param to address The address which you want to transfer to

@@ -12,7 +12,7 @@ interface IERC1363Spender {
      * Note: the ERC-165 identifier for this interface is 0x7b04a2d0.
      * 0x7b04a2d0 === bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))
      */
-    
+
     /**
      * @notice Handle the approval of ERC1363 tokens.
      * @dev Any ERC1363 smart contract calls this function on the recipient
