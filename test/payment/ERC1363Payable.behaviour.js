@@ -1,5 +1,4 @@
 const { BN, constants, expectRevert, expectEvent } = require('@openzeppelin/test-helpers');
-const { expect } = require('chai');
 const { shouldSupportInterfaces } = require('../introspection/SupportsInterface.behavior');
 const { ZERO_ADDRESS } = constants;
 

@@ -12,21 +12,20 @@ import "../token/ERC1363/IERC1363Spender.sol";
 
 /**
  * @title ERC1363Payable
- * @author Vittorio Minacori (https://github.com/vittominacori)
- * @dev Implementation proposal of a contract that wants to accept ERC1363 payments
+ * @dev Implementation proposal of a contract that wants to accept ERC1363 payments.
  */
 contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
     using ERC165Checker for address;
 
     /**
      * @dev Emitted when `amount` tokens are moved from one account (`sender`) to
-     * this by spender (`operator`) using {transferAndCall} or {transferFromAndCall}.
+     * this by spender (`operator`) using `transferAndCall` or `transferFromAndCall`.
      */
     event TokensReceived(address indexed operator, address indexed sender, uint256 amount, bytes data);
 
     /**
      * @dev Emitted when the allowance of this for a `sender` is set by
-     * a call to {approveAndCall}. `amount` is the new allowance.
+     * a call to `approveAndCall`. `amount` is the new allowance.
      */
     event TokensApproved(address indexed sender, uint256 amount, bytes data);
 

@@ -3,15 +3,18 @@
 pragma solidity ^0.8.0;
 
 /**
- * @title IERC1363Receiver Interface
- * @author Vittorio Minacori (https://github.com/vittominacori)
- * @dev Interface for any contract that wants to support transferAndCall or transferFromAndCall
- *  from ERC1363 token contracts as defined in
- *  https://eips.ethereum.org/EIPS/eip-1363
+ * @title IERC1363Receiver interface
+ * @dev Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall`
+ *  from ERC1363 token contracts.
  */
 interface IERC1363Receiver {
+    /*
+     * Note: the ERC-165 identifier for this interface is 0x88a7ca5c.
+     * 0x88a7ca5c === bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))
+     */
+    
     /**
-     * @notice Handle the receipt of ERC1363 tokens
+     * @notice Handle the receipt of ERC1363 tokens.
      * @dev Any ERC1363 smart contract calls this function on the recipient
      * after a `transfer` or a `transferFrom`. This function MAY throw to revert and reject the
      * transfer. Return of other than the magic value MUST result in the

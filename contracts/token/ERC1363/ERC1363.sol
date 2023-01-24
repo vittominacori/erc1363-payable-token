@@ -12,8 +12,7 @@ import "./IERC1363Spender.sol";
 
 /**
  * @title ERC1363
- * @author Vittorio Minacori (https://github.com/vittominacori)
- * @dev Implementation of an ERC1363 interface
+ * @dev Implementation of an ERC1363 interface.
  */
 abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
     using Address for address;
@@ -102,8 +101,8 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
     }
 
     /**
-     * @dev Internal function to invoke {IERC1363Receiver-onTransferReceived} on a target address
-     *  The call is not executed if the target address is not a contract
+     * @dev Internal function to invoke {IERC1363Receiver-onTransferReceived} on a target address.
+     *  The call is not executed if the target address is not a contract.
      * @param sender address Representing the previous owner of the given token amount
      * @param recipient address Target address that will receive the tokens
      * @param amount uint256 The amount mount of tokens to be transferred
@@ -135,8 +134,8 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
     }
 
     /**
-     * @dev Internal function to invoke {IERC1363Receiver-onApprovalReceived} on a target address
-     *  The call is not executed if the target address is not a contract
+     * @dev Internal function to invoke {IERC1363Receiver-onApprovalReceived} on a target address.
+     *  The call is not executed if the target address is not a contract.
      * @param spender address The address which will spend the funds
      * @param amount uint256 The amount of tokens to be spent
      * @param data bytes Optional data to send along with the call

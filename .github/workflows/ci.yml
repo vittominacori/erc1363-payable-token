@@ -1,7 +1,9 @@
 name: CI
 
 on:
-  push: {}
+  push:
+    branches:
+      - master
   pull_request: {}
   release:
     types:
@@ -14,32 +16,22 @@ jobs:
     steps:
       - name: Setup Code
         uses: actions/checkout@v3
+        
+      - name: Setup Environment
+        uses: ./.github/actions/setup
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Linter
+      - name: Run Linter
         run: npm run lint
 
   test:
-    name: Test
+    name: Run Test
     runs-on: ubuntu-latest
     steps:
       - name: Setup Code
         uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-
-      - name: Install dependencies
-        run: npm install
+        
+      - name: Setup Environment
+        uses: ./.github/actions/setup
 
       - name: Test
         run: npm test
@@ -50,40 +42,12 @@ jobs:
     steps:
       - name: Setup Code
         uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Coverage
+        
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        
+      - name: Run Coverage
         run: npm run coverage
-
-      - name: Post to Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-#  nightly_build:
-#    name: Nightly Build
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Setup Code
-#        uses: actions/checkout@v2
-#
-#      - name: Setup Node
-#        uses: actions/setup-node@v1
-#        with:
-#          node-version: '16.x'
-#
-#      - name: Install dependencies
-#        run: npm install
-#
-#      - name: Nightly Build
-#        run: npm run truffle:test
-#        env:
-#          SOLC_NIGHTLY: true
+        
+      - name: Post to Codecov
+        uses: codecov/codecov-action@v3

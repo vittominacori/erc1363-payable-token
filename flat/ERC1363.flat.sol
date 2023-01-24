@@ -843,13 +843,22 @@ pragma solidity ^0.8.0;
 
 /**
  * @title IERC1363 Interface
- * @author Vittorio Minacori (https://github.com/vittominacori)
- * @dev Interface for a Payable Token contract as defined in
- *  https://eips.ethereum.org/EIPS/eip-1363
+ * @dev Interface of an ERC1363 compliant contract, as defined in the https://eips.ethereum.org/EIPS/eip-1363[EIP].
  */
 interface IERC1363 is IERC20, IERC165 {
+    /*
+     * Note: the ERC-165 identifier for this interface is 0xb0202a11.
+     * 0xb0202a11 ===
+     *   bytes4(keccak256('transferAndCall(address,uint256)')) ^
+     *   bytes4(keccak256('transferAndCall(address,uint256,bytes)')) ^
+     *   bytes4(keccak256('transferFromAndCall(address,address,uint256)')) ^
+     *   bytes4(keccak256('transferFromAndCall(address,address,uint256,bytes)')) ^
+     *   bytes4(keccak256('approveAndCall(address,uint256)')) ^
+     *   bytes4(keccak256('approveAndCall(address,uint256,bytes)'))
+     */
+    
     /**
-     * @notice Transfer tokens from `msg.sender` to another address and then call `onTransferReceived` on receiver
+     * @notice Transfer tokens from `msg.sender` to another address and then call `onTransferReceived` on receiver.
      * @param to address The address which you want to transfer to
      * @param amount uint256 The amount of tokens to be transferred
      * @return true unless throwing
@@ -857,7 +866,7 @@ interface IERC1363 is IERC20, IERC165 {
     function transferAndCall(address to, uint256 amount) external returns (bool);
 
     /**
-     * @notice Transfer tokens from `msg.sender` to another address and then call `onTransferReceived` on receiver
+     * @notice Transfer tokens from `msg.sender` to another address and then call `onTransferReceived` on receiver.
      * @param to address The address which you want to transfer to
      * @param amount uint256 The amount of tokens to be transferred
      * @param data bytes Additional data with no specified format, sent in call to `to`
@@ -866,7 +875,7 @@ interface IERC1363 is IERC20, IERC165 {
     function transferAndCall(address to, uint256 amount, bytes calldata data) external returns (bool);
 
     /**
-     * @notice Transfer tokens from one address to another and then call `onTransferReceived` on receiver
+     * @notice Transfer tokens from one address to another and then call `onTransferReceived` on receiver.
      * @param from address The address which you want to send tokens from
      * @param to address The address which you want to transfer to
      * @param amount uint256 The amount of tokens to be transferred
@@ -875,7 +884,7 @@ interface IERC1363 is IERC20, IERC165 {
     function transferFromAndCall(address from, address to, uint256 amount) external returns (bool);
 
     /**
-     * @notice Transfer tokens from one address to another and then call `onTransferReceived` on receiver
+     * @notice Transfer tokens from one address to another and then call `onTransferReceived` on receiver.
      * @param from address The address which you want to send tokens from
      * @param to address The address which you want to transfer to
      * @param amount uint256 The amount of tokens to be transferred
@@ -917,15 +926,18 @@ interface IERC1363 is IERC20, IERC165 {
 pragma solidity ^0.8.0;
 
 /**
- * @title IERC1363Receiver Interface
- * @author Vittorio Minacori (https://github.com/vittominacori)
- * @dev Interface for any contract that wants to support transferAndCall or transferFromAndCall
- *  from ERC1363 token contracts as defined in
- *  https://eips.ethereum.org/EIPS/eip-1363
+ * @title IERC1363Receiver interface
+ * @dev Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall`
+ *  from ERC1363 token contracts.
  */
 interface IERC1363Receiver {
+    /*
+     * Note: the ERC-165 identifier for this interface is 0x88a7ca5c.
+     * 0x88a7ca5c === bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))
+     */
+    
     /**
-     * @notice Handle the receipt of ERC1363 tokens
+     * @notice Handle the receipt of ERC1363 tokens.
      * @dev Any ERC1363 smart contract calls this function on the recipient
      * after a `transfer` or a `transferFrom`. This function MAY throw to revert and reject the
      * transfer. Return of other than the magic value MUST result in the
@@ -952,15 +964,18 @@ interface IERC1363Receiver {
 pragma solidity ^0.8.0;
 
 /**
- * @title IERC1363Spender Interface
- * @author Vittorio Minacori (https://github.com/vittominacori)
- * @dev Interface for any contract that wants to support approveAndCall
- *  from ERC1363 token contracts as defined in
- *  https://eips.ethereum.org/EIPS/eip-1363
+ * @title ERC1363Spender interface
+ * @dev Interface for any contract that wants to support `approveAndCall`
+ *  from ERC1363 token contracts.
  */
 interface IERC1363Spender {
+    /*
+     * Note: the ERC-165 identifier for this interface is 0x7b04a2d0.
+     * 0x7b04a2d0 === bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))
+     */
+    
     /**
-     * @notice Handle the approval of ERC1363 tokens
+     * @notice Handle the approval of ERC1363 tokens.
      * @dev Any ERC1363 smart contract calls this function on the recipient
      * after an `approve`. This function MAY throw to revert and reject the
      * approval. Return of other than the magic value MUST result in the
@@ -986,8 +1001,7 @@ pragma solidity ^0.8.0;
 
 /**
  * @title ERC1363
- * @author Vittorio Minacori (https://github.com/vittominacori)
- * @dev Implementation of an ERC1363 interface
+ * @dev Implementation of an ERC1363 interface.
  */
 abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
     using Address for address;
@@ -1076,8 +1090,8 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
     }
 
     /**
-     * @dev Internal function to invoke {IERC1363Receiver-onTransferReceived} on a target address
-     *  The call is not executed if the target address is not a contract
+     * @dev Internal function to invoke {IERC1363Receiver-onTransferReceived} on a target address.
+     *  The call is not executed if the target address is not a contract.
      * @param sender address Representing the previous owner of the given token amount
      * @param recipient address Target address that will receive the tokens
      * @param amount uint256 The amount mount of tokens to be transferred
@@ -1109,8 +1123,8 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
     }
 
     /**
-     * @dev Internal function to invoke {IERC1363Receiver-onApprovalReceived} on a target address
-     *  The call is not executed if the target address is not a contract
+     * @dev Internal function to invoke {IERC1363Receiver-onApprovalReceived} on a target address.
+     *  The call is not executed if the target address is not a contract.
      * @param spender address The address which will spend the funds
      * @param amount uint256 The amount of tokens to be spent
      * @param data bytes Optional data to send along with the call

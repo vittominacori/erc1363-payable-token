@@ -1,6 +1,5 @@
 const { BN, expectRevert, expectEvent } = require('@openzeppelin/test-helpers');
 const { shouldSupportInterfaces } = require('../../introspection/SupportsInterface.behavior');
-const { expect } = require('chai');
 
 const ERC1363Receiver = artifacts.require('ERC1363ReceiverMock');
 const ERC1363Spender = artifacts.require('ERC1363SpenderMock');

@@ -1,5 +1,4 @@
 const { BN, constants, expectRevert, expectEvent } = require('@openzeppelin/test-helpers');
-const { expect } = require('chai');
 const { ZERO_ADDRESS } = constants;
 
 const Crowdsale = artifacts.require('ERC1363PayableCrowdsale');

@@ -3,12 +3,10 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "../payment/ERC1363Payable.sol";
 
 /**
  * @title ERC1363PayableCrowdsale
- * @author Vittorio Minacori (https://github.com/vittominacori)
  * @dev ERC1363PayableCrowdsale is a base contract for managing a token crowdsale,
  * allowing investors to purchase tokens with ERC1363 tokens. This contract implements
  * such functionality in its most fundamental form and can be extended to provide additional
@@ -17,7 +15,7 @@ import "../payment/ERC1363Payable.sol";
  * the methods to add functionality. Consider using 'super' where appropriate to concatenate
  * behavior.
  */
-contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
+contract ERC1363PayableCrowdsale is ERC1363Payable {
     using SafeERC20 for IERC20;
 
     // The token being sold
@@ -111,14 +109,12 @@ contract ERC1363PayableCrowdsale is ERC1363Payable, ReentrancyGuard {
 
     /**
      * @dev low level token purchase ***DO NOT OVERRIDE***
-     * This function has a non-reentrancy guard, so it shouldn't be called by
-     * another `nonReentrant` function.
      * @param operator The address which called `transferAndCall`, `transferFromAndCall` or `approveAndCall` function
      * @param sender Address performing the token purchase
      * @param amount The amount of tokens transferred
      * @param data Additional data with no specified format
      */
-    function _buyTokens(address operator, address sender, uint256 amount, bytes memory data) internal nonReentrant {
+    function _buyTokens(address operator, address sender, uint256 amount, bytes memory data) internal {
         uint256 sentTokenAmount = amount;
         _preValidatePurchase(sentTokenAmount);
 

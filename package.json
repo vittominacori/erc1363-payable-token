@@ -18,7 +18,7 @@
     "compile": "npm run hardhat:compile",
     "test": "npm run hardhat:test",
     "coverage": "npm run hardhat:coverage",
-    "clean": "rm -rf coverage",
+    "clean": "rm -rf coverage coverage.json",
     "profile": "npm run clean && npm run coverage && open coverage/index.html",
     "lint": "npm run lint:js && npm run lint:sol",
     "lint:fix": "npm run lint:js:fix && npm run lint:sol:fix",
