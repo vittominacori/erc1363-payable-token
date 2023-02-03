@@ -7,7 +7,7 @@ module.exports = {
   base: '/erc1363-payable-token/',
   plugins: [
     [
-      '@vuepress/google-analytics',
+      'google-gtag',
       {
         ga: vars.gaId,
       },
