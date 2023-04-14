@@ -856,7 +856,7 @@ interface IERC1363 is IERC20, IERC165 {
      *   bytes4(keccak256('approveAndCall(address,uint256)')) ^
      *   bytes4(keccak256('approveAndCall(address,uint256,bytes)'))
      */
-    
+
     /**
      * @notice Transfer tokens from `msg.sender` to another address and then call `onTransferReceived` on receiver.
      * @param to address The address which you want to transfer to
@@ -935,7 +935,7 @@ interface IERC1363Receiver {
      * Note: the ERC-165 identifier for this interface is 0x88a7ca5c.
      * 0x88a7ca5c === bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))
      */
-    
+
     /**
      * @notice Handle the receipt of ERC1363 tokens.
      * @dev Any ERC1363 smart contract calls this function on the recipient
@@ -973,7 +973,7 @@ interface IERC1363Spender {
      * Note: the ERC-165 identifier for this interface is 0x7b04a2d0.
      * 0x7b04a2d0 === bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))
      */
-    
+
     /**
      * @notice Handle the approval of ERC1363 tokens.
      * @dev Any ERC1363 smart contract calls this function on the recipient
