@@ -1,6 +1,6 @@
 {
   "name": "erc-payable-token",
-  "version": "4.8.3",
+  "version": "4.9.0",
   "description": "ERC-1363 Payable Token Implementation",
   "files": [
     "contracts",
@@ -51,27 +51,27 @@
   },
   "homepage": "https://vittominacori.github.io/erc1363-payable-token",
   "dependencies": {
-    "@openzeppelin/contracts": "4.8.3"
+    "@openzeppelin/contracts": "4.9.0"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-truffle5": "^2.0.7",
     "@nomiclabs/hardhat-web3": "^2.0.0",
     "@openzeppelin/test-helpers": "^0.5.16",
     "chai": "^4.3.7",
-    "eslint": "^8.38.0",
+    "eslint": "^8.41.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-mocha-no-only": "^1.1.1",
-    "hardhat": "^2.13.1",
-    "hardhat-exposed": "^0.3.2",
-    "prettier": "^2.8.7",
+    "hardhat": "^2.14.0",
+    "hardhat-exposed": "^0.3.6",
+    "prettier": "^2.8.8",
     "prettier-plugin-solidity": "^1.1.3",
     "sol2uml": "^2.5.4",
     "solhint": "^3.4.1",
     "solhint-plugin-prettier": "^0.0.5",
     "solidity-coverage": "^0.8.2",
     "surya": "^0.4.6",
-    "truffle": "^5.8.2",
+    "truffle": "^5.9.1",
     "vuepress": "^1.9.9",
     "vuepress-plugin-google-gtag": "^1.0.1"
   }
