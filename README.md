@@ -126,6 +126,11 @@ It also implements a `approvalReceived` function that can be overridden to make 
 
 As example: an Implementation of a classic token Crowdsale, but paid with ERC1363 tokens instead of ETH.
 
+### ERC1363MethodCallReceiver
+
+[ERC1363MethodCallReceiver.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363MethodCallReceiver.sol)
+
+As example: a contract allowing to test passing methods via abi encoded function call.
 
 ## Code Analysis
 

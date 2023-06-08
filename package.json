@@ -62,7 +62,7 @@
     "eslint-config-standard": "^17.1.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-mocha-no-only": "^1.1.1",
-    "hardhat": "^2.14.1",
+    "hardhat": "^2.15.0",
     "hardhat-exposed": "^0.3.6",
     "prettier": "^2.8.8",
     "prettier-plugin-solidity": "^1.1.3",
