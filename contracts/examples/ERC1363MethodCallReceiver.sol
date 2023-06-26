@@ -11,7 +11,6 @@ import "../token/ERC1363/IERC1363Receiver.sol";
  * via abi encoded function call.
  */
 contract ERC1363MethodCallReceiver is IERC1363Receiver, ERC165 {
-
     /**
      * Event for logging method call
      * @param method the function that has been called

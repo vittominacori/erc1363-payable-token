@@ -14,7 +14,6 @@ import "../token/ERC1363/IERC1363Spender.sol";
  * @dev Implementation proposal of a contract that wants to accept ERC1363 payments.
  */
 contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
-
     /**
      * @dev Emitted when `amount` tokens are moved from one account (`sender`) to
      * this by spender (`operator`) using `transferAndCall` or `transferFromAndCall`.
