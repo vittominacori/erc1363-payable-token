@@ -3,8 +3,6 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
-import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
-
 import "../token/ERC1363/IERC1363Receiver.sol";
 
 /**
@@ -13,7 +11,6 @@ import "../token/ERC1363/IERC1363Receiver.sol";
  * via abi encoded function call.
  */
 contract ERC1363MethodCallReceiver is IERC1363Receiver, ERC165 {
-    using ERC165Checker for address;
 
     /**
      * Event for logging method call

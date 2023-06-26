@@ -3,7 +3,6 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
-import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 
 import "../token/ERC1363/IERC1363.sol";
@@ -15,7 +14,6 @@ import "../token/ERC1363/IERC1363Spender.sol";
  * @dev Implementation proposal of a contract that wants to accept ERC1363 payments.
  */
 contract ERC1363Payable is IERC1363Receiver, IERC1363Spender, ERC165, Context {
-    using ERC165Checker for address;
 
     /**
      * @dev Emitted when `amount` tokens are moved from one account (`sender`) to
