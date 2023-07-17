@@ -5,7 +5,7 @@ const { ZERO_ADDRESS } = constants;
 const ERC20 = artifacts.require('ERC20');
 const ERC1363Payable = artifacts.require('ERC1363PayableMock');
 
-function shouldBehaveLikeERC1363Payable ([owner, spender], balance) {
+function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
   const value = balance;
   const data = '0x42';
 

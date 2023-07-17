@@ -43,7 +43,7 @@ npm install erc-payable-token
 ```solidity
 pragma solidity ^0.8.0;
 
-import "erc-payable-token/contracts/token/ERC1363/ERC1363.sol";
+import {ERC1363} from "erc-payable-token/contracts/token/ERC1363/ERC1363.sol";
 
 contract MyToken is ERC1363 {
 

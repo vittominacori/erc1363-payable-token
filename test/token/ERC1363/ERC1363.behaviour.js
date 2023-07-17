@@ -4,7 +4,7 @@ const { shouldSupportInterfaces } = require('../../introspection/SupportsInterfa
 const ERC1363Receiver = artifacts.require('ERC1363ReceiverMock');
 const ERC1363Spender = artifacts.require('ERC1363SpenderMock');
 
-function shouldBehaveLikeERC1363 ([owner, spender, recipient], balance) {
+function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
   const value = balance;
   const data = '0x42';
 

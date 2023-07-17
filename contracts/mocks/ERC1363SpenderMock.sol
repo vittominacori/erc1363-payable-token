@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "../token/ERC1363/IERC1363Spender.sol";
+import {IERC1363Spender} from "../token/ERC1363/IERC1363Spender.sol";
 
 // mock class using IERC1363Spender
 contract ERC1363SpenderMock is IERC1363Spender {

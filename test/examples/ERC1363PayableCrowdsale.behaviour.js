@@ -3,7 +3,7 @@ const { ZERO_ADDRESS } = constants;
 
 const Crowdsale = artifacts.require('ERC1363PayableCrowdsale');
 
-function shouldBehaveLikeERC1363PayableCrowdsale ([deployer, wallet, beneficiary, operator]) {
+function shouldBehaveLikeERC1363PayableCrowdsale([deployer, wallet, beneficiary, operator]) {
   const rate = new BN(1);
   const value = new BN('1000000000000000000');
   const tokenSupply = new BN('10000000000000000000000');

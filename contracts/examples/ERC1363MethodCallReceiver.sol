@@ -2,8 +2,9 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
-import "../token/ERC1363/IERC1363Receiver.sol";
+import {ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
+
+import {IERC1363Receiver} from "../token/ERC1363/IERC1363Receiver.sol";
 
 /**
  * @title ERC1363MethodCallReceiver

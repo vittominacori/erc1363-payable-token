@@ -2,13 +2,15 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/utils/Address.sol";
-import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
+import {ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
-import "./IERC1363.sol";
-import "./IERC1363Receiver.sol";
-import "./IERC1363Spender.sol";
+import {Address} from "@openzeppelin/contracts/utils/Address.sol";
+
+import {IERC1363} from "./IERC1363.sol";
+import {IERC1363Receiver} from "./IERC1363Receiver.sol";
+import {IERC1363Spender} from "./IERC1363Spender.sol";
 
 /**
  * @title ERC1363

@@ -24,7 +24,7 @@ for (const k of Object.getOwnPropertyNames(INTERFACES)) {
   }
 }
 
-function shouldSupportInterfaces (interfaces = []) {
+function shouldSupportInterfaces(interfaces = []) {
   describe('Contract interface', function () {
     beforeEach(function () {
       this.contractUnderTest = this.mock || this.token || this.holder;
@@ -33,7 +33,7 @@ function shouldSupportInterfaces (interfaces = []) {
     for (const k of interfaces) {
       const interfaceId = INTERFACE_IDS[k];
       describe(k, function () {
-        describe('ERC165\'s supportsInterface(bytes4)', function () {
+        describe("ERC165's supportsInterface(bytes4)", function () {
           it('uses less than 30k gas [skip-on-coverage]', async function () {
             expect(await this.contractUnderTest.supportsInterface.estimateGas(interfaceId)).to.be.lte(30000);
           });

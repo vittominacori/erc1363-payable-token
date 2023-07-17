@@ -2,12 +2,12 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
-import "@openzeppelin/contracts/utils/Context.sol";
+import {Context} from "@openzeppelin/contracts/utils/Context.sol";
+import {ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
-import "../token/ERC1363/IERC1363.sol";
-import "../token/ERC1363/IERC1363Receiver.sol";
-import "../token/ERC1363/IERC1363Spender.sol";
+import {IERC1363} from "../token/ERC1363/IERC1363.sol";
+import {IERC1363Receiver} from "../token/ERC1363/IERC1363Receiver.sol";
+import {IERC1363Spender} from "../token/ERC1363/IERC1363Spender.sol";
 
 /**
  * @title ERC1363Payable

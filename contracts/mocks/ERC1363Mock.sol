@@ -2,7 +2,8 @@
 
 pragma solidity ^0.8.0;
 
-import "../token/ERC1363/ERC1363.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {ERC1363} from "../token/ERC1363/ERC1363.sol";
 
 // mock class using ERC1363
 contract ERC1363Mock is ERC1363 {

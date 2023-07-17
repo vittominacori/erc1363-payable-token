@@ -2,8 +2,11 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "../payment/ERC1363Payable.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+import {IERC1363} from "../token/ERC1363/IERC1363.sol";
+import {ERC1363Payable} from "../payment/ERC1363Payable.sol";
 
 /**
  * @title ERC1363PayableCrowdsale

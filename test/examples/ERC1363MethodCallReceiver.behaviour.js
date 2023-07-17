@@ -3,7 +3,7 @@ const { shouldSupportInterfaces } = require('../introspection/SupportsInterface.
 
 const ERC1363MethodCallReceiver = artifacts.require('ERC1363MethodCallReceiver');
 
-function shouldBehaveLikeERC1363MethodCallReceiver ([deployer, sender, operator]) {
+function shouldBehaveLikeERC1363MethodCallReceiver([deployer, sender, operator]) {
   const value = new BN('1000000000000000000');
 
   context('once deployed', async function () {
@@ -44,7 +44,12 @@ function shouldBehaveLikeERC1363MethodCallReceiver ([deployer, sender, operator]
               );
 
               const receipt = await transferFromAndCallWithData.call(
-                this, sender, this.mock.address, value, abiEncodedCall, { from: operator },
+                this,
+                sender,
+                this.mock.address,
+                value,
+                abiEncodedCall,
+                { from: operator },
               );
 
               await expectEvent.inTransaction(receipt.tx, ERC1363MethodCallReceiver, 'MethodCall', {
@@ -60,16 +65,24 @@ function shouldBehaveLikeERC1363MethodCallReceiver ([deployer, sender, operator]
                 {
                   name: 'methodWithParam',
                   type: 'function',
-                  inputs: [{
-                    type: 'string',
-                    name: 'param',
-                  }],
+                  inputs: [
+                    {
+                      type: 'string',
+                      name: 'param',
+                    },
+                  ],
                 },
                 ['AAA'],
               );
 
               const receipt = await transferFromAndCallWithData.call(
-                this, sender, this.mock.address, value, abiEncodedCall, { from: operator });
+                this,
+                sender,
+                this.mock.address,
+                value,
+                abiEncodedCall,
+                { from: operator },
+              );
 
               await expectEvent.inTransaction(receipt.tx, ERC1363MethodCallReceiver, 'MethodCall', {
                 method: 'methodWithParam',
@@ -90,9 +103,9 @@ function shouldBehaveLikeERC1363MethodCallReceiver ([deployer, sender, operator]
               );
 
               await expectRevert(
-                transferFromAndCallWithData.call(
-                  this, sender, this.mock.address, value, abiEncodedCall, { from: operator },
-                ),
+                transferFromAndCallWithData.call(this, sender, this.mock.address, value, abiEncodedCall, {
+                  from: operator,
+                }),
                 'Low level call failed',
               );
             });
@@ -101,9 +114,7 @@ function shouldBehaveLikeERC1363MethodCallReceiver ([deployer, sender, operator]
           describe('when data is not a valid method signature', function () {
             it('reverts', async function () {
               await expectRevert(
-                transferFromAndCallWithData.call(
-                  this, sender, this.mock.address, value, '0x42', { from: operator },
-                ),
+                transferFromAndCallWithData.call(this, sender, this.mock.address, value, '0x42', { from: operator }),
                 'Low level call failed',
               );
             });
@@ -113,9 +124,7 @@ function shouldBehaveLikeERC1363MethodCallReceiver ([deployer, sender, operator]
         describe('without data', function () {
           it('reverts', async function () {
             await expectRevert(
-              transferFromAndCallWithoutData.call(
-                this, sender, this.mock.address, value, { from: operator },
-              ),
+              transferFromAndCallWithoutData.call(this, sender, this.mock.address, value, { from: operator }),
               'Low level call failed',
             );
           });
@@ -143,9 +152,9 @@ function shouldBehaveLikeERC1363MethodCallReceiver ([deployer, sender, operator]
                 [],
               );
 
-              const receipt = await transferAndCallWithData.call(
-                this, this.mock.address, value, abiEncodedCall, { from: sender },
-              );
+              const receipt = await transferAndCallWithData.call(this, this.mock.address, value, abiEncodedCall, {
+                from: sender,
+              });
 
               await expectEvent.inTransaction(receipt.tx, ERC1363MethodCallReceiver, 'MethodCall', {
                 method: 'methodWithoutParam',
@@ -160,17 +169,19 @@ function shouldBehaveLikeERC1363MethodCallReceiver ([deployer, sender, operator]
                 {
                   name: 'methodWithParam',
                   type: 'function',
-                  inputs: [{
-                    type: 'string',
-                    name: 'param',
-                  }],
+                  inputs: [
+                    {
+                      type: 'string',
+                      name: 'param',
+                    },
+                  ],
                 },
                 ['AAA'],
               );
 
-              const receipt = await transferAndCallWithData.call(
-                this, this.mock.address, value, abiEncodedCall, { from: sender },
-              );
+              const receipt = await transferAndCallWithData.call(this, this.mock.address, value, abiEncodedCall, {
+                from: sender,
+              });
 
               await expectEvent.inTransaction(receipt.tx, ERC1363MethodCallReceiver, 'MethodCall', {
                 method: 'methodWithParam',
@@ -191,9 +202,7 @@ function shouldBehaveLikeERC1363MethodCallReceiver ([deployer, sender, operator]
               );
 
               await expectRevert(
-                transferAndCallWithData.call(
-                  this, this.mock.address, value, abiEncodedCall, { from: sender },
-                ),
+                transferAndCallWithData.call(this, this.mock.address, value, abiEncodedCall, { from: sender }),
                 'Low level call failed',
               );
             });
