@@ -2,9 +2,8 @@
 
 pragma solidity ^0.8.0;
 
-import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
+import {IERC165, ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import {ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 import {IERC1363} from "./IERC1363.sol";
 import {IERC1363Receiver} from "./IERC1363Receiver.sol";
@@ -14,7 +13,7 @@ import {IERC1363Spender} from "./IERC1363Spender.sol";
  * @title ERC1363
  * @dev Implementation of an ERC1363 interface.
  */
-abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
+abstract contract ERC1363 is ERC20, ERC165, IERC1363 {
     /**
      * @dev Indicates a failure with the token `receiver` as it can't be an EOA. Used in transfers.
      * @param receiver Address to which tokens are being transferred.
