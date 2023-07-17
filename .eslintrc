@@ -1,19 +1,27 @@
 {
   "root": true,
-  "extends" : [
+  "extends": [
     "eslint:recommended",
-    "prettier",
+    "prettier"
+  ],
+  "plugins": [
+    "mocha-no-only"
   ],
   "env": {
     "es2022": true,
     "browser": true,
     "node": true,
-    "mocha": true,
+    "mocha": true
   },
-  "globals" : {
+  "globals": {
     "artifacts": "readonly",
     "contract": "readonly",
     "web3": "readonly",
-    "expect": "readonly",
+    "expect": "readonly"
+  },
+  "rules": {
+    "mocha-no-only/mocha-no-only": [
+      "error"
+    ]
   }
 }
