@@ -2,11 +2,9 @@
 
 pragma solidity ^0.8.0;
 
-import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
-
-import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 
 import {IERC1363} from "./IERC1363.sol";
 import {IERC1363Receiver} from "./IERC1363Receiver.sol";
@@ -17,7 +15,29 @@ import {IERC1363Spender} from "./IERC1363Spender.sol";
  * @dev Implementation of an ERC1363 interface.
  */
 abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
-    using Address for address;
+    /**
+     * @dev Indicates a failure with the token `receiver` as it can't be an EOA. Used in transfers.
+     * @param receiver Address to which tokens are being transferred.
+     */
+    error ERC1363EOAReceiver(address receiver);
+
+    /**
+     * @dev Indicates a failure with the token `spender` as it can't be an EOA. Used in approvals.
+     * @param spender Address that may be allowed to operate on tokens without being their owner.
+     */
+    error ERC1363EOASpender(address spender);
+
+    /**
+     * @dev Indicates a failure with the token `receiver`. Used in transfers.
+     * @param receiver Address to which tokens are being transferred.
+     */
+    error ERC1363InvalidReceiver(address receiver);
+
+    /**
+     * @dev Indicates a failure with the token `spender`. Used in approvals.
+     * @param spender Address that may be allowed to operate on tokens without being their owner.
+     */
+    error ERC1363InvalidSpender(address spender);
 
     /**
      * @dev See {IERC165-supportsInterface}.
@@ -45,7 +65,9 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      */
     function transferAndCall(address to, uint256 amount, bytes memory data) public virtual override returns (bool) {
         transfer(to, amount);
-        require(_checkOnTransferReceived(_msgSender(), to, amount, data), "ERC1363: receiver returned wrong data");
+        if (!_checkOnTransferReceived(_msgSender(), to, amount, data)) {
+            revert ERC1363InvalidReceiver(to);
+        }
         return true;
     }
 
@@ -75,7 +97,9 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
         bytes memory data
     ) public virtual override returns (bool) {
         transferFrom(from, to, amount);
-        require(_checkOnTransferReceived(from, to, amount, data), "ERC1363: receiver returned wrong data");
+        if (!_checkOnTransferReceived(from, to, amount, data)) {
+            revert ERC1363InvalidReceiver(to);
+        }
         return true;
     }
 
@@ -98,7 +122,9 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
      */
     function approveAndCall(address spender, uint256 amount, bytes memory data) public virtual override returns (bool) {
         approve(spender, amount);
-        require(_checkOnApprovalReceived(spender, amount, data), "ERC1363: spender returned wrong data");
+        if (!_checkOnApprovalReceived(spender, amount, data)) {
+            revert ERC1363InvalidSpender(spender);
+        }
         return true;
     }
 
@@ -117,21 +143,23 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
         uint256 amount,
         bytes memory data
     ) internal virtual returns (bool) {
-        if (!recipient.isContract()) {
-            revert("ERC1363: transfer to non contract address");
-        }
-
-        try IERC1363Receiver(recipient).onTransferReceived(_msgSender(), sender, amount, data) returns (bytes4 retval) {
-            return retval == IERC1363Receiver.onTransferReceived.selector;
-        } catch (bytes memory reason) {
-            if (reason.length == 0) {
-                revert("ERC1363: transfer to non ERC1363Receiver implementer");
-            } else {
-                /// @solidity memory-safe-assembly
-                assembly {
-                    revert(add(32, reason), mload(reason))
+        if (recipient.code.length > 0) {
+            try IERC1363Receiver(recipient).onTransferReceived(_msgSender(), sender, amount, data) returns (
+                bytes4 retval
+            ) {
+                return retval == IERC1363Receiver.onTransferReceived.selector;
+            } catch (bytes memory reason) {
+                if (reason.length == 0) {
+                    revert ERC1363InvalidReceiver(recipient);
+                } else {
+                    /// @solidity memory-safe-assembly
+                    assembly {
+                        revert(add(32, reason), mload(reason))
+                    }
                 }
             }
+        } else {
+            revert ERC1363EOAReceiver(recipient);
         }
     }
 
@@ -148,21 +176,21 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
         uint256 amount,
         bytes memory data
     ) internal virtual returns (bool) {
-        if (!spender.isContract()) {
-            revert("ERC1363: approve a non contract address");
-        }
-
-        try IERC1363Spender(spender).onApprovalReceived(_msgSender(), amount, data) returns (bytes4 retval) {
-            return retval == IERC1363Spender.onApprovalReceived.selector;
-        } catch (bytes memory reason) {
-            if (reason.length == 0) {
-                revert("ERC1363: approve a non ERC1363Spender implementer");
-            } else {
-                /// @solidity memory-safe-assembly
-                assembly {
-                    revert(add(32, reason), mload(reason))
+        if (spender.code.length > 0) {
+            try IERC1363Spender(spender).onApprovalReceived(_msgSender(), amount, data) returns (bytes4 retval) {
+                return retval == IERC1363Spender.onApprovalReceived.selector;
+            } catch (bytes memory reason) {
+                if (reason.length == 0) {
+                    revert ERC1363InvalidSpender(spender);
+                } else {
+                    /// @solidity memory-safe-assembly
+                    assembly {
+                        revert(add(32, reason), mload(reason))
+                    }
                 }
             }
+        } else {
+            revert ERC1363EOASpender(spender);
         }
     }
 }

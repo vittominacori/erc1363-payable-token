@@ -1,6 +1,8 @@
 const { BN, expectRevert, expectEvent } = require('@openzeppelin/test-helpers');
 const { shouldSupportInterfaces } = require('../../introspection/SupportsInterface.behavior');
 
+const { expectRevertCustomError } = require('../../helpers/customError');
+
 const ERC1363Receiver = artifacts.require('ERC1363ReceiverMock');
 const ERC1363Spender = artifacts.require('ERC1363SpenderMock');
 
@@ -136,9 +138,10 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
 
     describe('to a receiver that is not a contract', function () {
       it('reverts', async function () {
-        await expectRevert(
+        await expectRevertCustomError(
           transferFromAndCallWithoutData.call(this, owner, recipient, value, { from: spender }),
-          'ERC1363: transfer to non contract address',
+          'ERC1363EOAReceiver',
+          [recipient],
         );
       });
     });
@@ -146,9 +149,10 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
     describe('to a receiver contract returning unexpected value', function () {
       it('reverts', async function () {
         const invalidReceiver = await ERC1363Receiver.new(data, false);
-        await expectRevert(
+        await expectRevertCustomError(
           transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender }),
-          'ERC1363: receiver returned wrong data',
+          'ERC1363InvalidReceiver',
+          [invalidReceiver.address],
         );
       });
     });
@@ -166,9 +170,10 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
     describe('to a contract that does not implement the required function', function () {
       it('reverts', async function () {
         const invalidReceiver = this.token;
-        await expectRevert(
+        await expectRevertCustomError(
           transferFromAndCallWithoutData.call(this, owner, invalidReceiver.address, value, { from: spender }),
-          'ERC1363: transfer to non ERC1363Receiver implementer',
+          'ERC1363InvalidReceiver',
+          [invalidReceiver.address],
         );
       });
     });
@@ -291,9 +296,10 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
 
     describe('to a receiver that is not a contract', function () {
       it('reverts', async function () {
-        await expectRevert(
+        await expectRevertCustomError(
           transferAndCallWithoutData.call(this, recipient, value, { from: owner }),
-          'ERC1363: transfer to non contract address',
+          'ERC1363EOAReceiver',
+          [recipient],
         );
       });
     });
@@ -301,9 +307,10 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
     describe('to a receiver contract returning unexpected value', function () {
       it('reverts', async function () {
         const invalidReceiver = await ERC1363Receiver.new(data, false);
-        await expectRevert(
+        await expectRevertCustomError(
           transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner }),
-          'ERC1363: receiver returned wrong data',
+          'ERC1363InvalidReceiver',
+          [invalidReceiver.address],
         );
       });
     });
@@ -321,9 +328,10 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
     describe('to a contract that does not implement the required function', function () {
       it('reverts', async function () {
         const invalidReceiver = this.token;
-        await expectRevert(
+        await expectRevertCustomError(
           transferAndCallWithoutData.call(this, invalidReceiver.address, value, { from: owner }),
-          'ERC1363: transfer to non ERC1363Receiver implementer',
+          'ERC1363InvalidReceiver',
+          [invalidReceiver.address],
         );
       });
     });
@@ -416,9 +424,10 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
 
     describe('to a spender that is not a contract', function () {
       it('reverts', async function () {
-        await expectRevert(
+        await expectRevertCustomError(
           approveAndCallWithoutData.call(this, recipient, value, { from: owner }),
-          'ERC1363: approve a non contract address',
+          'ERC1363EOASpender',
+          [recipient],
         );
       });
     });
@@ -426,9 +435,10 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
     describe('to a spender contract returning unexpected value', function () {
       it('reverts', async function () {
         const invalidSpender = await ERC1363Spender.new(data, false);
-        await expectRevert(
+        await expectRevertCustomError(
           approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner }),
-          'ERC1363: spender returned wrong data',
+          'ERC1363InvalidSpender',
+          [invalidSpender.address],
         );
       });
     });
@@ -446,9 +456,10 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
     describe('to a contract that does not implement the required function', function () {
       it('reverts', async function () {
         const invalidSpender = this.token;
-        await expectRevert(
+        await expectRevertCustomError(
           approveAndCallWithoutData.call(this, invalidSpender.address, value, { from: owner }),
-          'ERC1363: approve a non ERC1363Spender implementer',
+          'ERC1363InvalidSpender',
+          [invalidSpender.address],
         );
       });
     });
