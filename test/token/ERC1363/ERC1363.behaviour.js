@@ -88,9 +88,9 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
           });
 
           it('emits a transfer event', async function () {
-            const { logs } = await transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender });
+            this.receipt = await transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender });
 
-            expectEvent.inLogs(logs, 'Transfer', {
+            expectEvent(this.receipt, 'Transfer', {
               from: sender,
               to: receiver,
               value: amount,
@@ -108,11 +108,11 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
           });
 
           it('emits a transfer event', async function () {
-            const { logs } = await transferFromAndCallWithoutData.call(this, sender, receiver, amount, {
+            this.receipt = await transferFromAndCallWithoutData.call(this, sender, receiver, amount, {
               from: spender,
             });
 
-            expectEvent.inLogs(logs, 'Transfer', {
+            expectEvent(this.receipt, 'Transfer', {
               from: sender,
               to: receiver,
               value: amount,
@@ -245,9 +245,9 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
           });
 
           it('emits a transfer event', async function () {
-            const { logs } = await transferAndCallWithData.call(this, receiver, amount, { from: sender });
+            this.receipt = await transferAndCallWithData.call(this, receiver, amount, { from: sender });
 
-            expectEvent.inLogs(logs, 'Transfer', {
+            expectEvent(this.receipt, 'Transfer', {
               from: sender,
               to: receiver,
               value: amount,
@@ -265,9 +265,9 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
           });
 
           it('emits a transfer event', async function () {
-            const { logs } = await transferAndCallWithoutData.call(this, receiver, amount, { from: sender });
+            this.receipt = await transferAndCallWithoutData.call(this, receiver, amount, { from: sender });
 
-            expectEvent.inLogs(logs, 'Transfer', {
+            expectEvent(this.receipt, 'Transfer', {
               from: sender,
               to: receiver,
               value: amount,
@@ -373,9 +373,9 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
         });
 
         it('emits an approval event', async function () {
-          const { logs } = await approveAndCallWithData.call(this, spender, amount, { from: sender });
+          this.receipt = await approveAndCallWithData.call(this, spender, amount, { from: sender });
 
-          expectEvent.inLogs(logs, 'Approval', {
+          expectEvent(this.receipt, 'Approval', {
             owner: sender,
             spender,
             value: amount,
@@ -391,9 +391,9 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
         });
 
         it('emits an approval event', async function () {
-          const { logs } = await approveAndCallWithoutData.call(this, spender, amount, { from: sender });
+          this.receipt = await approveAndCallWithoutData.call(this, spender, amount, { from: sender });
 
-          expectEvent.inLogs(logs, 'Approval', {
+          expectEvent(this.receipt, 'Approval', {
             owner: sender,
             spender,
             value: amount,
