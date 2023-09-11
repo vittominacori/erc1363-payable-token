@@ -6,8 +6,6 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import {ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
-import {Address} from "@openzeppelin/contracts/utils/Address.sol";
-
 import {IERC1363} from "./IERC1363.sol";
 import {IERC1363Receiver} from "./IERC1363Receiver.sol";
 import {IERC1363Spender} from "./IERC1363Spender.sol";
@@ -17,8 +15,6 @@ import {IERC1363Spender} from "./IERC1363Spender.sol";
  * @dev Implementation of an ERC1363 interface.
  */
 abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
-    using Address for address;
-
     /**
      * @dev See {IERC165-supportsInterface}.
      */
@@ -117,7 +113,7 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
         uint256 amount,
         bytes memory data
     ) internal virtual returns (bool) {
-        if (!recipient.isContract()) {
+        if (recipient.code.length == 0) {
             revert("ERC1363: transfer to non contract address");
         }
 
@@ -148,7 +144,7 @@ abstract contract ERC1363 is ERC20, IERC1363, ERC165 {
         uint256 amount,
         bytes memory data
     ) internal virtual returns (bool) {
-        if (!spender.isContract()) {
+        if (spender.code.length == 0) {
             revert("ERC1363: approve a non contract address");
         }
 
