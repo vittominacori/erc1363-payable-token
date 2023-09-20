@@ -20,7 +20,7 @@ module.exports = {
   },
   gasReporter: {
     enabled: true,
-    excludeContracts: ['mocks'],
+    excludeContracts: ['mocks', 'examples', '@openzeppelin/contracts'],
     showMethodSig: true,
   },
 };
