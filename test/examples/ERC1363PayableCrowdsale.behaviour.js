@@ -1,3 +1,4 @@
+const { expect } = require('chai');
 const { BN, constants, expectRevert, expectEvent } = require('@openzeppelin/test-helpers');
 const { ZERO_ADDRESS } = constants;
 
