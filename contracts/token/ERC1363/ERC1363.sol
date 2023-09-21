@@ -14,7 +14,7 @@ import {IERC1363Spender} from "./IERC1363Spender.sol";
  * @title ERC1363
  * @dev Implementation of an ERC1363 interface.
  */
-abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
+abstract contract ERC1363 is ERC20, IERC1363, IERC1363Errors, ERC165 {
     /**
      * @dev See {IERC165-supportsInterface}.
      */
