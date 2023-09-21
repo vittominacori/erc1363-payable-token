@@ -1,6 +1,12 @@
-// File: @openzeppelin/contracts/token/ERC20/IERC20.sol
-
 // SPDX-License-Identifier: MIT
+
+// Sources flattened with hardhat v2.17.3 https://hardhat.org
+
+
+
+// File @openzeppelin/contracts/token/ERC20/IERC20.sol@v4.9.3
+
+// Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v4.9.0) (token/ERC20/IERC20.sol)
 
 pragma solidity ^0.8.0;
@@ -79,9 +85,10 @@ interface IERC20 {
     function transferFrom(address from, address to, uint256 amount) external returns (bool);
 }
 
-// File: @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol
 
-// SPDX-License-Identifier: MIT
+// File @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol@v4.9.3
+
+// Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts v4.4.1 (token/ERC20/extensions/IERC20Metadata.sol)
 
 pragma solidity ^0.8.0;
@@ -108,9 +115,10 @@ interface IERC20Metadata is IERC20 {
     function decimals() external view returns (uint8);
 }
 
-// File: @openzeppelin/contracts/utils/Context.sol
 
-// SPDX-License-Identifier: MIT
+// File @openzeppelin/contracts/utils/Context.sol@v4.9.3
+
+// Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts v4.4.1 (utils/Context.sol)
 
 pragma solidity ^0.8.0;
@@ -135,9 +143,10 @@ abstract contract Context {
     }
 }
 
-// File: @openzeppelin/contracts/token/ERC20/ERC20.sol
 
-// SPDX-License-Identifier: MIT
+// File @openzeppelin/contracts/token/ERC20/ERC20.sol@v4.9.3
+
+// Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v4.9.0) (token/ERC20/ERC20.sol)
 
 pragma solidity ^0.8.0;
@@ -501,9 +510,10 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
     function _afterTokenTransfer(address from, address to, uint256 amount) internal virtual {}
 }
 
-// File: @openzeppelin/contracts/utils/introspection/IERC165.sol
 
-// SPDX-License-Identifier: MIT
+// File @openzeppelin/contracts/utils/introspection/IERC165.sol@v4.9.3
+
+// Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts v4.4.1 (utils/introspection/IERC165.sol)
 
 pragma solidity ^0.8.0;
@@ -529,9 +539,10 @@ interface IERC165 {
     function supportsInterface(bytes4 interfaceId) external view returns (bool);
 }
 
-// File: @openzeppelin/contracts/utils/introspection/ERC165.sol
 
-// SPDX-License-Identifier: MIT
+// File @openzeppelin/contracts/utils/introspection/ERC165.sol@v4.9.3
+
+// Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts v4.4.1 (utils/introspection/ERC165.sol)
 
 pragma solidity ^0.8.0;
@@ -559,9 +570,10 @@ abstract contract ERC165 is IERC165 {
     }
 }
 
-// File: contracts/token/ERC1363/IERC1363.sol
 
-// SPDX-License-Identifier: MIT
+// File contracts/token/ERC1363/IERC1363.sol
+
+// Original license: SPDX_License_Identifier: MIT
 
 pragma solidity ^0.8.0;
 
@@ -644,9 +656,10 @@ interface IERC1363 is IERC20, IERC165 {
     function approveAndCall(address spender, uint256 amount, bytes calldata data) external returns (bool);
 }
 
-// File: contracts/token/ERC1363/IERC1363Receiver.sol
 
-// SPDX-License-Identifier: MIT
+// File contracts/token/ERC1363/IERC1363Receiver.sol
+
+// Original license: SPDX_License_Identifier: MIT
 
 pragma solidity ^0.8.0;
 
@@ -682,9 +695,10 @@ interface IERC1363Receiver {
     ) external returns (bytes4);
 }
 
-// File: contracts/token/ERC1363/IERC1363Spender.sol
 
-// SPDX-License-Identifier: MIT
+// File contracts/token/ERC1363/IERC1363Spender.sol
+
+// Original license: SPDX_License_Identifier: MIT
 
 pragma solidity ^0.8.0;
 
@@ -714,9 +728,10 @@ interface IERC1363Spender {
     function onApprovalReceived(address sender, uint256 amount, bytes calldata data) external returns (bytes4);
 }
 
-// File: contracts/token/ERC1363/ERC1363.sol
 
-// SPDX-License-Identifier: MIT
+// File contracts/token/ERC1363/ERC1363.sol
+
+// Original license: SPDX_License_Identifier: MIT
 
 pragma solidity ^0.8.0;
 
