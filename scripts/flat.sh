@@ -2,7 +2,7 @@
 
 echo "flattening code..."
 
-npx truffle-flattener contracts/token/ERC1363/ERC1363.sol > dist/ERC1363.dist.sol
+npx hardhat flatten contracts/token/ERC1363/ERC1363.sol > dist/ERC1363.dist.sol
 
 echo "adjusting license..."
 

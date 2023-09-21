@@ -41,9 +41,7 @@ abstract contract ERC1363 is ERC20, IERC1363, IERC1363Errors, ERC165 {
      */
     function transferAndCall(address to, uint256 amount, bytes memory data) public virtual override returns (bool) {
         transfer(to, amount);
-        if (!_checkOnTransferReceived(_msgSender(), to, amount, data)) {
-            revert ERC1363InvalidReceiver(to);
-        }
+        _checkOnTransferReceived(_msgSender(), to, amount, data);
         return true;
     }
 
@@ -73,9 +71,7 @@ abstract contract ERC1363 is ERC20, IERC1363, IERC1363Errors, ERC165 {
         bytes memory data
     ) public virtual override returns (bool) {
         transferFrom(from, to, amount);
-        if (!_checkOnTransferReceived(from, to, amount, data)) {
-            revert ERC1363InvalidReceiver(to);
-        }
+        _checkOnTransferReceived(from, to, amount, data);
         return true;
     }
 
@@ -98,33 +94,27 @@ abstract contract ERC1363 is ERC20, IERC1363, IERC1363Errors, ERC165 {
      */
     function approveAndCall(address spender, uint256 amount, bytes memory data) public virtual override returns (bool) {
         approve(spender, amount);
-        if (!_checkOnApprovalReceived(spender, amount, data)) {
-            revert ERC1363InvalidSpender(spender);
-        }
+        _checkOnApprovalReceived(spender, amount, data);
         return true;
     }
 
     /**
-     * @dev Internal function to invoke {IERC1363Receiver-onTransferReceived} on a target address.
-     *  The call is not executed if the target address is not a contract.
+     * @dev Private function to invoke {IERC1363Receiver-onTransferReceived} on a target address.
+     * This will revert if the recipient doesn't accept the token transfer or if the target address is not a contract.
      * @param sender address Representing the previous owner of the given token amount
      * @param recipient address Target address that will receive the tokens
      * @param amount uint256 The amount mount of tokens to be transferred
      * @param data bytes Optional data to send along with the call
-     * @return whether the call correctly returned the expected magic value
      */
-    function _checkOnTransferReceived(
-        address sender,
-        address recipient,
-        uint256 amount,
-        bytes memory data
-    ) internal virtual returns (bool) {
+    function _checkOnTransferReceived(address sender, address recipient, uint256 amount, bytes memory data) private {
         if (recipient.code.length == 0) {
             revert ERC1363EOAReceiver(recipient);
         }
 
         try IERC1363Receiver(recipient).onTransferReceived(_msgSender(), sender, amount, data) returns (bytes4 retval) {
-            return retval == IERC1363Receiver.onTransferReceived.selector;
+            if (retval != IERC1363Receiver.onTransferReceived.selector) {
+                revert ERC1363InvalidReceiver(recipient);
+            }
         } catch (bytes memory reason) {
             if (reason.length == 0) {
                 revert ERC1363InvalidReceiver(recipient);
@@ -138,24 +128,21 @@ abstract contract ERC1363 is ERC20, IERC1363, IERC1363Errors, ERC165 {
     }
 
     /**
-     * @dev Internal function to invoke {IERC1363Receiver-onApprovalReceived} on a target address.
-     *  The call is not executed if the target address is not a contract.
+     * @dev Private function to invoke {IERC1363Receiver-onApprovalReceived} on a target address.
+     * This will revert if the recipient doesn't accept the token approval or if the target address is not a contract.
      * @param spender address The address which will spend the funds
      * @param amount uint256 The amount of tokens to be spent
      * @param data bytes Optional data to send along with the call
-     * @return whether the call correctly returned the expected magic value
      */
-    function _checkOnApprovalReceived(
-        address spender,
-        uint256 amount,
-        bytes memory data
-    ) internal virtual returns (bool) {
+    function _checkOnApprovalReceived(address spender, uint256 amount, bytes memory data) private {
         if (spender.code.length == 0) {
             revert ERC1363EOASpender(spender);
         }
 
         try IERC1363Spender(spender).onApprovalReceived(_msgSender(), amount, data) returns (bytes4 retval) {
-            return retval == IERC1363Spender.onApprovalReceived.selector;
+            if (retval != IERC1363Spender.onApprovalReceived.selector) {
+                revert ERC1363InvalidSpender(spender);
+            }
         } catch (bytes memory reason) {
             if (reason.length == 0) {
                 revert ERC1363InvalidSpender(spender);
