@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.0;
 
-import {IERC165, ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {IERC165, ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 import {IERC1363} from "./IERC1363.sol";
 import {IERC1363Receiver} from "./IERC1363Receiver.sol";
@@ -142,23 +142,21 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363 {
         uint256 amount,
         bytes memory data
     ) internal virtual returns (bool) {
-        if (recipient.code.length > 0) {
-            try IERC1363Receiver(recipient).onTransferReceived(_msgSender(), sender, amount, data) returns (
-                bytes4 retval
-            ) {
-                return retval == IERC1363Receiver.onTransferReceived.selector;
-            } catch (bytes memory reason) {
-                if (reason.length == 0) {
-                    revert ERC1363InvalidReceiver(recipient);
-                } else {
-                    /// @solidity memory-safe-assembly
-                    assembly {
-                        revert(add(32, reason), mload(reason))
-                    }
+        if (recipient.code.length == 0) {
+            revert ERC1363EOAReceiver(recipient);
+        }
+
+        try IERC1363Receiver(recipient).onTransferReceived(_msgSender(), sender, amount, data) returns (bytes4 retval) {
+            return retval == IERC1363Receiver.onTransferReceived.selector;
+        } catch (bytes memory reason) {
+            if (reason.length == 0) {
+                revert ERC1363InvalidReceiver(recipient);
+            } else {
+                /// @solidity memory-safe-assembly
+                assembly {
+                    revert(add(32, reason), mload(reason))
                 }
             }
-        } else {
-            revert ERC1363EOAReceiver(recipient);
         }
     }
 
@@ -175,21 +173,21 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363 {
         uint256 amount,
         bytes memory data
     ) internal virtual returns (bool) {
-        if (spender.code.length > 0) {
-            try IERC1363Spender(spender).onApprovalReceived(_msgSender(), amount, data) returns (bytes4 retval) {
-                return retval == IERC1363Spender.onApprovalReceived.selector;
-            } catch (bytes memory reason) {
-                if (reason.length == 0) {
-                    revert ERC1363InvalidSpender(spender);
-                } else {
-                    /// @solidity memory-safe-assembly
-                    assembly {
-                        revert(add(32, reason), mload(reason))
-                    }
+        if (spender.code.length == 0) {
+            revert ERC1363EOASpender(spender);
+        }
+
+        try IERC1363Spender(spender).onApprovalReceived(_msgSender(), amount, data) returns (bytes4 retval) {
+            return retval == IERC1363Spender.onApprovalReceived.selector;
+        } catch (bytes memory reason) {
+            if (reason.length == 0) {
+                revert ERC1363InvalidSpender(spender);
+            } else {
+                /// @solidity memory-safe-assembly
+                assembly {
+                    revert(add(32, reason), mload(reason))
                 }
             }
-        } else {
-            revert ERC1363EOASpender(spender);
         }
     }
 }
