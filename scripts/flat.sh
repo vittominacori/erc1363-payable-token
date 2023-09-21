@@ -2,16 +2,12 @@
 
 echo "flattening code..."
 
-npx hardhat flatten contracts/token/ERC1363/ERC1363.sol > dist/ERC1363.dist.sol
+npx hardhat flatten contracts/token/ERC1363/ERC1363.sol > flat/ERC1363.flat.sol
 
 echo "adjusting license..."
 
 SEARCH="\/\/ SPDX-License-Identifier: MIT"
 REPLACE=""
 
-cd dist
-
-for contract in *.sol; do 
-    sed -i '' "s/$SEARCH/$REPLACE/g" $contract
-    sed -i '' "1s;^;$SEARCH\n\n;" $contract
-done
+sed -i '' "s/$SEARCH/$REPLACE/g" flat/ERC1363.flat.sol
+sed -i '' "1s;^;$SEARCH\n\n;" flat/ERC1363.flat.sol
