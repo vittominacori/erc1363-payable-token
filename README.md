@@ -76,6 +76,12 @@ interface IERC1363 is IERC20, IERC165 {
 }
 ```
 
+### IERC1363Errors
+
+[IERC1363Errors.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363Errors.sol)
+
+Interface of the custom errors for ERC1363 tokens, as defined in the [ERC-6093](https://eips.ethereum.org/EIPS/eip-6093).
+
 ### ERC1363
 
 [ERC1363.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363.sol)
