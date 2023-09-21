@@ -6,6 +6,7 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {IERC165, ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 import {IERC1363} from "./IERC1363.sol";
+import {IERC1363Errors} from "./IERC1363Errors.sol";
 import {IERC1363Receiver} from "./IERC1363Receiver.sol";
 import {IERC1363Spender} from "./IERC1363Spender.sol";
 
@@ -13,31 +14,7 @@ import {IERC1363Spender} from "./IERC1363Spender.sol";
  * @title ERC1363
  * @dev Implementation of an ERC1363 interface.
  */
-abstract contract ERC1363 is ERC20, ERC165, IERC1363 {
-    /**
-     * @dev Indicates a failure with the token `receiver` as it can't be an EOA. Used in transfers.
-     * @param receiver Address to which tokens are being transferred.
-     */
-    error ERC1363EOAReceiver(address receiver);
-
-    /**
-     * @dev Indicates a failure with the token `spender` as it can't be an EOA. Used in approvals.
-     * @param spender Address that may be allowed to operate on tokens without being their owner.
-     */
-    error ERC1363EOASpender(address spender);
-
-    /**
-     * @dev Indicates a failure with the token `receiver`. Used in transfers.
-     * @param receiver Address to which tokens are being transferred.
-     */
-    error ERC1363InvalidReceiver(address receiver);
-
-    /**
-     * @dev Indicates a failure with the token `spender`. Used in approvals.
-     * @param spender Address that may be allowed to operate on tokens without being their owner.
-     */
-    error ERC1363InvalidSpender(address spender);
-
+abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
     /**
      * @dev See {IERC165-supportsInterface}.
      */

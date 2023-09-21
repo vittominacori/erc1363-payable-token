@@ -63,18 +63,20 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
 
         describe('with data', function () {
           it('reverts', async function () {
-            await expectRevert(
+            await expectRevertCustomError(
               transferFromAndCallWithData.call(this, sender, receiver, amount, { from: spender }),
-              'ERC20: insufficient allowance',
+              'ERC20InsufficientAllowance',
+              [spender, balance, amount],
             );
           });
         });
 
         describe('without data', function () {
           it('reverts', async function () {
-            await expectRevert(
+            await expectRevertCustomError(
               transferFromAndCallWithoutData.call(this, sender, receiver, amount, { from: spender }),
-              'ERC20: insufficient allowance',
+              'ERC20InsufficientAllowance',
+              [spender, balance, amount],
             );
           });
         });
@@ -225,16 +227,18 @@ function shouldBehaveLikeERC1363([owner, spender, recipient], balance) {
           it('reverts', async function () {
             await expectRevert(
               transferAndCallWithData.call(this, receiver, amount, { from: sender }),
-              'ERC20: transfer amount exceeds balance',
+              'ERC20InsufficientBalance',
+              [sender, balance, amount],
             );
           });
         });
 
         describe('without data', function () {
           it('reverts', async function () {
-            await expectRevert(
+            await expectRevertCustomError(
               transferAndCallWithoutData.call(this, receiver, amount, { from: sender }),
-              'ERC20: transfer amount exceeds balance',
+              'ERC20InsufficientBalance',
+              [sender, balance, amount],
             );
           });
         });

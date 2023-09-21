@@ -4,7 +4,7 @@ const { BN, constants, expectRevert, expectEvent } = require('@openzeppelin/test
 const { shouldSupportInterfaces } = require('../introspection/SupportsInterface.behavior');
 const { ZERO_ADDRESS } = constants;
 
-const ERC20 = artifacts.require('ERC20');
+const ERC20 = artifacts.require('ERC20Mock');
 const ERC1363Payable = artifacts.require('ERC1363PayableMock');
 
 function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
