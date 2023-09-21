@@ -26,6 +26,7 @@
     "lint:js:fix": "prettier --log-level warn --ignore-path .gitignore '**/*.{js,ts}' --write && eslint --ignore-path .gitignore . --fix",
     "lint:sol": "prettier --log-level warn --ignore-path .gitignore '{contracts,test}/**/*.sol' --check && solhint '{contracts,test}/**/*.sol'",
     "lint:sol:fix": "prettier --log-level warn --ignore-path .gitignore '{contracts,test}/**/*.sol' --write",
+    "inheritance": "hardhat compile --force && scripts/checks/inheritance-ordering.js artifacts/build-info/*",
     "flat": "scripts/flat.sh",
     "analyze": "scripts/analyze.sh",
     "docs:dev": "export NODE_OPTIONS=--openssl-legacy-provider && vuepress dev docs",
@@ -62,6 +63,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-mocha-no-only": "^1.1.1",
+    "graphlib": "^2.1.8",
     "hardhat": "^2.17.3",
     "hardhat-exposed": "^0.3.12",
     "hardhat-gas-reporter": "^1.0.9",
@@ -74,6 +76,7 @@
     "surya": "^0.4.6",
     "truffle": "^5.11.5",
     "vuepress": "^1.9.10",
-    "vuepress-plugin-google-gtag": "^1.0.1"
+    "vuepress-plugin-google-gtag": "^1.0.1",
+    "yargs": "^17.7.2"
   }
 }
