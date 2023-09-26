@@ -13,6 +13,8 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: 1
     steps:
       - name: Setup Code
         uses: actions/checkout@v4
@@ -26,6 +28,8 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: 1
     steps:
       - name: Setup Code
         uses: actions/checkout@v4
@@ -42,6 +46,8 @@ jobs:
   coverage:
     name: Coverage
     runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: 1
     steps:
       - name: Setup Code
         uses: actions/checkout@v4
@@ -54,3 +60,5 @@ jobs:
         
       - name: Post to Codecov
         uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
