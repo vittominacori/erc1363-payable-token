@@ -75,8 +75,17 @@
     "solidity-coverage": "^0.8.5",
     "surya": "^0.4.6",
     "truffle": "^5.11.5",
+    "truffle-flattener": "^1.6.0",
     "vuepress": "^1.9.10",
     "vuepress-plugin-google-gtag": "^1.0.1",
     "yargs": "^17.7.2"
+  },
+  "overrides": {
+    "surya": {
+      "@solidity-parser/parser": "^0.16.1"
+    },
+    "truffle-flattener": {
+      "@solidity-parser/parser": "^0.16.1"
+    }
   }
 }

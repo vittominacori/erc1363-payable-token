@@ -692,10 +692,14 @@ pragma solidity ^0.8.0;
 
 
 /**
- * @title IERC1363 Interface
- * @dev Interface of an ERC1363 compliant contract, as defined in the https://eips.ethereum.org/EIPS/eip-1363[EIP].
+ * @title IERC1363
+ * @dev Interface of an ERC1363 compliant contract, as defined in
+ * https://eips.ethereum.org/EIPS/eip-1363[ERC-1363].
+ *
+ * Defines a interface for ERC20 tokens that supports executing recipient
+ * code after `transfer` or `transferFrom`, or spender code after `approve`.
  */
-interface IERC1363 is IERC20, IERC165 {
+interface IERC1363 is IERC165, IERC20 {
     /*
      * Note: the ERC-165 identifier for this interface is 0xb0202a11.
      * 0xb0202a11 ===
@@ -708,65 +712,63 @@ interface IERC1363 is IERC20, IERC165 {
      */
 
     /**
-     * @notice Transfer tokens from `msg.sender` to another address and then call `onTransferReceived` on receiver.
-     * @param to address The address which you want to transfer to
-     * @param amount uint256 The amount of tokens to be transferred
-     * @return true unless throwing
+     * @dev Moves a `value` amount of tokens from the caller's account to `to`
+     * and then calls `onTransferReceived` on `to`.
+     * @param to The address which you want to transfer to
+     * @param value The amount of tokens to be transferred
+     * @return A boolean value indicating whether the operation succeeded unless throwing.
      */
-    function transferAndCall(address to, uint256 amount) external returns (bool);
+    function transferAndCall(address to, uint256 value) external returns (bool);
 
     /**
-     * @notice Transfer tokens from `msg.sender` to another address and then call `onTransferReceived` on receiver.
-     * @param to address The address which you want to transfer to
-     * @param amount uint256 The amount of tokens to be transferred
-     * @param data bytes Additional data with no specified format, sent in call to `to`
-     * @return true unless throwing
+     * @dev Moves a `value` amount of tokens from the caller's account to `to`
+     * and then calls `onTransferReceived` on `to`.
+     * @param to The address which you want to transfer to
+     * @param value The amount of tokens to be transferred
+     * @param data Additional data with no specified format, sent in call to `to`
+     * @return A boolean value indicating whether the operation succeeded unless throwing.
      */
-    function transferAndCall(address to, uint256 amount, bytes calldata data) external returns (bool);
+    function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);
 
     /**
-     * @notice Transfer tokens from one address to another and then call `onTransferReceived` on receiver.
-     * @param from address The address which you want to send tokens from
-     * @param to address The address which you want to transfer to
-     * @param amount uint256 The amount of tokens to be transferred
-     * @return true unless throwing
+     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism
+     * and then calls `onTransferReceived` on `to`.
+     * @param from The address which you want to send tokens from
+     * @param to The address which you want to transfer to
+     * @param value The amount of tokens to be transferred
+     * @return A boolean value indicating whether the operation succeeded unless throwing.
      */
-    function transferFromAndCall(address from, address to, uint256 amount) external returns (bool);
+    function transferFromAndCall(address from, address to, uint256 value) external returns (bool);
 
     /**
-     * @notice Transfer tokens from one address to another and then call `onTransferReceived` on receiver.
-     * @param from address The address which you want to send tokens from
-     * @param to address The address which you want to transfer to
-     * @param amount uint256 The amount of tokens to be transferred
-     * @param data bytes Additional data with no specified format, sent in call to `to`
-     * @return true unless throwing
+     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism
+     * and then calls `onTransferReceived` on `to`.
+     * @param from The address which you want to send tokens from
+     * @param to The address which you want to transfer to
+     * @param value The amount of tokens to be transferred
+     * @param data Additional data with no specified format, sent in call to `to`
+     * @return A boolean value indicating whether the operation succeeded unless throwing.
      */
-    function transferFromAndCall(address from, address to, uint256 amount, bytes calldata data) external returns (bool);
+    function transferFromAndCall(address from, address to, uint256 value, bytes calldata data) external returns (bool);
 
     /**
-     * @notice Approve the passed address to spend the specified amount of tokens on behalf of msg.sender
-     * and then call `onApprovalReceived` on spender.
-     * Beware that changing an allowance with this method brings the risk that someone may use both the old
-     * and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this
-     * race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards:
-     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
-     * @param spender address The address which will spend the funds
-     * @param amount uint256 The amount of tokens to be spent
+     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the
+     * caller's tokens and then calls `onApprovalReceived` on `spender`.
+     * @param spender The address which will spend the funds
+     * @param value The amount of tokens to be spent
+     * @return A boolean value indicating whether the operation succeeded unless throwing.
      */
-    function approveAndCall(address spender, uint256 amount) external returns (bool);
+    function approveAndCall(address spender, uint256 value) external returns (bool);
 
     /**
-     * @notice Approve the passed address to spend the specified amount of tokens on behalf of msg.sender
-     * and then call `onApprovalReceived` on spender.
-     * Beware that changing an allowance with this method brings the risk that someone may use both the old
-     * and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this
-     * race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards:
-     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
-     * @param spender address The address which will spend the funds
-     * @param amount uint256 The amount of tokens to be spent
-     * @param data bytes Additional data with no specified format, sent in call to `spender`
+     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the
+     * caller's tokens and then calls `onApprovalReceived` on `spender`.
+     * @param spender The address which will spend the funds
+     * @param value The amount of tokens to be spent
+     * @param data Additional data with no specified format, sent in call to `spender`
+     * @return A boolean value indicating whether the operation succeeded unless throwing.
      */
-    function approveAndCall(address spender, uint256 amount, bytes calldata data) external returns (bool);
+    function approveAndCall(address spender, uint256 value, bytes calldata data) external returns (bool);
 }
 
 
@@ -777,8 +779,8 @@ interface IERC1363 is IERC20, IERC165 {
 pragma solidity ^0.8.0;
 
 /**
- * @title IERC1363Errors Interface
- * @dev Standard ERC1363 Errors
+ * @title IERC1363Errors
+ * @dev Interface of the ERC1363 errors following the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] rationale.
  */
 interface IERC1363Errors {
     /**
@@ -814,33 +816,29 @@ interface IERC1363Errors {
 pragma solidity ^0.8.0;
 
 /**
- * @title IERC1363Receiver interface
+ * @title IERC1363Receiver
  * @dev Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall`
- *  from ERC1363 token contracts.
+ * from ERC1363 token contracts.
  */
 interface IERC1363Receiver {
-    /*
-     * Note: the ERC-165 identifier for this interface is 0x88a7ca5c.
-     * 0x88a7ca5c === bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))
-     */
-
     /**
-     * @notice Handle the receipt of ERC1363 tokens.
-     * @dev Any ERC1363 smart contract calls this function on the recipient
-     * after a `transfer` or a `transferFrom`. This function MAY throw to revert and reject the
-     * transfer. Return of other than the magic value MUST result in the
-     * transaction being reverted.
-     * Note: the token contract address is always the message sender.
-     * @param spender address The address which called `transferAndCall` or `transferFromAndCall` function
-     * @param sender address The address which are token transferred from
-     * @param amount uint256 The amount of tokens transferred
-     * @param data bytes Additional data with no specified format
-     * @return `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))` unless throwing
+     * @dev Whenever ERC1363 tokens are transferred to this contract via `transferAndCall` or `transferFromAndCall`
+     * by `operator` from `from`, this function is called.
+     *
+     * NOTE: To accept the transfer, this must return
+     * `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
+     * (i.e. 0x88a7ca5c, or its own function selector).
+     *
+     * @param operator The address which called `transferAndCall` or `transferFromAndCall` function
+     * @param from The address which are tokens transferred from
+     * @param value The amount of tokens transferred
+     * @param data Additional data with no specified format
+     * @return `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))` if transfer is allowed unless throwing.
      */
     function onTransferReceived(
-        address spender,
-        address sender,
-        uint256 amount,
+        address operator,
+        address from,
+        uint256 value,
         bytes calldata data
     ) external returns (bytes4);
 }
@@ -853,29 +851,25 @@ interface IERC1363Receiver {
 pragma solidity ^0.8.0;
 
 /**
- * @title ERC1363Spender interface
+ * @title ERC1363Spender
  * @dev Interface for any contract that wants to support `approveAndCall`
- *  from ERC1363 token contracts.
+ * from ERC1363 token contracts.
  */
 interface IERC1363Spender {
-    /*
-     * Note: the ERC-165 identifier for this interface is 0x7b04a2d0.
-     * 0x7b04a2d0 === bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))
-     */
-
     /**
-     * @notice Handle the approval of ERC1363 tokens.
-     * @dev Any ERC1363 smart contract calls this function on the recipient
-     * after an `approve`. This function MAY throw to revert and reject the
-     * approval. Return of other than the magic value MUST result in the
-     * transaction being reverted.
-     * Note: the token contract address is always the message sender.
-     * @param sender address The address which called `approveAndCall` function
-     * @param amount uint256 The amount of tokens to be spent
-     * @param data bytes Additional data with no specified format
-     * @return `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))` unless throwing
+     * @dev Whenever an ERC1363 tokens `owner` approved this contract via `approveAndCall`
+     * to spent their tokens, this function is called.
+     *
+     * NOTE: To accept the approval, this must return
+     * `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
+     * (i.e. 0x7b04a2d0, or its own function selector).
+     *
+     * @param owner The address which called `approveAndCall` function and previously owned the tokens
+     * @param value The amount of tokens to be spent
+     * @param data Additional data with no specified format
+     * @return `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))` if approval is allowed unless throwing.
      */
-    function onApprovalReceived(address sender, uint256 amount, bytes calldata data) external returns (bytes4);
+    function onApprovalReceived(address owner, uint256 value, bytes calldata data) external returns (bytes4);
 }
 
 
@@ -891,112 +885,92 @@ pragma solidity ^0.8.0;
 
 /**
  * @title ERC1363
- * @dev Implementation of an ERC1363 interface.
+ * @dev Implementation of the ERC1363 interface.
  */
-abstract contract ERC1363 is ERC20, IERC1363, IERC1363Errors, ERC165 {
+abstract contract ERC1363 is ERC165, ERC20, IERC1363, IERC1363Errors {
     /**
-     * @dev See {IERC165-supportsInterface}.
+     * @inheritdoc IERC165
      */
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
         return interfaceId == type(IERC1363).interfaceId || super.supportsInterface(interfaceId);
     }
 
     /**
-     * @dev Transfer tokens to a specified address and then execute a callback on `to`.
-     * @param to The address to transfer to.
-     * @param amount The amount to be transferred.
-     * @return A boolean that indicates if the operation was successful.
+     * @inheritdoc IERC1363
      */
-    function transferAndCall(address to, uint256 amount) public virtual override returns (bool) {
-        return transferAndCall(to, amount, "");
+    function transferAndCall(address to, uint256 value) public virtual returns (bool) {
+        return transferAndCall(to, value, "");
     }
 
     /**
-     * @dev Transfer tokens to a specified address and then execute a callback on `to`.
-     * @param to The address to transfer to
-     * @param amount The amount to be transferred
-     * @param data Additional data with no specified format
-     * @return A boolean that indicates if the operation was successful.
+     * @inheritdoc IERC1363
      */
-    function transferAndCall(address to, uint256 amount, bytes memory data) public virtual override returns (bool) {
-        transfer(to, amount);
-        _checkOnTransferReceived(_msgSender(), to, amount, data);
+    function transferAndCall(address to, uint256 value, bytes memory data) public virtual returns (bool) {
+        transfer(to, value);
+        _checkOnTransferReceived(_msgSender(), to, value, data);
         return true;
     }
 
     /**
-     * @dev Transfer tokens from one address to another and then execute a callback on `to`.
-     * @param from The address which you want to send tokens from
-     * @param to The address which you want to transfer to
-     * @param amount The amount of tokens to be transferred
-     * @return A boolean that indicates if the operation was successful.
+     * @inheritdoc IERC1363
      */
-    function transferFromAndCall(address from, address to, uint256 amount) public virtual override returns (bool) {
-        return transferFromAndCall(from, to, amount, "");
+    function transferFromAndCall(address from, address to, uint256 value) public virtual returns (bool) {
+        return transferFromAndCall(from, to, value, "");
     }
 
     /**
-     * @dev Transfer tokens from one address to another and then execute a callback on `to`.
-     * @param from The address which you want to send tokens from
-     * @param to The address which you want to transfer to
-     * @param amount The amount of tokens to be transferred
-     * @param data Additional data with no specified format
-     * @return A boolean that indicates if the operation was successful.
+     * @inheritdoc IERC1363
      */
     function transferFromAndCall(
         address from,
         address to,
-        uint256 amount,
+        uint256 value,
         bytes memory data
-    ) public virtual override returns (bool) {
-        transferFrom(from, to, amount);
-        _checkOnTransferReceived(from, to, amount, data);
+    ) public virtual returns (bool) {
+        transferFrom(from, to, value);
+        _checkOnTransferReceived(from, to, value, data);
         return true;
     }
 
     /**
-     * @dev Approve spender to transfer tokens and then execute a callback on `spender`.
-     * @param spender The address allowed to transfer to
-     * @param amount The amount allowed to be transferred
-     * @return A boolean that indicates if the operation was successful.
+     * @inheritdoc IERC1363
      */
-    function approveAndCall(address spender, uint256 amount) public virtual override returns (bool) {
-        return approveAndCall(spender, amount, "");
+    function approveAndCall(address spender, uint256 value) public virtual returns (bool) {
+        return approveAndCall(spender, value, "");
     }
 
     /**
-     * @dev Approve spender to transfer tokens and then execute a callback on `spender`.
-     * @param spender The address allowed to transfer to.
-     * @param amount The amount allowed to be transferred.
-     * @param data Additional data with no specified format.
-     * @return A boolean that indicates if the operation was successful.
+     * @inheritdoc IERC1363
      */
-    function approveAndCall(address spender, uint256 amount, bytes memory data) public virtual override returns (bool) {
-        approve(spender, amount);
-        _checkOnApprovalReceived(spender, amount, data);
+    function approveAndCall(address spender, uint256 value, bytes memory data) public virtual returns (bool) {
+        approve(spender, value);
+        _checkOnApprovalReceived(spender, value, data);
         return true;
     }
 
     /**
-     * @dev Private function to invoke {IERC1363Receiver-onTransferReceived} on a target address.
-     * This will revert if the recipient doesn't accept the token transfer or if the target address is not a contract.
-     * @param sender address Representing the previous owner of the given token amount
-     * @param recipient address Target address that will receive the tokens
-     * @param amount uint256 The amount mount of tokens to be transferred
-     * @param data bytes Optional data to send along with the call
+     * @dev Private function to invoke `onTransferReceived` on a target address.
+     * This will revert if the target doesn't implement the `IERC1363Receiver` interface or
+     * if the target doesn't accept the token transfer or
+     * if the target address is not a contract.
+     *
+     * @param from Address representing the previous owner of the given token amount
+     * @param to Target address that will receive the tokens
+     * @param value The amount of tokens to be transferred
+     * @param data Optional data to send along with the call
      */
-    function _checkOnTransferReceived(address sender, address recipient, uint256 amount, bytes memory data) private {
-        if (recipient.code.length == 0) {
-            revert ERC1363EOAReceiver(recipient);
+    function _checkOnTransferReceived(address from, address to, uint256 value, bytes memory data) private {
+        if (to.code.length == 0) {
+            revert ERC1363EOAReceiver(to);
         }
 
-        try IERC1363Receiver(recipient).onTransferReceived(_msgSender(), sender, amount, data) returns (bytes4 retval) {
+        try IERC1363Receiver(to).onTransferReceived(_msgSender(), from, value, data) returns (bytes4 retval) {
             if (retval != IERC1363Receiver.onTransferReceived.selector) {
-                revert ERC1363InvalidReceiver(recipient);
+                revert ERC1363InvalidReceiver(to);
             }
         } catch (bytes memory reason) {
             if (reason.length == 0) {
-                revert ERC1363InvalidReceiver(recipient);
+                revert ERC1363InvalidReceiver(to);
             } else {
                 /// @solidity memory-safe-assembly
                 assembly {
@@ -1007,18 +981,21 @@ abstract contract ERC1363 is ERC20, IERC1363, IERC1363Errors, ERC165 {
     }
 
     /**
-     * @dev Private function to invoke {IERC1363Receiver-onApprovalReceived} on a target address.
-     * This will revert if the recipient doesn't accept the token approval or if the target address is not a contract.
-     * @param spender address The address which will spend the funds
-     * @param amount uint256 The amount of tokens to be spent
-     * @param data bytes Optional data to send along with the call
+     * @dev Private function to invoke `onApprovalReceived` on a target address.
+     * This will revert if the target doesn't implement the `IERC1363Spender` interface or
+     * if the target doesn't accept the token approval or
+     * if the target address is not a contract.
+     *
+     * @param spender The address which will spend the funds
+     * @param value The amount of tokens to be spent
+     * @param data Optional data to send along with the call
      */
-    function _checkOnApprovalReceived(address spender, uint256 amount, bytes memory data) private {
+    function _checkOnApprovalReceived(address spender, uint256 value, bytes memory data) private {
         if (spender.code.length == 0) {
             revert ERC1363EOASpender(spender);
         }
 
-        try IERC1363Spender(spender).onApprovalReceived(_msgSender(), amount, data) returns (bytes4 retval) {
+        try IERC1363Spender(spender).onApprovalReceived(_msgSender(), value, data) returns (bytes4 retval) {
             if (retval != IERC1363Spender.onApprovalReceived.selector) {
                 revert ERC1363InvalidSpender(spender);
             }
