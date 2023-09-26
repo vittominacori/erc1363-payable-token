@@ -1,5 +1,8 @@
 const { makeInterfaceId } = require('@openzeppelin/test-helpers');
 
+const { expect } = require('chai');
+
+const INVALID_ID = '0xffffffff';
 const INTERFACES = {
   ERC165: ['supportsInterface(bytes4)'],
   ERC1363: [
@@ -25,34 +28,50 @@ for (const k of Object.getOwnPropertyNames(INTERFACES)) {
 }
 
 function shouldSupportInterfaces(interfaces = []) {
-  describe('Contract interface', function () {
+  describe('ERC165', function () {
     beforeEach(function () {
-      this.contractUnderTest = this.mock || this.token || this.holder;
+      this.contractUnderTest = this.mock || this.token || this.holder || this.accessControl;
     });
 
-    for (const k of interfaces) {
-      const interfaceId = INTERFACE_IDS[k];
-      describe(k, function () {
-        describe("ERC165's supportsInterface(bytes4)", function () {
-          it('uses less than 30k gas [skip-on-coverage]', async function () {
-            expect(await this.contractUnderTest.supportsInterface.estimateGas(interfaceId)).to.be.lte(30000);
-          });
-
-          it('claims support', async function () {
-            expect(await this.contractUnderTest.supportsInterface(interfaceId)).to.equal(true);
-          });
-        });
-
-        for (const fnName of INTERFACES[k]) {
-          const fnSig = FN_SIGNATURES[fnName];
-          describe(fnName, function () {
-            it('has to be implemented', function () {
-              expect(this.contractUnderTest.abi.filter(fn => fn.signature === fnSig).length).to.equal(1);
-            });
-          });
+    describe('when the interfaceId is supported', function () {
+      it('uses less than 30k gas', async function () {
+        for (const k of interfaces) {
+          const interfaceId = INTERFACE_IDS[k] ?? k;
+          expect(await this.contractUnderTest.supportsInterface.estimateGas(interfaceId)).to.be.lte(30000);
         }
       });
-    }
+
+      it('returns true', async function () {
+        for (const k of interfaces) {
+          const interfaceId = INTERFACE_IDS[k] ?? k;
+          expect(await this.contractUnderTest.supportsInterface(interfaceId)).to.equal(true, `does not support ${k}`);
+        }
+      });
+    });
+
+    describe('when the interfaceId is not supported', function () {
+      it('uses less than 30k', async function () {
+        expect(await this.contractUnderTest.supportsInterface.estimateGas(INVALID_ID)).to.be.lte(30000);
+      });
+
+      it('returns false', async function () {
+        expect(await this.contractUnderTest.supportsInterface(INVALID_ID)).to.be.equal(false, `supports ${INVALID_ID}`);
+      });
+    });
+
+    it('all interface functions are in ABI', async function () {
+      for (const k of interfaces) {
+        // skip interfaces for which we don't have a function list
+        if (INTERFACES[k] === undefined) continue;
+        for (const fnName of INTERFACES[k]) {
+          const fnSig = FN_SIGNATURES[fnName];
+          expect(this.contractUnderTest.abi.filter(fn => fn.signature === fnSig).length).to.equal(
+            1,
+            `did not find ${fnName}`,
+          );
+        }
+      }
+    });
   });
 }
 
