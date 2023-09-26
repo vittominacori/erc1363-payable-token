@@ -20,10 +20,7 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
 
     describe('if token does not support ERC1363 interface', function () {
       it('reverts', async function () {
-        const name = 'TEST';
-        const symbol = 'TEST';
-
-        const erc20Token = await ERC20.new(name, symbol);
+        const erc20Token = await ERC20.new();
         await expectRevert.unspecified(ERC1363Payable.new(erc20Token.address));
       });
     });
@@ -50,8 +47,8 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensReceived', {
             operator: spender,
-            sender: owner,
-            amount: value,
+            from: owner,
+            value: value,
             data,
           });
         });
@@ -101,8 +98,8 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensReceived', {
             operator: owner,
-            sender: owner,
-            amount: value,
+            from: owner,
+            value: value,
             data,
           });
         });
@@ -151,8 +148,8 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
           const receipt = await approveFun.call(this, this.mock.address, value, { from: owner });
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensApproved', {
-            sender: owner,
-            amount: value,
+            owner: owner,
+            value: value,
             data,
           });
         });

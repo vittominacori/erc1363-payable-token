@@ -9,7 +9,7 @@ contract ERC1363ReceiverMock is IERC1363Receiver {
     bytes4 private _retval;
     bool private _reverts;
 
-    event Received(address operator, address sender, uint256 amount, bytes data, uint256 gas);
+    event Received(address operator, address from, uint256 value, bytes data, uint256 gas);
 
     constructor(bytes4 retval, bool reverts) {
         _retval = retval;
@@ -17,13 +17,13 @@ contract ERC1363ReceiverMock is IERC1363Receiver {
     }
 
     function onTransferReceived(
-        address spender,
-        address sender,
-        uint256 amount,
-        bytes memory data
+        address operator,
+        address from,
+        uint256 value,
+        bytes calldata data
     ) public override returns (bytes4) {
         require(!_reverts, "ERC1363ReceiverMock: throwing");
-        emit Received(spender, sender, amount, data, gasleft());
+        emit Received(operator, from, value, data, gasleft());
         return _retval;
     }
 }
