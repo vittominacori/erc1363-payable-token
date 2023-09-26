@@ -6,14 +6,23 @@ import {IERC1363Receiver} from "../token/ERC1363/IERC1363Receiver.sol";
 
 // mock class using IERC1363Receiver
 contract ERC1363ReceiverMock is IERC1363Receiver {
-    bytes4 private _retval;
-    bool private _reverts;
+    enum RevertType {
+        None,
+        RevertWithoutMessage,
+        RevertWithMessage,
+        RevertWithCustomError,
+        Panic
+    }
+
+    bytes4 private immutable _retval;
+    RevertType private immutable _error;
 
     event Received(address operator, address from, uint256 value, bytes data, uint256 gas);
+    error CustomError(bytes4);
 
-    constructor(bytes4 retval, bool reverts) {
+    constructor(bytes4 retval, RevertType error) {
         _retval = retval;
-        _reverts = reverts;
+        _error = error;
     }
 
     function onTransferReceived(
@@ -22,7 +31,17 @@ contract ERC1363ReceiverMock is IERC1363Receiver {
         uint256 value,
         bytes calldata data
     ) public override returns (bytes4) {
-        require(!_reverts, "ERC1363ReceiverMock: throwing");
+        if (_error == RevertType.RevertWithoutMessage) {
+            revert();
+        } else if (_error == RevertType.RevertWithMessage) {
+            revert("ERC1363ReceiverMock: reverting");
+        } else if (_error == RevertType.RevertWithCustomError) {
+            revert CustomError(_retval);
+        } else if (_error == RevertType.Panic) {
+            uint256 a = uint256(0) / uint256(0);
+            a;
+        }
+
         emit Received(operator, from, value, data, gasleft());
         return _retval;
     }
