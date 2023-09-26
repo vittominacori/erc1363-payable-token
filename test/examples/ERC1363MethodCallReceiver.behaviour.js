@@ -3,12 +3,12 @@ const { shouldSupportInterfaces } = require('../introspection/SupportsInterface.
 
 const ERC1363MethodCallReceiver = artifacts.require('ERC1363MethodCallReceiver');
 
-function shouldBehaveLikeERC1363MethodCallReceiver([deployer, sender, operator]) {
+function shouldBehaveLikeERC1363MethodCallReceiver([sender, operator]) {
   const value = new BN('1000000000000000000');
 
   context('once deployed', async function () {
     beforeEach(async function () {
-      this.mock = await ERC1363MethodCallReceiver.new({ from: deployer });
+      this.mock = await ERC1363MethodCallReceiver.new();
     });
 
     describe('calling methods', function () {

@@ -7,9 +7,7 @@
     "test"
   ],
   "scripts": {
-    "truffle:console": "truffle console",
     "truffle:compile": "truffle compile --all",
-    "truffle:test": "truffle test",
     "hardhat:console": "hardhat console",
     "hardhat:compile": "hardhat compile",
     "hardhat:test": "hardhat test",

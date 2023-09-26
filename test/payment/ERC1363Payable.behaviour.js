@@ -4,7 +4,6 @@ const { BN, constants, expectRevert, expectEvent } = require('@openzeppelin/test
 const { shouldSupportInterfaces } = require('../introspection/SupportsInterface.behavior');
 const { ZERO_ADDRESS } = constants;
 
-const ERC20 = artifacts.require('ERC20Mock');
 const ERC1363Payable = artifacts.require('ERC1363PayableMock');
 
 function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
@@ -20,8 +19,7 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
 
     describe('if token does not support ERC1363 interface', function () {
       it('reverts', async function () {
-        const erc20Token = await ERC20.new();
-        await expectRevert.unspecified(ERC1363Payable.new(erc20Token.address));
+        await expectRevert.unspecified(ERC1363Payable.new(this.erc20Token.address));
       });
     });
   });

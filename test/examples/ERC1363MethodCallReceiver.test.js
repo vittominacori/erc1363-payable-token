@@ -2,14 +2,18 @@ const { BN } = require('@openzeppelin/test-helpers');
 
 const { shouldBehaveLikeERC1363MethodCallReceiver } = require('./ERC1363MethodCallReceiver.behaviour');
 
-const ERC1363 = artifacts.require('ERC1363Mock');
+const ERC1363 = artifacts.require('$ERC1363');
 
-contract('ERC1363MethodCallReceiver', function ([deployer, sender, operator]) {
+contract('ERC1363MethodCallReceiver', function ([sender, operator]) {
+  const name = 'My Token';
+  const symbol = 'MTKN';
   const erc1363tTokenSupply = new BN('10000000000000000000000');
 
   beforeEach(async function () {
-    this.erc1363Token = await ERC1363.new(sender, erc1363tTokenSupply, { from: deployer });
+    this.erc1363Token = await ERC1363.new(name, symbol);
+
+    await this.erc1363Token.$_mint(sender, erc1363tTokenSupply);
   });
 
-  shouldBehaveLikeERC1363MethodCallReceiver([deployer, sender, operator]);
+  shouldBehaveLikeERC1363MethodCallReceiver([sender, operator]);
 });
