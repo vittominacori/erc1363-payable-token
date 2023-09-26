@@ -152,7 +152,7 @@ As example: a contract allowing to test passing methods via abi encoded function
 npm install
 ```
 
-### Usage (using Hardhat)
+### Usage
 
 Open the console
 
