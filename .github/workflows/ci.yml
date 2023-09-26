@@ -36,6 +36,9 @@ jobs:
       - name: Run Test
         run: npm test
 
+      - name: Check Linearisation
+        run: npm run check:inheritance
+
   coverage:
     name: Coverage
     runs-on: ubuntu-latest
