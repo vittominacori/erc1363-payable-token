@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 /**
  * @title IERC1363Errors
- * @dev Interface of the ERC1363 errors following the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] rationale.
+ * @dev Interface of the ERC1363 custom errors following the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] rationale.
  */
 interface IERC1363Errors {
     /**

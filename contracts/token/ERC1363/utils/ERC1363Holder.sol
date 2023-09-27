@@ -10,8 +10,8 @@ import {IERC1363Spender} from "../IERC1363Spender.sol";
  * @dev Implementation of `IERC1363Receiver` and `IERC1363Spender` that will allow a contract to receive ERC1363 token
  * transfers or approval.
  *
- * IMPORTANT: When inheriting this contract, you must include a way to use the received tokens, otherwise they will be
- * stuck.
+ * IMPORTANT: When inheriting this contract, you must include a way to use the received tokens or spend the allowance,
+ * otherwise they will be stuck.
  */
 abstract contract ERC1363Holder is IERC1363Receiver, IERC1363Spender {
     /*

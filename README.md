@@ -7,16 +7,16 @@
 
 ERC-1363 allows to implement an ERC-20 smart token. 
 
-It means that we can add a callback after transferring or approving tokens to be executed.
+It means that we can add a callback to be executed after transferring or approving tokens.
 
 This is an implementation of the [EIP-1363](https://eips.ethereum.org/EIPS/eip-1363) that defines a token interface for EIP-20 tokens that supports executing recipient contract code after `transfer` or `transferFrom`, or spender contract code after `approve` in a single transaction.
 
 ## Abstract
 There is no way to execute any code on a receiver or spender contract after an EIP-20 `transfer`, `transferFrom` or `approve` so, to make an action, it is required to send another transaction.
 
-This introduces complexity on UI development and friction on adoption because users must wait for the first transaction to be executed and then send the second one. They must also pay GAS twice.
+This introduces complexity on UI development and friction on adoption because users must wait for the first transaction to be executed, and then send the second one. They must also pay GAS twice.
 
-This proposal aims to make tokens capable of performing actions more easily and working without the use of any other listener.
+This proposal aims to make tokens capable of performing actions more easily and working with contracts without the use of any other external listener.
 It allows to make a callback on a receiver or spender contract, after a transfer or an approval, in a single transaction.
 
 There are many proposed uses of Ethereum smart contracts that can accept EIP-20 callbacks.
@@ -63,16 +63,16 @@ This repo contains:
 
 [IERC1363.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363.sol)
 
-Interface of an ERC1363 compliant contract, as defined in the [EIP-1363](https://eips.ethereum.org/EIPS/eip-1363).
+Interface of the ERC1363 standard as defined in the [EIP-1363](https://eips.ethereum.org/EIPS/eip-1363).
 
 ```solidity
-interface IERC1363 is IERC20, IERC165 {
-    function transferAndCall(address to, uint256 amount) external returns (bool);
-    function transferAndCall(address to, uint256 amount, bytes calldata data) external returns (bool);
-    function transferFromAndCall(address from, address to, uint256 amount) external returns (bool);
-    function transferFromAndCall(address from, address to, uint256 amount, bytes calldata data) external returns (bool);
-    function approveAndCall(address spender, uint256 amount) external returns (bool);
-    function approveAndCall(address spender, uint256 amount, bytes calldata data) external returns (bool);
+interface IERC1363 is IERC165, IERC20 {
+    function transferAndCall(address to, uint256 value) external returns (bool);
+    function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);
+    function transferFromAndCall(address from, address to, uint256 value) external returns (bool);
+    function transferFromAndCall(address from, address to, uint256 value, bytes calldata data) external returns (bool);
+    function approveAndCall(address spender, uint256 value) external returns (bool);
+    function approveAndCall(address spender, uint256 value, bytes calldata data) external returns (bool);
 }
 ```
 
@@ -80,13 +80,13 @@ interface IERC1363 is IERC20, IERC165 {
 
 [IERC1363Errors.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363Errors.sol)
 
-Interface of the custom errors for ERC1363 tokens, as defined in the [ERC-6093](https://eips.ethereum.org/EIPS/eip-6093).
+Interface of the ERC1363 custom errors following the [ERC-6093](https://eips.ethereum.org/EIPS/eip-6093) rationale.
 
 ### ERC1363
 
 [ERC1363.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363.sol)
 
-Implementation of an IERC1363 interface.
+Implementation of the ERC1363 interface.
 
 ### IERC1363Receiver
 
@@ -112,6 +112,14 @@ interface IERC1363Spender {
 }
 ```
 
+### ERC1363Holder
+
+[ERC1363Holder.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/utils/ERC1363Holder.sol)
+
+Implementation of `IERC1363Receiver` and `IERC1363Spender` that will allow a contract to receive ERC1363 token transfers or approval.
+
+IMPORTANT: When inheriting this contract, you must include a way to use the received tokens or spend the allowance, otherwise they will be stuck.
+
 ### ERC1363Payable
 
 [ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/payment/ERC1363Payable.sol)
@@ -120,11 +128,11 @@ Implementation proposal of a contract that wants to accept ERC1363 payments. It 
 
 It emits a `TokensReceived` event to notify the transfer received by the contract.
 
-It also implements a `transferReceived` function that can be overridden to make your stuffs within your contract after a `onTransferReceived`.
+It also implements a `_transferReceived` function that can be overridden to make your stuff within your contract after a `onTransferReceived`.
 
 It emits a `TokensApproved` event to notify the approval received by the contract.
 
-It also implements a `approvalReceived` function that can be overridden to make your stuffs within your contract after a `onApprovalReceived`.
+It also implements a `_approvalReceived` function that can be overridden to make your stuff within your contract after a `onApprovalReceived`.
 
 ### ERC1363PayableCrowdsale
 
