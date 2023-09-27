@@ -9,10 +9,10 @@ ERC-1363 allows to implement an ERC-20 smart token.
 
 It means that we can add a callback to be executed after transferring or approving tokens.
 
-This is an implementation of the [EIP-1363](https://eips.ethereum.org/EIPS/eip-1363) that defines a token interface for EIP-20 tokens that supports executing recipient contract code after `transfer` or `transferFrom`, or spender contract code after `approve` in a single transaction.
+This is an implementation of the [EIP-1363](https://eips.ethereum.org/EIPS/eip-1363) that defines an interface for ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
 
 ## Abstract
-There is no way to execute any code on a receiver or spender contract after an EIP-20 `transfer`, `transferFrom` or `approve` so, to make an action, it is required to send another transaction.
+There is no way to execute any code on a receiver or spender contract after an ERC-20 `transfer`, `transferFrom` or `approve` so, to make an action, it is required to send another transaction.
 
 This introduces complexity on UI development and friction on adoption because users must wait for the first transaction to be executed, and then send the second one. They must also pay GAS twice.
 
