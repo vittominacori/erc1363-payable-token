@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.0;
 
-import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 
 /**
  * @title IERC1363
@@ -13,7 +13,7 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
  * Defines a interface for ERC20 tokens that supports executing recipient
  * code after `transfer` or `transferFrom`, or spender code after `approve`.
  */
-interface IERC1363 is IERC165, IERC20 {
+interface IERC1363 is IERC20, IERC165 {
     /*
      * Note: the ERC-165 identifier for this interface is 0xb0202a11.
      * 0xb0202a11 ===

@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.0;
 
-import {IERC165, ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {IERC165, ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 import {IERC1363} from "./IERC1363.sol";
 import {IERC1363Errors} from "./IERC1363Errors.sol";
@@ -14,7 +14,7 @@ import {IERC1363Spender} from "./IERC1363Spender.sol";
  * @title ERC1363
  * @dev Implementation of the ERC1363 interface.
  */
-abstract contract ERC1363 is ERC165, ERC20, IERC1363, IERC1363Errors {
+abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
     /**
      * @inheritdoc IERC165
      */

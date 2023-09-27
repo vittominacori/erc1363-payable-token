@@ -177,13 +177,13 @@
 <text text-anchor="start" x="777.88" y="-435.3" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;&#160;approveAndCall(spender: address, value: uint256, data: bytes): bool</text>
 </g>
 <!-- 9&#45;&gt;3 -->
-<g id="edge8" class="edge">
+<g id="edge7" class="edge">
 <title>9&#45;&gt;3</title>
 <path fill="none" stroke="black" stroke-dasharray="5,2" d="M1022.69,-594.44C1024.01,-683.05 1011.5,-821.94 931,-903.8 879.55,-956.12 712.85,-993.4 566.85,-1016.95"/>
 <polygon fill="none" stroke="black" points="565.03,-1006.6 537.01,-1021.62 568.28,-1027.35 565.03,-1006.6"/>
 </g>
 <!-- 9&#45;&gt;7 -->
-<g id="edge7" class="edge">
+<g id="edge8" class="edge">
 <title>9&#45;&gt;7</title>
 <path fill="none" stroke="black" stroke-dasharray="5,2" d="M958.8,-594.67C918.91,-651.55 866.72,-725.96 829.78,-778.62"/>
 <polygon fill="none" stroke="black" points="821.13,-772.67 812.5,-803.26 838.32,-784.73 821.13,-772.67"/>
@@ -235,13 +235,13 @@
 <text text-anchor="start" x="576.91" y="-8.7" font-family="Times,serif" font-size="14.00"> &#160;&#160;&#160;approveAndCall(spender: address, value: uint256, data: bytes): bool</text>
 </g>
 <!-- 13&#45;&gt;6 -->
-<g id="edge10" class="edge">
+<g id="edge9" class="edge">
 <title>13&#45;&gt;6</title>
 <path fill="none" stroke="black" d="M568.65,-213.93C541.63,-227.35 514.83,-242.02 485.55,-260.73"/>
 <polygon fill="none" stroke="black" points="479.51,-252.13 460.3,-277.46 491.11,-269.64 479.51,-252.13"/>
 </g>
 <!-- 13&#45;&gt;8 -->
-<g id="edge9" class="edge">
+<g id="edge10" class="edge">
 <title>13&#45;&gt;8</title>
 <path fill="none" stroke="black" d="M756.23,-234.95C721.57,-302.39 679.11,-384.98 649.85,-441.89"/>
 <polygon fill="none" stroke="black" points="640.44,-437.24 636.06,-468.72 659.12,-446.84 640.44,-437.24"/>

@@ -66,7 +66,7 @@ This repo contains:
 Interface of the ERC1363 standard as defined in the [EIP-1363](https://eips.ethereum.org/EIPS/eip-1363).
 
 ```solidity
-interface IERC1363 is IERC165, IERC20 {
+interface IERC1363 is IERC20, IERC165 {
     function transferAndCall(address to, uint256 value) external returns (bool);
     function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);
     function transferFromAndCall(address from, address to, uint256 value) external returns (bool);

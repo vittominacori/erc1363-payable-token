@@ -699,7 +699,7 @@ pragma solidity ^0.8.0;
  * Defines a interface for ERC20 tokens that supports executing recipient
  * code after `transfer` or `transferFrom`, or spender code after `approve`.
  */
-interface IERC1363 is IERC165, IERC20 {
+interface IERC1363 is IERC20, IERC165 {
     /*
      * Note: the ERC-165 identifier for this interface is 0xb0202a11.
      * 0xb0202a11 ===
@@ -780,7 +780,7 @@ pragma solidity ^0.8.0;
 
 /**
  * @title IERC1363Errors
- * @dev Interface of the ERC1363 errors following the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] rationale.
+ * @dev Interface of the ERC1363 custom errors following the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] rationale.
  */
 interface IERC1363Errors {
     /**
@@ -887,7 +887,7 @@ pragma solidity ^0.8.0;
  * @title ERC1363
  * @dev Implementation of the ERC1363 interface.
  */
-abstract contract ERC1363 is ERC165, ERC20, IERC1363, IERC1363Errors {
+abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
     /**
      * @inheritdoc IERC165
      */
