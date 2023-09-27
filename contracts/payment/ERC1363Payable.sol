@@ -29,7 +29,7 @@ contract ERC1363Payable is ERC165, IERC1363Receiver, IERC1363Spender {
     IERC1363 private _acceptedToken;
 
     /**
-     * @param acceptedToken_ Address of the token being accepted
+     * @param acceptedToken_ Address of the token being accepted.
      */
     constructor(IERC1363 acceptedToken_) {
         require(address(acceptedToken_) != address(0), "ERC1363Payable: acceptedToken is zero address");
@@ -82,7 +82,7 @@ contract ERC1363Payable is ERC165, IERC1363Receiver, IERC1363Spender {
     }
 
     /**
-     * @dev The ERC1363 token accepted
+     * @dev The ERC1363 token accepted.
      */
     function acceptedToken() public view returns (IERC1363) {
         return _acceptedToken;
@@ -91,10 +91,10 @@ contract ERC1363Payable is ERC165, IERC1363Receiver, IERC1363Spender {
     /**
      * @dev Called after validating a `onTransferReceived`. Override this method to
      * make your stuff within your contract.
-     * @param operator The address which called `transferAndCall` or `transferFromAndCall` function
-     * @param from The address which are tokens transferred from
-     * @param value The amount of tokens transferred
-     * @param data Additional data with no specified format
+     * @param operator The address which called `transferAndCall` or `transferFromAndCall` function.
+     * @param from The address which are tokens transferred from.
+     * @param value The amount of tokens transferred.
+     * @param data Additional data with no specified format.
      */
     function _transferReceived(address operator, address from, uint256 value, bytes calldata data) internal virtual {
         // optional override
@@ -103,9 +103,9 @@ contract ERC1363Payable is ERC165, IERC1363Receiver, IERC1363Spender {
     /**
      * @dev Called after validating a `onApprovalReceived`. Override this method to
      * make your stuff within your contract.
-     * @param owner The address which called `approveAndCall` function and previously owned the tokens
-     * @param value The amount of tokens to be spent
-     * @param data Additional data with no specified format
+     * @param owner The address which called `approveAndCall` function and previously owned the tokens.
+     * @param value The amount of tokens to be spent.
+     * @param data Additional data with no specified format.
      */
     function _approvalReceived(address owner, uint256 value, bytes calldata data) internal virtual {
         // optional override

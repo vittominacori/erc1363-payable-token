@@ -81,10 +81,10 @@ abstract contract ERC1363 is ERC165, ERC20, IERC1363, IERC1363Errors {
      * if the target doesn't accept the token transfer or
      * if the target address is not a contract.
      *
-     * @param from Address representing the previous owner of the given token amount
-     * @param to Target address that will receive the tokens
-     * @param value The amount of tokens to be transferred
-     * @param data Optional data to send along with the call
+     * @param from Address representing the previous owner of the given token amount.
+     * @param to Target address that will receive the tokens.
+     * @param value The amount of tokens to be transferred.
+     * @param data Optional data to send along with the call.
      */
     function _checkOnTransferReceived(address from, address to, uint256 value, bytes memory data) private {
         if (to.code.length == 0) {
@@ -113,9 +113,9 @@ abstract contract ERC1363 is ERC165, ERC20, IERC1363, IERC1363Errors {
      * if the target doesn't accept the token approval or
      * if the target address is not a contract.
      *
-     * @param spender The address which will spend the funds
-     * @param value The amount of tokens to be spent
-     * @param data Optional data to send along with the call
+     * @param spender The address which will spend the funds.
+     * @param value The amount of tokens to be spent.
+     * @param data Optional data to send along with the call.
      */
     function _checkOnApprovalReceived(address spender, uint256 value, bytes memory data) private {
         if (spender.code.length == 0) {

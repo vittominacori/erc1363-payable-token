@@ -16,9 +16,9 @@ interface IERC1363Spender {
      * `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
      * (i.e. 0x7b04a2d0, or its own function selector).
      *
-     * @param owner The address which called `approveAndCall` function and previously owned the tokens
-     * @param value The amount of tokens to be spent
-     * @param data Additional data with no specified format
+     * @param owner The address which called `approveAndCall` function and previously owned the tokens.
+     * @param value The amount of tokens to be spent.
+     * @param data Additional data with no specified format.
      * @return `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))` if approval is allowed unless throwing.
      */
     function onApprovalReceived(address owner, uint256 value, bytes calldata data) external returns (bytes4);

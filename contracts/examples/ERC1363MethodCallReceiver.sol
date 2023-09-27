@@ -13,9 +13,9 @@ import {IERC1363Receiver} from "../token/ERC1363/IERC1363Receiver.sol";
  */
 contract ERC1363MethodCallReceiver is ERC165, IERC1363Receiver {
     /**
-     * Event for logging method call
-     * @param method the function that has been called
-     * @param param the function param
+     * @dev Event for logging method call.
+     * @param method The function that has been called.
+     * @param param The function param.
      */
     event MethodCall(string method, string param);
 

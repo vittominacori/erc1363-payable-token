@@ -16,10 +16,10 @@ interface IERC1363Receiver {
      * `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
      * (i.e. 0x88a7ca5c, or its own function selector).
      *
-     * @param operator The address which called `transferAndCall` or `transferFromAndCall` function
-     * @param from The address which are tokens transferred from
-     * @param value The amount of tokens transferred
-     * @param data Additional data with no specified format
+     * @param operator The address which called `transferAndCall` or `transferFromAndCall` function.
+     * @param from The address which are tokens transferred from.
+     * @param value The amount of tokens transferred.
+     * @param data Additional data with no specified format.
      * @return `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))` if transfer is allowed unless throwing.
      */
     function onTransferReceived(
