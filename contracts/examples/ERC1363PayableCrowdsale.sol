@@ -97,8 +97,7 @@ contract ERC1363PayableCrowdsale is ERC1363Payable {
      * @inheritdoc ERC1363Payable
      */
     function _approvalReceived(address owner, uint256 value, bytes calldata data) internal override {
-        // slither-disable-next-line arbitrary-send-erc20 unchecked-transfer
-        IERC20(acceptedToken()).transferFrom(owner, address(this), value);
+        IERC20(acceptedToken()).safeTransferFrom(owner, address(this), value);
         _buyTokens(owner, owner, value, data);
     }
 
