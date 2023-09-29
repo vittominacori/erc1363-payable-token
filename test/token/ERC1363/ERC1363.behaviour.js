@@ -16,10 +16,6 @@ function shouldBehaveLikeERC1363(initialSupply, accounts) {
   const RECEIVER_MAGIC_VALUE = '0x88a7ca5c';
   const SPENDER_MAGIC_VALUE = '0x7b04a2d0';
 
-  beforeEach(async function () {
-    await this.token.$_mint(owner, initialSupply);
-  });
-
   shouldSupportInterfaces(['ERC165', 'ERC1363']);
 
   describe('transfers', function () {
