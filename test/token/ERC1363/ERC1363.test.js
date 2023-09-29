@@ -13,7 +13,6 @@ contract('ERC1363', function (accounts) {
 
   beforeEach(async function () {
     this.token = await ERC1363.new(name, symbol);
-
     await this.token.$_mint(owner, initialSupply);
   });
 

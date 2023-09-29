@@ -445,7 +445,9 @@ function shouldBehaveLikeERC1363(initialSupply, accounts) {
         });
       };
 
-      const approveWasSuccessful = function (owner, value) {
+      const approveWasSuccessful = function (owner, balance) {
+        const value = balance;
+
         let spender;
 
         beforeEach(async function () {
