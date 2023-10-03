@@ -50,20 +50,20 @@
   },
   "homepage": "https://vittominacori.github.io/erc1363-payable-token",
   "dependencies": {
-    "@openzeppelin/contracts": "5.0.0-rc.1"
+    "@openzeppelin/contracts": "5.0.0-rc.2"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-truffle5": "^2.0.7",
     "@nomiclabs/hardhat-web3": "^2.0.0",
     "@openzeppelin/test-helpers": "^0.5.16",
-    "chai": "^4.3.9",
+    "chai": "^4.3.10",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-mocha-no-only": "^1.1.1",
     "graphlib": "^2.1.8",
     "hardhat": "^2.17.4",
-    "hardhat-exposed": "^0.3.12",
+    "hardhat-exposed": "^0.3.13",
     "hardhat-gas-reporter": "^1.0.9",
     "prettier": "^3.0.3",
     "prettier-plugin-solidity": "^1.1.3",
