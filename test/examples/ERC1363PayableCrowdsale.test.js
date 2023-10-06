@@ -1,6 +1,6 @@
 const { BN } = require('@openzeppelin/test-helpers');
 
-const { shouldBehaveLikeERC1363PayableCrowdsale } = require('./ERC1363PayableCrowdsale.behaviour');
+const { shouldBehaveLikeERC1363PayableCrowdsale } = require('./ERC1363PayableCrowdsale.behavior');
 
 const ERC20 = artifacts.require('$ERC20Mock');
 const ERC1363 = artifacts.require('$ERC1363');
