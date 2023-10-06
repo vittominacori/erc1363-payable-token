@@ -688,7 +688,7 @@ abstract contract ERC165 is IERC165 {
 
 // Original license: SPDX_License_Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 
 /**
@@ -776,7 +776,7 @@ interface IERC1363 is IERC20, IERC165 {
 
 // Original license: SPDX_License_Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 /**
  * @title IERC1363Errors
@@ -813,7 +813,7 @@ interface IERC1363Errors {
 
 // Original license: SPDX_License_Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 /**
  * @title IERC1363Receiver
@@ -848,7 +848,7 @@ interface IERC1363Receiver {
 
 // Original license: SPDX_License_Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 /**
  * @title ERC1363Spender
@@ -877,7 +877,7 @@ interface IERC1363Spender {
 
 // Original license: SPDX_License_Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 
 
