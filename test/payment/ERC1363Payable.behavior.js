@@ -4,7 +4,6 @@ const { BN, constants, expectRevert, expectEvent } = require('@openzeppelin/test
 const { shouldSupportInterfaces } = require('../introspection/SupportsInterface.behavior');
 const { ZERO_ADDRESS } = constants;
 
-const ERC20 = artifacts.require('ERC20');
 const ERC1363Payable = artifacts.require('ERC1363PayableMock');
 
 function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
@@ -20,11 +19,7 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
 
     describe('if token does not support ERC1363 interface', function () {
       it('reverts', async function () {
-        const name = 'TEST';
-        const symbol = 'TEST';
-
-        const erc20Token = await ERC20.new(name, symbol);
-        await expectRevert.unspecified(ERC1363Payable.new(erc20Token.address));
+        await expectRevert.unspecified(ERC1363Payable.new(this.erc20Token.address));
       });
     });
   });
@@ -50,8 +45,8 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensReceived', {
             operator: spender,
-            sender: owner,
-            amount: value,
+            from: owner,
+            value: value,
             data,
           });
         });
@@ -101,8 +96,8 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensReceived', {
             operator: owner,
-            sender: owner,
-            amount: value,
+            from: owner,
+            value: value,
             data,
           });
         });
@@ -151,8 +146,8 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
           const receipt = await approveFun.call(this, this.mock.address, value, { from: owner });
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensApproved', {
-            sender: owner,
-            amount: value,
+            owner: owner,
+            value: value,
             data,
           });
         });

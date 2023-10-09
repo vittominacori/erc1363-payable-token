@@ -1,45 +1,42 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
-import {ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
+import {IERC165, ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 import {IERC1363Receiver} from "../token/ERC1363/IERC1363Receiver.sol";
 
 /**
  * @title ERC1363MethodCallReceiver
- * @dev ERC1363MethodCallReceiver is an example contract allowing to test passing methods
+ * @dev ERC1363MethodCallReceiver is an example contract allowing test passing methods
  * via abi encoded function call.
  */
-contract ERC1363MethodCallReceiver is IERC1363Receiver, ERC165 {
+contract ERC1363MethodCallReceiver is ERC165, IERC1363Receiver {
     /**
-     * Event for logging method call
-     * @param method the function that has been called
-     * @param param the function param
+     * @dev Event for logging method call.
+     * @param method The function that has been called.
+     * @param param The function param.
      */
     event MethodCall(string method, string param);
 
     constructor() {}
 
     /**
-     * @dev See {IERC165-supportsInterface}.
+     * @inheritdoc IERC165
      */
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165) returns (bool) {
         return interfaceId == type(IERC1363Receiver).interfaceId || super.supportsInterface(interfaceId);
     }
 
     /*
-     * @dev Note: remember that the token contract address is always the message sender.
-     * @param spender The address which called `transferAndCall` or `transferFromAndCall` function
-     * @param sender The address which are token transferred from
-     * @param amount The amount of tokens transferred
-     * @param data Additional data with no specified format
+     * NOTE: remember that the ERC1363 contract is always the caller.
+     * @inheritdoc IERC1363Receiver
      */
     function onTransferReceived(
-        address /* spender */,
-        address /* sender */,
-        uint256 /* amount */,
-        bytes memory data
+        address /* operator */,
+        address /* from */,
+        uint256 /* value */,
+        bytes calldata data
     ) public override returns (bytes4) {
         (bool success, ) = address(this).call(data);
 
@@ -52,7 +49,7 @@ contract ERC1363MethodCallReceiver is IERC1363Receiver, ERC165 {
         emit MethodCall("methodWithoutParam", "");
     }
 
-    function methodWithParam(string memory param) public {
+    function methodWithParam(string calldata param) public {
         emit MethodCall("methodWithParam", param);
     }
 }

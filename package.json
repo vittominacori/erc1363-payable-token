@@ -1,15 +1,13 @@
 {
   "name": "erc-payable-token",
-  "version": "4.9.7",
+  "version": "5.0.0",
   "description": "ERC-1363 Payable Token Implementation",
   "files": [
     "contracts",
     "test"
   ],
   "scripts": {
-    "truffle:console": "truffle console",
     "truffle:compile": "truffle compile --all",
-    "truffle:test": "truffle test",
     "hardhat:console": "hardhat console",
     "hardhat:compile": "hardhat compile",
     "hardhat:test": "hardhat test",
@@ -18,7 +16,7 @@
     "compile": "npm run hardhat:compile",
     "test": "npm run hardhat:test",
     "coverage": "npm run hardhat:coverage",
-    "clean": "rm -rf coverage coverage.json",
+    "clean": "hardhat clean && rimraf build contracts/build coverage coverage.json",
     "profile": "npm run clean && npm run coverage && open coverage/index.html",
     "check:inheritance": "scripts/checks/inheritance-ordering.js artifacts/build-info/*",
     "lint": "npm run lint:js && npm run lint:sol",
@@ -52,31 +50,41 @@
   },
   "homepage": "https://vittominacori.github.io/erc1363-payable-token",
   "dependencies": {
-    "@openzeppelin/contracts": "4.9.3"
+    "@openzeppelin/contracts": "5.0.0"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-truffle5": "^2.0.7",
     "@nomiclabs/hardhat-web3": "^2.0.0",
     "@openzeppelin/test-helpers": "^0.5.16",
-    "chai": "^4.3.8",
-    "eslint": "^8.50.0",
+    "chai": "^4.3.10",
+    "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-mocha-no-only": "^1.1.1",
     "graphlib": "^2.1.8",
-    "hardhat": "^2.17.3",
-    "hardhat-exposed": "^0.3.12",
+    "hardhat": "^2.18.0",
+    "hardhat-exposed": "^0.3.13",
     "hardhat-gas-reporter": "^1.0.9",
     "prettier": "^3.0.3",
     "prettier-plugin-solidity": "^1.1.3",
+    "rimraf": "^5.0.5",
     "sol2uml": "^2.5.16",
     "solhint": "^3.6.2",
     "solhint-plugin-openzeppelin": "file:scripts/solhint-custom",
     "solidity-coverage": "^0.8.5",
     "surya": "^0.4.6",
     "truffle": "^5.11.5",
+    "truffle-flattener": "^1.6.0",
     "vuepress": "^1.9.10",
     "vuepress-plugin-google-gtag": "^1.0.1",
     "yargs": "^17.7.2"
+  },
+  "overrides": {
+    "surya": {
+      "@solidity-parser/parser": "^0.16.1"
+    },
+    "truffle-flattener": {
+      "@solidity-parser/parser": "^0.16.1"
+    }
   }
 }

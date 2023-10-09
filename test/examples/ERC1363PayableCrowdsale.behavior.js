@@ -11,6 +11,10 @@ function shouldBehaveLikeERC1363PayableCrowdsale([deployer, wallet, beneficiary,
   const expectedTokenAmount = rate.mul(value);
   const data = '0x42';
 
+  beforeEach(async function () {
+    await this.erc20Token.$_mint(deployer, tokenSupply);
+  });
+
   it('requires a non-null ERC20 token', async function () {
     await expectRevert.unspecified(
       Crowdsale.new(rate, wallet, ZERO_ADDRESS, this.erc1363Token.address, { from: deployer }),

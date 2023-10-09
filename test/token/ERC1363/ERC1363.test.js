@@ -1,18 +1,20 @@
 const { BN } = require('@openzeppelin/test-helpers');
 
-const { shouldBehaveLikeERC1363 } = require('./ERC1363.behaviour');
+const { shouldBehaveLikeERC1363 } = require('./ERC1363.behavior');
 
-const ERC1363 = artifacts.require('ERC1363Mock');
+const ERC1363 = artifacts.require('$ERC1363');
 
-contract('ERC1363', function ([owner, spender, recipient]) {
-  const name = 'TEST';
-  const symbol = 'TEST';
+contract('ERC1363', function (accounts) {
+  const [owner] = accounts;
 
-  const balance = new BN(100);
+  const name = 'My Token';
+  const symbol = 'MTKN';
+  const initialSupply = new BN(100);
 
   beforeEach(async function () {
-    this.token = await ERC1363.new(name, symbol, owner, balance);
+    this.token = await ERC1363.new(name, symbol);
+    await this.token.$_mint(owner, initialSupply);
   });
 
-  shouldBehaveLikeERC1363([owner, spender, recipient], balance);
+  shouldBehaveLikeERC1363(initialSupply, accounts);
 });
