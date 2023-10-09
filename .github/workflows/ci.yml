@@ -79,3 +79,14 @@ jobs:
         uses: crytic/slither-action@v0.3.0
         with:
           node-version: 18
+
+  codespell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run CodeSpell
+        uses: codespell-project/actions-codespell@v2.0
+        with:
+          check_hidden: true
+          check_filenames: true
+          skip: package-lock.json
