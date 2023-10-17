@@ -62,7 +62,7 @@
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-mocha-no-only": "^1.1.1",
     "graphlib": "^2.1.8",
-    "hardhat": "^2.18.0",
+    "hardhat": "^2.18.1",
     "hardhat-exposed": "^0.3.13",
     "hardhat-gas-reporter": "^1.0.9",
     "prettier": "^3.0.3",
@@ -72,7 +72,7 @@
     "solhint": "^3.6.2",
     "solhint-plugin-openzeppelin": "file:scripts/solhint-custom",
     "solidity-coverage": "^0.8.5",
-    "surya": "^0.4.6",
+    "surya": "^0.4.8",
     "truffle": "^5.11.5",
     "truffle-flattener": "^1.6.0",
     "vuepress": "^1.9.10",
@@ -80,9 +80,6 @@
     "yargs": "^17.7.2"
   },
   "overrides": {
-    "surya": {
-      "@solidity-parser/parser": "^0.16.1"
-    },
     "truffle-flattener": {
       "@solidity-parser/parser": "^0.16.1"
     }
