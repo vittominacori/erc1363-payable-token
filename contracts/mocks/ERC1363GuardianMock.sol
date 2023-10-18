@@ -10,8 +10,6 @@ contract ERC1363GuardianMock is ERC1363Guardian {
     uint256 public transferNumber;
     uint256 public approvalNumber;
 
-    constructor(IERC1363 acceptedToken) ERC1363Guardian(acceptedToken) {}
-
     function _transferReceived(address operator, address from, uint256 value, bytes calldata data) internal override {
         transferNumber += 1;
         super._transferReceived(operator, from, value, data);

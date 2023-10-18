@@ -1,8 +1,5 @@
+const { BN, expectEvent } = require('@openzeppelin/test-helpers');
 const { expect } = require('chai');
-const { BN, constants, expectRevert, expectEvent } = require('@openzeppelin/test-helpers');
-
-const { shouldSupportInterfaces } = require('../introspection/SupportsInterface.behavior');
-const { ZERO_ADDRESS } = constants;
 
 const ERC1363Guardian = artifacts.require('ERC1363GuardianMock');
 
@@ -10,36 +7,21 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
   const value = balance;
   const data = '0x42';
 
-  describe('creating a valid contract', function () {
-    describe('if accepted token is the zero address', function () {
-      it('reverts', async function () {
-        await expectRevert(ERC1363Guardian.new(ZERO_ADDRESS), 'ERC1363Guardian: acceptedToken is zero address');
+  describe('receiving transfers', function () {
+    describe('via transferFromAndCall', function () {
+      beforeEach(async function () {
+        await this.token.approve(spender, value, { from: owner });
       });
-    });
 
-    describe('if token does not support ERC1363 interface', function () {
-      it('reverts', async function () {
-        await expectRevert.unspecified(ERC1363Guardian.new(this.erc20Token.address));
-      });
-    });
-  });
+      const transferFromAndCallWithData = function (from, to, value, opts) {
+        return this.token.methods['transferFromAndCall(address,address,uint256,bytes)'](from, to, value, data, opts);
+      };
 
-  describe('via transferFromAndCall', function () {
-    beforeEach(async function () {
-      await this.token.approve(spender, value, { from: owner });
-      await this.notAcceptedToken.approve(spender, value, { from: owner });
-    });
+      const transferFromAndCallWithoutData = function (from, to, value, opts) {
+        return this.token.methods['transferFromAndCall(address,address,uint256)'](from, to, value, opts);
+      };
 
-    const transferFromAndCallWithData = function (from, to, value, opts) {
-      return this.token.methods['transferFromAndCall(address,address,uint256,bytes)'](from, to, value, data, opts);
-    };
-
-    const transferFromAndCallWithoutData = function (from, to, value, opts) {
-      return this.token.methods['transferFromAndCall(address,address,uint256)'](from, to, value, opts);
-    };
-
-    const shouldTransferFromSafely = function (transferFun, data) {
-      describe('using an accepted ERC1363', function () {
+      const shouldTransferFromSafely = function (transferFun, data) {
         it('should call onTransferReceived', async function () {
           const receipt = await transferFun.call(this, owner, this.mock.address, value, { from: spender });
 
@@ -51,46 +33,34 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
           });
         });
 
-        it('should execute transferReceived', async function () {
+        it('should execute _transferReceived', async function () {
           let transferNumber = await this.mock.transferNumber();
           expect(transferNumber).to.be.bignumber.equal(new BN(0));
           await transferFun.call(this, owner, this.mock.address, value, { from: spender });
           transferNumber = await this.mock.transferNumber();
           expect(transferNumber).to.be.bignumber.equal(new BN(1));
         });
+      };
+
+      describe('with data', function () {
+        shouldTransferFromSafely(transferFromAndCallWithData, data);
       });
 
-      describe('using a not accepted ERC1363', function () {
-        it('reverts', async function () {
-          this.token = this.notAcceptedToken;
-          await expectRevert(
-            transferFun.call(this, owner, this.mock.address, value, { from: spender }),
-            'ERC1363Guardian: acceptedToken is not message sender',
-          );
-        });
+      describe('without data', function () {
+        shouldTransferFromSafely(transferFromAndCallWithoutData, null);
       });
-    };
-
-    describe('with data', function () {
-      shouldTransferFromSafely(transferFromAndCallWithData, data);
     });
 
-    describe('without data', function () {
-      shouldTransferFromSafely(transferFromAndCallWithoutData, null);
-    });
-  });
+    describe('via transferAndCall', function () {
+      const transferAndCallWithData = function (to, value, opts) {
+        return this.token.methods['transferAndCall(address,uint256,bytes)'](to, value, data, opts);
+      };
 
-  describe('via transferAndCall', function () {
-    const transferAndCallWithData = function (to, value, opts) {
-      return this.token.methods['transferAndCall(address,uint256,bytes)'](to, value, data, opts);
-    };
+      const transferAndCallWithoutData = function (to, value, opts) {
+        return this.token.methods['transferAndCall(address,uint256)'](to, value, opts);
+      };
 
-    const transferAndCallWithoutData = function (to, value, opts) {
-      return this.token.methods['transferAndCall(address,uint256)'](to, value, opts);
-    };
-
-    const shouldTransferSafely = function (transferFun, data) {
-      describe('using an accepted ERC1363', function () {
+      const shouldTransferSafely = function (transferFun, data) {
         it('should call onTransferReceived', async function () {
           const receipt = await transferFun.call(this, this.mock.address, value, { from: owner });
 
@@ -102,46 +72,36 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
           });
         });
 
-        it('should execute transferReceived', async function () {
+        it('should execute _transferReceived', async function () {
           let transferNumber = await this.mock.transferNumber();
           expect(transferNumber).to.be.bignumber.equal(new BN(0));
           await transferFun.call(this, this.mock.address, value, { from: owner });
           transferNumber = await this.mock.transferNumber();
           expect(transferNumber).to.be.bignumber.equal(new BN(1));
         });
+      };
+
+      describe('with data', function () {
+        shouldTransferSafely(transferAndCallWithData, data);
       });
 
-      describe('using a not accepted ERC1363', function () {
-        it('reverts', async function () {
-          this.token = this.notAcceptedToken;
-          await expectRevert(
-            transferFun.call(this, this.mock.address, value, { from: owner }),
-            'ERC1363Guardian: acceptedToken is not message sender',
-          );
-        });
+      describe('without data', function () {
+        shouldTransferSafely(transferAndCallWithoutData, null);
       });
-    };
-
-    describe('with data', function () {
-      shouldTransferSafely(transferAndCallWithData, data);
-    });
-
-    describe('without data', function () {
-      shouldTransferSafely(transferAndCallWithoutData, null);
     });
   });
 
-  describe('via approveAndCall', function () {
-    const approveAndCallWithData = function (spender, value, opts) {
-      return this.token.methods['approveAndCall(address,uint256,bytes)'](spender, value, data, opts);
-    };
+  describe('receiving approvals', function () {
+    describe('via approveAndCall', function () {
+      const approveAndCallWithData = function (spender, value, opts) {
+        return this.token.methods['approveAndCall(address,uint256,bytes)'](spender, value, data, opts);
+      };
 
-    const approveAndCallWithoutData = function (spender, value, opts) {
-      return this.token.methods['approveAndCall(address,uint256)'](spender, value, opts);
-    };
+      const approveAndCallWithoutData = function (spender, value, opts) {
+        return this.token.methods['approveAndCall(address,uint256)'](spender, value, opts);
+      };
 
-    const shouldApproveSafely = function (approveFun, data) {
-      describe('using an accepted ERC1363', function () {
+      const shouldApproveSafely = function (approveFun, data) {
         it('should call onApprovalReceived', async function () {
           const receipt = await approveFun.call(this, this.mock.address, value, { from: owner });
 
@@ -152,36 +112,24 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
           });
         });
 
-        it('should execute approvalReceived', async function () {
+        it('should execute _approvalReceived', async function () {
           let approvalNumber = await this.mock.approvalNumber();
           expect(approvalNumber).to.be.bignumber.equal(new BN(0));
           await approveFun.call(this, this.mock.address, value, { from: owner });
           approvalNumber = await this.mock.approvalNumber();
           expect(approvalNumber).to.be.bignumber.equal(new BN(1));
         });
+      };
+
+      describe('with data', function () {
+        shouldApproveSafely(approveAndCallWithData, data);
       });
 
-      describe('using a not accepted ERC1363', function () {
-        it('reverts', async function () {
-          this.token = this.notAcceptedToken;
-          await expectRevert(
-            approveFun.call(this, this.mock.address, value, { from: owner }),
-            'ERC1363Guardian: acceptedToken is not message sender',
-          );
-        });
+      describe('without data', function () {
+        shouldApproveSafely(approveAndCallWithoutData, null);
       });
-    };
-
-    describe('with data', function () {
-      shouldApproveSafely(approveAndCallWithData, data);
-    });
-
-    describe('without data', function () {
-      shouldApproveSafely(approveAndCallWithoutData, null);
     });
   });
-
-  shouldSupportInterfaces(['ERC165', 'ERC1363Receiver', 'ERC1363Spender']);
 }
 
 module.exports = {

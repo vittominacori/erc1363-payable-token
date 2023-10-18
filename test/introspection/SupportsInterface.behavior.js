@@ -13,8 +13,6 @@ const INTERFACES = {
     'approveAndCall(address,uint256)',
     'approveAndCall(address,uint256,bytes)',
   ],
-  ERC1363Receiver: ['onTransferReceived(address,address,uint256,bytes)'],
-  ERC1363Spender: ['onApprovalReceived(address,uint256,bytes)'],
 };
 
 const INTERFACE_IDS = {};
