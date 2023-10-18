@@ -26,6 +26,7 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
           const receipt = await transferFun.call(this, owner, this.mock.address, value, { from: spender });
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Guardian, 'TokensReceived', {
+            token: this.token.address,
             operator: spender,
             from: owner,
             value: value,
@@ -106,6 +107,7 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
           const receipt = await approveFun.call(this, this.mock.address, value, { from: owner });
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Guardian, 'TokensApproved', {
+            token: this.token.address,
             owner: owner,
             value: value,
             data,

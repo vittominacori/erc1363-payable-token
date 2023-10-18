@@ -116,7 +116,7 @@ interface IERC1363Spender {
 
 [ERC1363Guardian.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363Guardian.sol)
 
-Implementation proposal of a contract that wants to accept ERC1363 payments. It intercepts what is the ERC1363 token desired for payments and throws if another is sent.
+As example: a contract that allows to accept ERC1363 callback after transfers or approvals.
 
 It emits a `TokensReceived` event to notify the transfer received by the contract.
 
@@ -130,7 +130,7 @@ It also implements a `_approvalReceived` function that can be overridden to make
 
 [ERC1363MethodCallReceiver.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363MethodCallReceiver.sol)
 
-As example: a contract allowing to test passing methods via abi encoded function call.
+As example: a contract that allows to test passing methods via abi encoded function call.
 
 ## Code Analysis
 
