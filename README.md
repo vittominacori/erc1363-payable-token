@@ -112,14 +112,6 @@ interface IERC1363Spender {
 }
 ```
 
-### ERC1363Holder
-
-[ERC1363Holder.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/utils/ERC1363Holder.sol)
-
-Implementation of `IERC1363Receiver` and `IERC1363Spender` that will allow a contract to receive ERC1363 token transfers or approval.
-
-IMPORTANT: When inheriting this contract, you must include a way to use the received tokens or spend the allowance, otherwise they will be stuck.
-
 ### ERC1363Payable
 
 [ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/payment/ERC1363Payable.sol)
@@ -134,12 +126,6 @@ It emits a `TokensApproved` event to notify the approval received by the contrac
 
 It also implements a `_approvalReceived` function that can be overridden to make your stuff within your contract after a `onApprovalReceived`.
 
-### ERC1363PayableCrowdsale
-
-[ERC1363PayableCrowdsale.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363PayableCrowdsale.sol)
-
-As example: an Implementation of a classic token Crowdsale, but paid with ERC1363 tokens instead of ETH.
-
 ### ERC1363MethodCallReceiver
 
 [ERC1363MethodCallReceiver.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363MethodCallReceiver.sol)
@@ -149,6 +135,7 @@ As example: a contract allowing to test passing methods via abi encoded function
 ## Code Analysis
 
 * [Control Flow](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/control-flow/ERC1363.png)
+* [Description Table](https://github.com/vittominacori/erc1363-payable-token/blob/master/analysis/description-table/ERC1363.md)
 * [Inheritance Tree](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/inheritance-tree/ERC1363.png)
 * [UML](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/uml/ERC1363.svg)
 
