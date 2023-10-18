@@ -3,14 +3,14 @@
 pragma solidity ^0.8.20;
 
 import {IERC1363} from "../token/ERC1363/IERC1363.sol";
-import {ERC1363Payable} from "../payment/ERC1363Payable.sol";
+import {ERC1363Guardian} from "../examples/ERC1363Guardian.sol";
 
-// mock class using ERC1363Payable
-contract ERC1363PayableMock is ERC1363Payable {
+// mock class using ERC1363Guardian
+contract ERC1363GuardianMock is ERC1363Guardian {
     uint256 public transferNumber;
     uint256 public approvalNumber;
 
-    constructor(IERC1363 acceptedToken) ERC1363Payable(acceptedToken) {}
+    constructor(IERC1363 acceptedToken) ERC1363Guardian(acceptedToken) {}
 
     function _transferReceived(address operator, address from, uint256 value, bytes calldata data) internal override {
         transferNumber += 1;

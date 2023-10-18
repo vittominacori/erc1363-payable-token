@@ -4,22 +4,22 @@ const { BN, constants, expectRevert, expectEvent } = require('@openzeppelin/test
 const { shouldSupportInterfaces } = require('../introspection/SupportsInterface.behavior');
 const { ZERO_ADDRESS } = constants;
 
-const ERC1363Payable = artifacts.require('ERC1363PayableMock');
+const ERC1363Guardian = artifacts.require('ERC1363GuardianMock');
 
-function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
+function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
   const value = balance;
   const data = '0x42';
 
   describe('creating a valid contract', function () {
     describe('if accepted token is the zero address', function () {
       it('reverts', async function () {
-        await expectRevert(ERC1363Payable.new(ZERO_ADDRESS), 'ERC1363Payable: acceptedToken is zero address');
+        await expectRevert(ERC1363Guardian.new(ZERO_ADDRESS), 'ERC1363Guardian: acceptedToken is zero address');
       });
     });
 
     describe('if token does not support ERC1363 interface', function () {
       it('reverts', async function () {
-        await expectRevert.unspecified(ERC1363Payable.new(this.erc20Token.address));
+        await expectRevert.unspecified(ERC1363Guardian.new(this.erc20Token.address));
       });
     });
   });
@@ -43,7 +43,7 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
         it('should call onTransferReceived', async function () {
           const receipt = await transferFun.call(this, owner, this.mock.address, value, { from: spender });
 
-          await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensReceived', {
+          await expectEvent.inTransaction(receipt.tx, ERC1363Guardian, 'TokensReceived', {
             operator: spender,
             from: owner,
             value: value,
@@ -65,7 +65,7 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
           this.token = this.notAcceptedToken;
           await expectRevert(
             transferFun.call(this, owner, this.mock.address, value, { from: spender }),
-            'ERC1363Payable: acceptedToken is not message sender',
+            'ERC1363Guardian: acceptedToken is not message sender',
           );
         });
       });
@@ -94,7 +94,7 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
         it('should call onTransferReceived', async function () {
           const receipt = await transferFun.call(this, this.mock.address, value, { from: owner });
 
-          await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensReceived', {
+          await expectEvent.inTransaction(receipt.tx, ERC1363Guardian, 'TokensReceived', {
             operator: owner,
             from: owner,
             value: value,
@@ -116,7 +116,7 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
           this.token = this.notAcceptedToken;
           await expectRevert(
             transferFun.call(this, this.mock.address, value, { from: owner }),
-            'ERC1363Payable: acceptedToken is not message sender',
+            'ERC1363Guardian: acceptedToken is not message sender',
           );
         });
       });
@@ -145,7 +145,7 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
         it('should call onApprovalReceived', async function () {
           const receipt = await approveFun.call(this, this.mock.address, value, { from: owner });
 
-          await expectEvent.inTransaction(receipt.tx, ERC1363Payable, 'TokensApproved', {
+          await expectEvent.inTransaction(receipt.tx, ERC1363Guardian, 'TokensApproved', {
             owner: owner,
             value: value,
             data,
@@ -166,7 +166,7 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
           this.token = this.notAcceptedToken;
           await expectRevert(
             approveFun.call(this, this.mock.address, value, { from: owner }),
-            'ERC1363Payable: acceptedToken is not message sender',
+            'ERC1363Guardian: acceptedToken is not message sender',
           );
         });
       });
@@ -185,5 +185,5 @@ function shouldBehaveLikeERC1363Payable([owner, spender], balance) {
 }
 
 module.exports = {
-  shouldBehaveLikeERC1363Payable,
+  shouldBehaveLikeERC1363Guardian,
 };

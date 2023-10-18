@@ -9,10 +9,10 @@ import {IERC1363Receiver} from "../token/ERC1363/IERC1363Receiver.sol";
 import {IERC1363Spender} from "../token/ERC1363/IERC1363Spender.sol";
 
 /**
- * @title ERC1363Payable
+ * @title ERC1363Guardian
  * @dev Implementation example of a contract that wants to accept ERC1363 payments.
  */
-contract ERC1363Payable is ERC165, IERC1363Receiver, IERC1363Spender {
+contract ERC1363Guardian is ERC165, IERC1363Receiver, IERC1363Spender {
     /**
      * @dev Emitted when a `value` amount of tokens are moved from `from` to
      * this contract by `operator` using `transferAndCall` or `transferFromAndCall`.
@@ -32,7 +32,7 @@ contract ERC1363Payable is ERC165, IERC1363Receiver, IERC1363Spender {
      * @param acceptedToken_ Address of the token being accepted.
      */
     constructor(IERC1363 acceptedToken_) {
-        require(address(acceptedToken_) != address(0), "ERC1363Payable: acceptedToken is zero address");
+        require(address(acceptedToken_) != address(0), "ERC1363Guardian: acceptedToken is zero address");
         require(acceptedToken_.supportsInterface(type(IERC1363).interfaceId));
 
         _acceptedToken = acceptedToken_;
@@ -58,7 +58,7 @@ contract ERC1363Payable is ERC165, IERC1363Receiver, IERC1363Spender {
         uint256 value,
         bytes calldata data
     ) public override returns (bytes4) {
-        require(msg.sender == address(_acceptedToken), "ERC1363Payable: acceptedToken is not message sender");
+        require(msg.sender == address(_acceptedToken), "ERC1363Guardian: acceptedToken is not message sender");
 
         emit TokensReceived(operator, from, value, data);
 
@@ -72,7 +72,7 @@ contract ERC1363Payable is ERC165, IERC1363Receiver, IERC1363Spender {
      * @inheritdoc IERC1363Spender
      */
     function onApprovalReceived(address owner, uint256 value, bytes calldata data) public override returns (bytes4) {
-        require(msg.sender == address(_acceptedToken), "ERC1363Payable: acceptedToken is not message sender");
+        require(msg.sender == address(_acceptedToken), "ERC1363Guardian: acceptedToken is not message sender");
 
         emit TokensApproved(owner, value, data);
 
