@@ -32,42 +32,28 @@ function shouldBehaveLikeERC1363(initialSupply, accounts) {
       };
 
       const shouldTransferSafely = function (transferFunction, data) {
-        describe('to a valid receiver contract', function () {
-          beforeEach(async function () {
-            this.receiver = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, RevertType.None);
-            this.to = this.receiver.address;
-          });
+        it('calls onTransferReceived', async function () {
+          const receipt = await transferFunction.call(this, this.to, initialBalance, { from: owner });
 
-          it('calls onTransferReceived', async function () {
-            const receipt = await transferFunction.call(this, this.to, initialBalance, { from: owner });
-
-            await expectEvent.inTransaction(receipt.tx, ERC1363Receiver, 'Received', {
-              operator: owner,
-              from: owner,
-              value: initialBalance,
-              data,
-            });
+          await expectEvent.inTransaction(receipt.tx, ERC1363Receiver, 'Received', {
+            operator: owner,
+            from: owner,
+            value: initialBalance,
+            data,
           });
         });
       };
 
-      const transferWasSuccessful = function (from, balance) {
-        let to;
-
-        beforeEach(async function () {
-          const receiverContract = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, RevertType.None);
-          to = receiverContract.address;
-        });
-
+      const erc20TransferBehavior = function (owner, initialBalance) {
         describe('when the sender does not have enough balance', function () {
-          const value = balance + 1;
+          const value = initialBalance + 1;
 
           describe('with data', function () {
             it('reverts', async function () {
               await expectRevertCustomError(
-                transferAndCallWithData.call(this, to, value, { from }),
+                transferAndCallWithData.call(this, this.to, value, { from: owner }),
                 'ERC20InsufficientBalance',
-                [from, balance, value],
+                [owner, initialBalance, value],
               );
             });
           });
@@ -75,30 +61,30 @@ function shouldBehaveLikeERC1363(initialSupply, accounts) {
           describe('without data', function () {
             it('reverts', async function () {
               await expectRevertCustomError(
-                transferAndCallWithoutData.call(this, to, value, { from }),
+                transferAndCallWithoutData.call(this, this.to, value, { from: owner }),
                 'ERC20InsufficientBalance',
-                [from, balance, value],
+                [owner, initialBalance, value],
               );
             });
           });
         });
 
         describe('when the sender has enough balance', function () {
-          const value = balance;
+          const value = initialBalance;
 
           describe('with data', function () {
             it('transfers the requested amount', async function () {
-              await transferAndCallWithData.call(this, to, value, { from });
+              await transferAndCallWithData.call(this, this.to, value, { from: owner });
 
-              expect(await this.token.balanceOf(from)).to.be.bignumber.equal('0');
+              expect(await this.token.balanceOf(owner)).to.be.bignumber.equal('0');
 
-              expect(await this.token.balanceOf(to)).to.be.bignumber.equal(value);
+              expect(await this.token.balanceOf(this.to)).to.be.bignumber.equal(value);
             });
 
             it('emits a transfer event', async function () {
-              expectEvent(await transferAndCallWithData.call(this, to, value, { from }), 'Transfer', {
-                from,
-                to,
+              expectEvent(await transferAndCallWithData.call(this, this.to, value, { from: owner }), 'Transfer', {
+                from: owner,
+                to: this.to,
                 value,
               });
             });
@@ -106,17 +92,17 @@ function shouldBehaveLikeERC1363(initialSupply, accounts) {
 
           describe('without data', function () {
             it('transfers the requested amount', async function () {
-              await transferAndCallWithoutData.call(this, to, value, { from });
+              await transferAndCallWithoutData.call(this, this.to, value, { from: owner });
 
-              expect(await this.token.balanceOf(from)).to.be.bignumber.equal('0');
+              expect(await this.token.balanceOf(owner)).to.be.bignumber.equal('0');
 
-              expect(await this.token.balanceOf(to)).to.be.bignumber.equal(value);
+              expect(await this.token.balanceOf(this.to)).to.be.bignumber.equal(value);
             });
 
             it('emits a transfer event', async function () {
-              expectEvent(await transferAndCallWithoutData.call(this, to, value, { from }), 'Transfer', {
-                from,
-                to,
+              expectEvent(await transferAndCallWithoutData.call(this, this.to, value, { from: owner }), 'Transfer', {
+                from: owner,
+                to: this.to,
                 value,
               });
             });
@@ -124,16 +110,23 @@ function shouldBehaveLikeERC1363(initialSupply, accounts) {
         });
       };
 
-      describe('with data', function () {
-        shouldTransferSafely(transferAndCallWithData, data);
-      });
+      describe('to a valid receiver contract', function () {
+        beforeEach(async function () {
+          this.receiverContract = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, RevertType.None);
+          this.to = this.receiverContract.address;
+        });
 
-      describe('without data', function () {
-        shouldTransferSafely(transferAndCallWithoutData, null);
-      });
+        describe('with data', function () {
+          shouldTransferSafely(transferAndCallWithData, data);
+        });
 
-      describe('testing ERC20 behavior', function () {
-        transferWasSuccessful(owner, initialBalance);
+        describe('without data', function () {
+          shouldTransferSafely(transferAndCallWithoutData, null);
+        });
+
+        describe('testing ERC20 transfer behavior', function () {
+          erc20TransferBehavior(owner, initialBalance);
+        });
       });
 
       describe('to a receiver that is not a contract', function () {
@@ -224,42 +217,28 @@ function shouldBehaveLikeERC1363(initialSupply, accounts) {
       };
 
       const shouldTransferFromSafely = function (transferFunction, data) {
-        describe('to a valid receiver contract', function () {
-          beforeEach(async function () {
-            this.receiver = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, RevertType.None);
-            this.to = this.receiver.address;
-          });
+        it('calls onTransferReceived', async function () {
+          const receipt = await transferFunction.call(this, owner, this.to, initialBalance, { from: spender });
 
-          it('calls onTransferReceived', async function () {
-            const receipt = await transferFunction.call(this, owner, this.to, initialBalance, { from: spender });
-
-            await expectEvent.inTransaction(receipt.tx, ERC1363Receiver, 'Received', {
-              operator: spender,
-              from: owner,
-              value: initialBalance,
-              data,
-            });
+          await expectEvent.inTransaction(receipt.tx, ERC1363Receiver, 'Received', {
+            operator: spender,
+            from: owner,
+            value: initialBalance,
+            data,
           });
         });
       };
 
-      const transferFromWasSuccessful = function (from, spender, balance) {
-        let to;
-
-        beforeEach(async function () {
-          const receiverContract = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, RevertType.None);
-          to = receiverContract.address;
-        });
-
+      const erc20TransferFromBehavior = function (owner, spender, initialBalance) {
         describe('when the sender does not have enough balance', function () {
-          const value = balance + 1;
+          const value = initialBalance + 1;
 
           describe('with data', function () {
             it('reverts', async function () {
               await expectRevertCustomError(
-                transferFromAndCallWithData.call(this, from, to, value, { from: spender }),
+                transferFromAndCallWithData.call(this, owner, this.to, value, { from: spender }),
                 'ERC20InsufficientAllowance',
-                [spender, balance, value],
+                [spender, initialBalance, value],
               );
             });
           });
@@ -267,65 +246,72 @@ function shouldBehaveLikeERC1363(initialSupply, accounts) {
           describe('without data', function () {
             it('reverts', async function () {
               await expectRevertCustomError(
-                transferFromAndCallWithoutData.call(this, from, to, value, { from: spender }),
+                transferFromAndCallWithoutData.call(this, owner, this.to, value, { from: spender }),
                 'ERC20InsufficientAllowance',
-                [spender, balance, value],
+                [spender, initialBalance, value],
               );
             });
           });
         });
 
         describe('when the sender has enough balance', function () {
-          const value = balance;
+          const value = initialBalance;
 
           describe('with data', function () {
             it('transfers the requested amount', async function () {
-              await transferFromAndCallWithData.call(this, from, to, value, { from: spender });
+              await transferFromAndCallWithData.call(this, owner, this.to, value, { from: spender });
 
-              expect(await this.token.balanceOf(from)).to.be.bignumber.equal('');
+              expect(await this.token.balanceOf(owner)).to.be.bignumber.equal('');
 
-              expect(await this.token.balanceOf(to)).to.be.bignumber.equal(value);
+              expect(await this.token.balanceOf(this.to)).to.be.bignumber.equal(value);
             });
 
             it('emits a transfer event', async function () {
               expectEvent(
-                await transferFromAndCallWithData.call(this, from, to, value, { from: spender }),
+                await transferFromAndCallWithData.call(this, owner, this.to, value, { from: spender }),
                 'Transfer',
-                { from, to, value },
+                { from: owner, to: this.to, value },
               );
             });
           });
 
           describe('without data', function () {
             it('transfers the requested amount', async function () {
-              await transferFromAndCallWithoutData.call(this, from, to, value, { from: spender });
+              await transferFromAndCallWithoutData.call(this, owner, this.to, value, { from: spender });
 
-              expect(await this.token.balanceOf(from)).to.be.bignumber.equal('0');
+              expect(await this.token.balanceOf(owner)).to.be.bignumber.equal('0');
 
-              expect(await this.token.balanceOf(to)).to.be.bignumber.equal(value);
+              expect(await this.token.balanceOf(this.to)).to.be.bignumber.equal(value);
             });
 
             it('emits a transfer event', async function () {
               expectEvent(
-                await transferFromAndCallWithoutData.call(this, from, to, value, { from: spender }),
+                await transferFromAndCallWithoutData.call(this, owner, this.to, value, { from: spender }),
                 'Transfer',
-                { from, to, value },
+                { from: owner, to: this.to, value },
               );
             });
           });
         });
       };
 
-      describe('with data', function () {
-        shouldTransferFromSafely(transferFromAndCallWithData, data);
-      });
+      describe('to a valid receiver contract', function () {
+        beforeEach(async function () {
+          this.receiverContract = await ERC1363Receiver.new(RECEIVER_MAGIC_VALUE, RevertType.None);
+          this.to = this.receiverContract.address;
+        });
 
-      describe('without data', function () {
-        shouldTransferFromSafely(transferFromAndCallWithoutData, null);
-      });
+        describe('with data', function () {
+          shouldTransferFromSafely(transferFromAndCallWithData, data);
+        });
 
-      describe('testing ERC20 behavior', function () {
-        transferFromWasSuccessful(owner, spender, initialBalance);
+        describe('without data', function () {
+          shouldTransferFromSafely(transferFromAndCallWithoutData, null);
+        });
+
+        describe('testing ERC20 transferFrom behavior', function () {
+          erc20TransferFromBehavior(owner, spender, initialBalance);
+        });
       });
 
       describe('to a receiver that is not a contract', function () {
@@ -427,77 +413,76 @@ function shouldBehaveLikeERC1363(initialSupply, accounts) {
       };
 
       const shouldApproveSafely = function (approveFunction, data) {
-        describe('to a valid receiver contract', function () {
-          beforeEach(async function () {
-            this.spender = await ERC1363Spender.new(SPENDER_MAGIC_VALUE, RevertType.None);
-            this.to = this.spender.address;
-          });
+        it('calls onApprovalReceived', async function () {
+          const receipt = await approveFunction.call(this, this.spender, initialBalance, { from: owner });
 
-          it('calls onApprovalReceived', async function () {
-            const receipt = await approveFunction.call(this, this.to, initialBalance, { from: owner });
-
-            await expectEvent.inTransaction(receipt.tx, ERC1363Spender, 'Approved', {
-              owner,
-              value: initialBalance,
-              data,
-            });
+          await expectEvent.inTransaction(receipt.tx, ERC1363Spender, 'Approved', {
+            owner,
+            value: initialBalance,
+            data,
           });
         });
       };
 
-      const approveWasSuccessful = function (owner, balance) {
-        const value = balance;
-
-        let spender;
-
-        beforeEach(async function () {
-          const spenderContract = await ERC1363Spender.new(SPENDER_MAGIC_VALUE, RevertType.None);
-          spender = spenderContract.address;
-        });
-
+      const erc20ApproveBehavior = function (owner, initialBalance) {
         describe('with data', function () {
           it('approves the requested amount', async function () {
-            await approveAndCallWithData.call(this, spender, value, { from: owner });
+            await approveAndCallWithData.call(this, this.spender, initialBalance, { from: owner });
 
-            expect(await this.token.allowance(owner, spender)).to.be.bignumber.equal(value);
+            expect(await this.token.allowance(owner, this.spender)).to.be.bignumber.equal(initialBalance);
           });
 
           it('emits an approval event', async function () {
-            expectEvent(await approveAndCallWithData.call(this, spender, value, { from: owner }), 'Approval', {
-              owner,
-              spender,
-              value,
-            });
+            expectEvent(
+              await approveAndCallWithData.call(this, this.spender, initialBalance, { from: owner }),
+              'Approval',
+              {
+                owner,
+                spender: this.spender,
+                value: initialBalance,
+              },
+            );
           });
         });
 
         describe('without data', function () {
           it('approves the requested amount', async function () {
-            await approveAndCallWithoutData.call(this, spender, value, { from: owner });
+            await approveAndCallWithoutData.call(this, this.spender, initialBalance, { from: owner });
 
-            expect(await this.token.allowance(owner, spender)).to.be.bignumber.equal(value);
+            expect(await this.token.allowance(owner, this.spender)).to.be.bignumber.equal(initialBalance);
           });
 
           it('emits an approval event', async function () {
-            expectEvent(await approveAndCallWithoutData.call(this, spender, value, { from: owner }), 'Approval', {
-              owner,
-              spender,
-              value,
-            });
+            expectEvent(
+              await approveAndCallWithoutData.call(this, this.spender, initialBalance, { from: owner }),
+              'Approval',
+              {
+                owner,
+                spender: this.spender,
+                value: initialBalance,
+              },
+            );
           });
         });
       };
 
-      describe('with data', function () {
-        shouldApproveSafely(approveAndCallWithData, data);
-      });
+      describe('to a valid receiver contract', function () {
+        beforeEach(async function () {
+          this.spenderContract = await ERC1363Spender.new(SPENDER_MAGIC_VALUE, RevertType.None);
+          this.spender = this.spenderContract.address;
+        });
 
-      describe('without data', function () {
-        shouldApproveSafely(approveAndCallWithoutData, null);
-      });
+        describe('with data', function () {
+          shouldApproveSafely(approveAndCallWithData, data);
+        });
 
-      describe('testing ERC20 behavior', function () {
-        approveWasSuccessful(owner, initialBalance);
+        describe('without data', function () {
+          shouldApproveSafely(approveAndCallWithoutData, null);
+        });
+
+        describe('testing ERC20 approve behavior', function () {
+          erc20ApproveBehavior(owner, initialBalance);
+        });
       });
 
       describe('to a spender that is not a contract', function () {
