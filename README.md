@@ -112,7 +112,11 @@ interface IERC1363Spender {
 }
 ```
 
-### ERC1363Guardian
+### Examples
+
+IMPORTANT: the example contracts are for testing purpose only. When inheriting or copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+
+#### ERC1363Guardian
 
 [ERC1363Guardian.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363Guardian.sol)
 
@@ -126,7 +130,7 @@ It emits a `TokensApproved` event to notify the approval received by the contrac
 
 It also implements a `_approvalReceived` function that can be overridden to make your stuff within your contract after a `onApprovalReceived`.
 
-### ERC1363MethodCallReceiver
+#### ERC1363MethodCallReceiver
 
 [ERC1363MethodCallReceiver.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363MethodCallReceiver.sol)
 
