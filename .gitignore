@@ -54,5 +54,5 @@ contracts-exposed
 .idea
 
 # vuepress
-docs/.vuepress/dist
-docs/.vuepress/.env.json
+pages/.vuepress/dist
+pages/.vuepress/.env.json

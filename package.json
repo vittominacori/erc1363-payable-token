@@ -27,9 +27,10 @@
     "lint:sol:fix": "prettier --log-level warn --ignore-path .gitignore '{contracts,test}/**/*.sol' --write",
     "flat": "scripts/flat.sh",
     "analyze": "scripts/analyze.sh",
-    "docs:dev": "export NODE_OPTIONS=--openssl-legacy-provider && vuepress dev docs",
-    "docs:build": "export NODE_OPTIONS=--openssl-legacy-provider && vuepress build docs",
-    "docs:deploy": "export NODE_OPTIONS=--openssl-legacy-provider && vuepress build docs && sh docs/deploy/deploy.sh"
+    "docs": "hardhat docgen",
+    "pages:dev": "export NODE_OPTIONS=--openssl-legacy-provider && vuepress dev pages",
+    "pages:build": "export NODE_OPTIONS=--openssl-legacy-provider && vuepress build pages",
+    "pages:deploy": "export NODE_OPTIONS=--openssl-legacy-provider && vuepress build pages && sh pages/deploy/deploy.sh"
   },
   "repository": {
     "type": "git",
@@ -72,6 +73,7 @@
     "solhint": "^3.6.2",
     "solhint-plugin-openzeppelin": "file:scripts/solhint-custom",
     "solidity-coverage": "^0.8.5",
+    "solidity-docgen": "^0.6.0-beta.36",
     "surya": "^0.4.8",
     "truffle": "^5.11.5",
     "truffle-flattener": "^1.6.0",

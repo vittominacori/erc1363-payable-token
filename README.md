@@ -7,13 +7,13 @@
 
 ---
 
-ERC-1363 is an extension interface for ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
+[ERC-1363](https://eips.ethereum.org/EIPS/eip-1363) is an extension interface for ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
 
 There is no way to execute code on a receiver/spender contract after an ERC-20 `transfer`, `transferFrom` or `approve` so, to perform an action, it is required to send another transaction.
 This introduces complexity in UI development and friction on adoption as users must wait for the first transaction to be executed and then submit the second one. They must also pay GAS twice.
 
 ERC-1363 makes tokens capable of performing actions more easily and working without the use of any off-chain listener.
-It allows to make a callback on a receiver/spender contract, after a transfer or an approval, in a single transaction.
+It allows to make a callback on receiver/spender contracts, after transfers or approvals, in a single transaction.
 
 The following are functions and callbacks introduced by ERC-1363:
 
@@ -23,7 +23,7 @@ The following are functions and callbacks introduced by ERC-1363:
 ERC-1363 tokens can be used for specific utilities in all cases that require a callback to be executed after a transfer or an approval received.
 ERC-1363 is also useful for avoiding token loss or token locking in contracts by verifying the recipient contract's ability to handle tokens.
 
-**NOTE: This repo contains the reference implementation of the [ERC-1363](https://eips.ethereum.org/EIPS/eip-1363).**
+**NOTE: This repo contains the reference implementation of the official [ERC-1363](https://eips.ethereum.org/EIPS/eip-1363).**
 
 ## Install
 
@@ -68,18 +68,6 @@ interface IERC1363 is IERC20, IERC165 {
 }
 ```
 
-### IERC1363Errors
-
-[IERC1363Errors.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363Errors.sol)
-
-Interface of the ERC-1363 custom errors following the [ERC-6093](https://eips.ethereum.org/EIPS/eip-6093) rationale.
-
-### ERC1363
-
-[ERC1363.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363.sol)
-
-Implementation of the ERC-1363 interface.
-
 ### IERC1363Receiver
 
 [IERC1363Receiver.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363Receiver.sol)
@@ -104,11 +92,27 @@ interface IERC1363Spender {
 }
 ```
 
-### Examples
+### IERC1363Errors
 
-**IMPORTANT: the example contracts are for testing purpose only. When inheriting or copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.**
+[IERC1363Errors.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363Errors.sol)
 
-#### ERC1363Guardian
+Interface of the ERC-1363 custom errors following the [ERC-6093](https://eips.ethereum.org/EIPS/eip-6093) rationale.
+
+### ERC1363
+
+[ERC1363.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363.sol)
+
+Implementation of the ERC-1363 interface.
+
+The reference implementation of ERC-1363 that extends ERC-20 and adds support for executing code after transfers and approvals on recipient contracts.
+
+> **NOTE**: `transferAndCall`, `transferFromAndCall` and `approveAndCall` revert if the recipient/spender is an EOA address. To transfer tokens to an EOA or approve it to spend tokens, use the ERC-20 `transfer`, `transferFrom` or `approve` methods.
+
+## Examples
+
+**IMPORTANT**: the example contracts are for testing purpose only. When inheriting or copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+
+### ERC1363Guardian
 
 [ERC1363Guardian.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363Guardian.sol)
 
@@ -122,13 +126,17 @@ It emits a `TokensApproved` event to notify the approval received by the contrac
 
 It also implements a `_approvalReceived` function that can be overridden to make your stuff within your contract after a `onApprovalReceived`.
 
-#### ERC1363MethodCallReceiver
+### ERC1363MethodCallReceiver
 
 [ERC1363MethodCallReceiver.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363MethodCallReceiver.sol)
 
 As example: a contract that allows to test passing methods via abi encoded function call.
 
 It executed the method passed via `data`. Methods emit a `MethodCall` event. 
+
+## Documentation
+
+* [Documentation](https://github.com/vittominacori/erc1363-payable-token/tree/master/docs/index.md)
 
 ## Code Analysis
 
