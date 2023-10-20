@@ -9,7 +9,7 @@
 
 [ERC-1363](https://eips.ethereum.org/EIPS/eip-1363) is an extension interface for ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
 
-There is no way to execute code on a receiver/spender contract after an ERC-20 `transfer`, `transferFrom` or `approve` so, to perform an action, it is required to send another transaction.
+There is no way to execute code on a receiver/spender contract after ERC-20 transfers or approvals so, to perform an action, it is required to send another transaction.
 This introduces complexity in UI development and friction on adoption as users must wait for the first transaction to be executed and then submit the second one. They must also pay GAS twice.
 
 ERC-1363 makes tokens capable of performing actions more easily and working without the use of any off-chain listener.
