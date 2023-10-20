@@ -62,7 +62,7 @@
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-mocha-no-only": "^1.1.1",
     "graphlib": "^2.1.8",
-    "hardhat": "^2.18.1",
+    "hardhat": "^2.18.2",
     "hardhat-exposed": "^0.3.13",
     "hardhat-gas-reporter": "^1.0.9",
     "prettier": "^3.0.3",

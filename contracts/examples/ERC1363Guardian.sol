@@ -7,7 +7,7 @@ import {IERC1363Spender} from "../token/ERC1363/IERC1363Spender.sol";
 
 /**
  * @title ERC1363Guardian
- * @dev Implementation example of a contract that allows to accept ERC1363 callback after transfers or approvals.
+ * @dev Implementation example of a contract that allows to accept ERC-1363 callback after transfers or approvals.
  *
  * IMPORTANT: This contract is for testing purpose only. When inheriting or copying from this contract,
  * you must include a way to use the received tokens, otherwise they will be stuck into the contract.
@@ -39,8 +39,8 @@ contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
         address from,
         uint256 value,
         bytes calldata data
-    ) public override returns (bytes4) {
-        // The ERC1363 contract is always the caller.
+    ) external override returns (bytes4) {
+        // The ERC-1363 contract is always the caller.
         address token = msg.sender;
 
         emit TokensReceived(token, operator, from, value, data);
@@ -53,8 +53,8 @@ contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
     /*
      * @inheritdoc IERC1363Spender
      */
-    function onApprovalReceived(address owner, uint256 value, bytes calldata data) public override returns (bytes4) {
-        // The ERC1363 contract is always the caller.
+    function onApprovalReceived(address owner, uint256 value, bytes calldata data) external override returns (bytes4) {
+        // The ERC-1363 contract is always the caller.
         address token = msg.sender;
 
         emit TokensApproved(token, owner, value, data);

@@ -10,9 +10,9 @@ contract('ERC1363MethodCallReceiver', function ([sender, operator]) {
   const erc1363tTokenSupply = new BN('10000000000000000000000');
 
   beforeEach(async function () {
-    this.erc1363Token = await ERC1363.new(name, symbol);
+    this.token = await ERC1363.new(name, symbol);
 
-    await this.erc1363Token.$_mint(sender, erc1363tTokenSupply);
+    await this.token.$_mint(sender, erc1363tTokenSupply);
   });
 
   shouldBehaveLikeERC1363MethodCallReceiver([sender, operator]);

@@ -12,21 +12,15 @@ function shouldBehaveLikeERC1363MethodCallReceiver([sender, operator]) {
   describe('calling methods', function () {
     describe('via transferFromAndCall', function () {
       beforeEach(async function () {
-        await this.erc1363Token.approve(operator, value, { from: sender });
+        await this.token.approve(operator, value, { from: sender });
       });
 
       const transferFromAndCallWithData = function (from, to, value, data, opts) {
-        return this.erc1363Token.methods['transferFromAndCall(address,address,uint256,bytes)'](
-          from,
-          to,
-          value,
-          data,
-          opts,
-        );
+        return this.token.methods['transferFromAndCall(address,address,uint256,bytes)'](from, to, value, data, opts);
       };
 
       const transferFromAndCallWithoutData = function (from, to, value, opts) {
-        return this.erc1363Token.methods['transferFromAndCall(address,address,uint256)'](from, to, value, opts);
+        return this.token.methods['transferFromAndCall(address,address,uint256)'](from, to, value, opts);
       };
 
       describe('with data', function () {
@@ -131,11 +125,11 @@ function shouldBehaveLikeERC1363MethodCallReceiver([sender, operator]) {
 
     describe('via transferAndCall', function () {
       const transferAndCallWithData = function (to, value, data, opts) {
-        return this.erc1363Token.methods['transferAndCall(address,uint256,bytes)'](to, value, data, opts);
+        return this.token.methods['transferAndCall(address,uint256,bytes)'](to, value, data, opts);
       };
 
       const transferAndCallWithoutData = function (to, value, opts) {
-        return this.erc1363Token.methods['transferAndCall(address,uint256)'](to, value, opts);
+        return this.token.methods['transferAndCall(address,uint256)'](to, value, opts);
       };
 
       describe('with data', function () {
