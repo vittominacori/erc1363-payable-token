@@ -14,7 +14,7 @@ import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
  */
 interface IERC1363 is IERC20, IERC165 {
     /*
-     * Note: the ERC-165 identifier for this interface is 0xb0202a11.
+     * NOTE: the ERC-165 identifier for this interface is 0xb0202a11.
      * 0xb0202a11 ===
      *   bytes4(keccak256('transferAndCall(address,uint256)')) ^
      *   bytes4(keccak256('transferAndCall(address,uint256,bytes)')) ^

@@ -79,7 +79,7 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
     }
 
     /**
-     * @dev Performs a call to `IERC1363Receiver-onTransferReceived` on a target address.
+     * @dev Performs a call to `IERC1363Receiver::onTransferReceived` on a target address.
      * This will revert if the target doesn't implement the `IERC1363Receiver` interface or
      * if the target doesn't accept the token transfer or
      * if the target address is not a contract.
@@ -102,7 +102,6 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
             if (reason.length == 0) {
                 revert ERC1363InvalidReceiver(to);
             } else {
-                /// @solidity memory-safe-assembly
                 assembly {
                     revert(add(32, reason), mload(reason))
                 }
@@ -111,7 +110,7 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
     }
 
     /**
-     * @dev Performs a call to `IERC1363Spender-onApprovalReceived` on a target address.
+     * @dev Performs a call to `IERC1363Spender::onApprovalReceived` on a target address.
      * This will revert if the target doesn't implement the `IERC1363Spender` interface or
      * if the target doesn't accept the token approval or
      * if the target address is not a contract.
@@ -133,7 +132,6 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
             if (reason.length == 0) {
                 revert ERC1363InvalidSpender(spender);
             } else {
-                /// @solidity memory-safe-assembly
                 assembly {
                     revert(add(32, reason), mload(reason))
                 }

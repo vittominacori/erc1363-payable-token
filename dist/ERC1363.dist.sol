@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-// Sources flattened with hardhat v2.18.2 https://hardhat.org
+// Sources flattened with hardhat v2.18.3 https://hardhat.org
 
 
 
@@ -693,15 +693,14 @@ pragma solidity ^0.8.20;
 
 /**
  * @title IERC1363
- * @dev Interface of the ERC1363 standard as defined in the
- * https://eips.ethereum.org/EIPS/eip-1363[EIP-1363].
+ * @dev Interface of the ERC-1363 standard as defined in the https://eips.ethereum.org/EIPS/eip-1363[ERC-1363].
  *
- * Defines an extension interface for ERC20 tokens that supports executing code on a recipient contract
- * after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
+ * An extension interface for ERC-20 tokens that supports executing code on a recipient contract after
+ * `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
  */
 interface IERC1363 is IERC20, IERC165 {
     /*
-     * Note: the ERC-165 identifier for this interface is 0xb0202a11.
+     * NOTE: the ERC-165 identifier for this interface is 0xb0202a11.
      * 0xb0202a11 ===
      *   bytes4(keccak256('transferAndCall(address,uint256)')) ^
      *   bytes4(keccak256('transferAndCall(address,uint256,bytes)')) ^
@@ -780,7 +779,7 @@ pragma solidity ^0.8.20;
 
 /**
  * @title IERC1363Errors
- * @dev Interface of the ERC1363 custom errors following the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] rationale.
+ * @dev Interface of the ERC-1363 custom errors following the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] rationale.
  */
 interface IERC1363Errors {
     /**
@@ -818,11 +817,11 @@ pragma solidity ^0.8.20;
 /**
  * @title IERC1363Receiver
  * @dev Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall`
- * from ERC1363 token contracts.
+ * from ERC-1363 token contracts.
  */
 interface IERC1363Receiver {
     /**
-     * @dev Whenever ERC1363 tokens are transferred to this contract via `transferAndCall` or `transferFromAndCall`
+     * @dev Whenever ERC-1363 tokens are transferred to this contract via `transferAndCall` or `transferFromAndCall`
      * by `operator` from `from`, this function is called.
      *
      * NOTE: To accept the transfer, this must return
@@ -853,11 +852,11 @@ pragma solidity ^0.8.20;
 /**
  * @title ERC1363Spender
  * @dev Interface for any contract that wants to support `approveAndCall`
- * from ERC1363 token contracts.
+ * from ERC-1363 token contracts.
  */
 interface IERC1363Spender {
     /**
-     * @dev Whenever an ERC1363 tokens `owner` approved this contract via `approveAndCall`
+     * @dev Whenever an ERC-1363 tokens `owner` approved this contract via `approveAndCall`
      * to spent their tokens, this function is called.
      *
      * NOTE: To accept the approval, this must return
@@ -885,11 +884,10 @@ pragma solidity ^0.8.20;
 
 /**
  * @title ERC1363
- * @dev Implementation of the ERC1363 interface.
- * Extension of ERC20 tokens that adds support for code execution after transfers and approvals
- * on recipient contracts in a single transaction.
- * Calls after transfers are enabled through the `ERC1363-transferAndCall` and `ERC1363-transferFromAndCall`,
- * while calls after approvals can be made with `ERC1363-approveAndCall`.
+ * @dev Implementation of the ERC-1363 interface.
+ *
+ * Extension of ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`,
+ * or code on a spender contract after `approve`, in a single transaction.
  */
 abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
     /**
@@ -953,7 +951,7 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
     }
 
     /**
-     * @dev Performs a call to `IERC1363Receiver-onTransferReceived` on a target address.
+     * @dev Performs a call to `IERC1363Receiver::onTransferReceived` on a target address.
      * This will revert if the target doesn't implement the `IERC1363Receiver` interface or
      * if the target doesn't accept the token transfer or
      * if the target address is not a contract.
@@ -976,7 +974,6 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
             if (reason.length == 0) {
                 revert ERC1363InvalidReceiver(to);
             } else {
-                /// @solidity memory-safe-assembly
                 assembly {
                     revert(add(32, reason), mload(reason))
                 }
@@ -985,7 +982,7 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
     }
 
     /**
-     * @dev Performs a call to `IERC1363Spender-onApprovalReceived` on a target address.
+     * @dev Performs a call to `IERC1363Spender::onApprovalReceived` on a target address.
      * This will revert if the target doesn't implement the `IERC1363Spender` interface or
      * if the target doesn't accept the token approval or
      * if the target address is not a contract.
@@ -1007,7 +1004,6 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
             if (reason.length == 0) {
                 revert ERC1363InvalidSpender(spender);
             } else {
-                /// @solidity memory-safe-assembly
                 assembly {
                     revert(add(32, reason), mload(reason))
                 }

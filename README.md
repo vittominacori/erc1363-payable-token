@@ -23,7 +23,9 @@ The following are functions and callbacks introduced by ERC-1363:
 ERC-1363 tokens can be used for specific utilities in all cases that require a callback to be executed after a transfer or an approval received.
 ERC-1363 is also useful for avoiding token loss or token locking in contracts by verifying the recipient contract's ability to handle tokens.
 
-**NOTE: This repo contains the reference implementation of the official [ERC-1363](https://eips.ethereum.org/EIPS/eip-1363).**
+::: tip NOTE
+**This repo contains the reference implementation of the official [ERC-1363](https://eips.ethereum.org/EIPS/eip-1363).**
+:::
 
 ## Install
 
@@ -48,8 +50,6 @@ contract MyToken is ERC1363 {
 ```
 
 ## Code
-
-This repo contains:
 
 ### IERC1363
 
@@ -106,17 +106,21 @@ Implementation of the ERC-1363 interface.
 
 The reference implementation of ERC-1363 that extends ERC-20 and adds support for executing code after transfers and approvals on recipient contracts.
 
-> **NOTE**: `transferAndCall`, `transferFromAndCall` and `approveAndCall` revert if the recipient/spender is an EOA address. To transfer tokens to an EOA or approve it to spend tokens, use the ERC-20 `transfer`, `transferFrom` or `approve` methods.
+::: tip NOTE 
+`transferAndCall`, `transferFromAndCall` and `approveAndCall` revert if the recipient/spender is an EOA address. To transfer tokens to an EOA or approve it to spend tokens, use the ERC-20 `transfer`, `transferFrom` or `approve` methods.
+:::
 
 ## Examples
 
-**IMPORTANT**: the example contracts are for testing purpose only. When inheriting or copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+::: warning IMPORTANT 
+The example contracts are for testing purpose only. When inheriting or copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+:::
 
 ### ERC1363Guardian
 
 [ERC1363Guardian.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363Guardian.sol)
 
-As example: a contract that allows to accept ERC-1363 callback after transfers or approvals.
+As example: a contract that allows to accept ERC-1363 callbacks after transfers or approvals.
 
 It emits a `TokensReceived` event to notify the transfer received by the contract.
 
@@ -132,7 +136,7 @@ It also implements a `_approvalReceived` function that can be overridden to make
 
 As example: a contract that allows to test passing methods via abi encoded function call.
 
-It executed the method passed via `data`. Methods emit a `MethodCall` event. 
+It executes the method passed via `data`. Methods emit a `MethodCall` event. 
 
 ## Documentation
 
@@ -153,27 +157,19 @@ It executed the method passed via `data`. Methods emit a `MethodCall` event.
 npm install
 ```
 
-### Usage
-
-Open the console
-
-```bash
-npm run console
-```
-
-#### Compile
+### Compile
 
 ```bash
 npm run compile
 ```
 
-#### Test
+### Test
 
 ```bash
 npm test
 ```
 
-#### Code Coverage
+### Code Coverage
 
 ```bash
 npm run coverage

@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Setup Code
         uses: actions/checkout@v4
-        
+
       - name: Setup Environment
         uses: ./.github/actions/setup
 
@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Setup Code
         uses: actions/checkout@v4
-        
+
       - name: Setup Environment
         uses: ./.github/actions/setup
 
@@ -51,17 +51,15 @@ jobs:
     steps:
       - name: Setup Code
         uses: actions/checkout@v4
-        
+
       - name: Setup Environment
         uses: ./.github/actions/setup
-        
+
       - name: Run Coverage
         run: npm run coverage
-        
+
       - name: Post to Codecov
         uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
 
   slither:
     name: Slither
@@ -74,7 +72,7 @@ jobs:
 
       - name: Setup Environment
         uses: ./.github/actions/setup
-        
+
       - name: Run Slither
         uses: crytic/slither-action@v0.3.0
         with:
@@ -83,6 +81,8 @@ jobs:
   codespell:
     name: Codespell
     runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: 1
     steps:
       - uses: actions/checkout@v4
       - name: Run CodeSpell

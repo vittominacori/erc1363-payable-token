@@ -1,6 +1,6 @@
 {
   "name": "erc-payable-token",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "description": "ERC-1363 Payable Token Implementation",
   "files": [
     "contracts",
@@ -58,12 +58,12 @@
     "@nomiclabs/hardhat-web3": "^2.0.0",
     "@openzeppelin/test-helpers": "^0.5.16",
     "chai": "^4.3.10",
-    "eslint": "^8.51.0",
+    "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-mocha-no-only": "^1.1.1",
     "graphlib": "^2.1.8",
-    "hardhat": "^2.18.2",
+    "hardhat": "^2.18.3",
     "hardhat-exposed": "^0.3.13",
     "hardhat-gas-reporter": "^1.0.9",
     "prettier": "^3.0.3",
