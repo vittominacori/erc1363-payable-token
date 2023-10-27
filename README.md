@@ -140,7 +140,7 @@ It executes the method passed via `data`. Methods emit a `MethodCall` event.
 
 ## Documentation
 
-* [Documentation](https://github.com/vittominacori/erc1363-payable-token/tree/master/docs/index.md)
+* [Solidity API](https://github.com/vittominacori/erc1363-payable-token/tree/master/docs/index.md)
 
 ## Code Analysis
 
