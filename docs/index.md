@@ -26,8 +26,7 @@ This function call must use less than 30 000 gas._
 function transferAndCall(address to, uint256 value) public virtual returns (bool)
 ```
 
-_Moves a `value` amount of tokens from the caller's account to `to`
-and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`._
 
 #### Parameters
 
@@ -48,8 +47,7 @@ and then calls `onTransferReceived` on `to`._
 function transferAndCall(address to, uint256 value, bytes data) public virtual returns (bool)
 ```
 
-_Moves a `value` amount of tokens from the caller's account to `to`
-and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`._
 
 #### Parameters
 
@@ -71,8 +69,7 @@ and then calls `onTransferReceived` on `to`._
 function transferFromAndCall(address from, address to, uint256 value) public virtual returns (bool)
 ```
 
-_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism
-and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `onTransferReceived` on `to`._
 
 #### Parameters
 
@@ -94,8 +91,7 @@ and then calls `onTransferReceived` on `to`._
 function transferFromAndCall(address from, address to, uint256 value, bytes data) public virtual returns (bool)
 ```
 
-_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism
-and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `onTransferReceived` on `to`._
 
 #### Parameters
 
@@ -118,8 +114,7 @@ and then calls `onTransferReceived` on `to`._
 function approveAndCall(address spender, uint256 value) public virtual returns (bool)
 ```
 
-_Sets a `value` amount of tokens as the allowance of `spender` over the
-caller's tokens and then calls `onApprovalReceived` on `spender`._
+_Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`._
 
 #### Parameters
 
@@ -140,8 +135,7 @@ caller's tokens and then calls `onApprovalReceived` on `spender`._
 function approveAndCall(address spender, uint256 value, bytes data) public virtual returns (bool)
 ```
 
-_Sets a `value` amount of tokens as the allowance of `spender` over the
-caller's tokens and then calls `onApprovalReceived` on `spender`._
+_Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`._
 
 #### Parameters
 
@@ -170,8 +164,7 @@ An extension interface for ERC-20 tokens that supports executing code on a recip
 function transferAndCall(address to, uint256 value) external returns (bool)
 ```
 
-_Moves a `value` amount of tokens from the caller's account to `to`
-and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`._
 
 #### Parameters
 
@@ -192,8 +185,7 @@ and then calls `onTransferReceived` on `to`._
 function transferAndCall(address to, uint256 value, bytes data) external returns (bool)
 ```
 
-_Moves a `value` amount of tokens from the caller's account to `to`
-and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`._
 
 #### Parameters
 
@@ -215,8 +207,7 @@ and then calls `onTransferReceived` on `to`._
 function transferFromAndCall(address from, address to, uint256 value) external returns (bool)
 ```
 
-_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism
-and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `onTransferReceived` on `to`._
 
 #### Parameters
 
@@ -238,8 +229,7 @@ and then calls `onTransferReceived` on `to`._
 function transferFromAndCall(address from, address to, uint256 value, bytes data) external returns (bool)
 ```
 
-_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism
-and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `onTransferReceived` on `to`._
 
 #### Parameters
 
@@ -262,8 +252,7 @@ and then calls `onTransferReceived` on `to`._
 function approveAndCall(address spender, uint256 value) external returns (bool)
 ```
 
-_Sets a `value` amount of tokens as the allowance of `spender` over the
-caller's tokens and then calls `onApprovalReceived` on `spender`._
+_Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`._
 
 #### Parameters
 
@@ -284,8 +273,7 @@ caller's tokens and then calls `onApprovalReceived` on `spender`._
 function approveAndCall(address spender, uint256 value, bytes data) external returns (bool)
 ```
 
-_Sets a `value` amount of tokens as the allowance of `spender` over the
-caller's tokens and then calls `onApprovalReceived` on `spender`._
+_Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`._
 
 #### Parameters
 
@@ -363,8 +351,7 @@ _Indicates a failure with the token `spender`. Used in approvals._
 
 ## IERC1363Receiver
 
-_Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall`
-from ERC-1363 token contracts._
+_Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall` from ERC-1363 token contracts._
 
 ### onTransferReceived
 
@@ -372,8 +359,7 @@ from ERC-1363 token contracts._
 function onTransferReceived(address operator, address from, uint256 value, bytes data) external returns (bytes4)
 ```
 
-_Whenever ERC-1363 tokens are transferred to this contract via `transferAndCall` or `transferFromAndCall`
-by `operator` from `from`, this function is called.
+_Whenever ERC-1363 tokens are transferred to this contract via `transferAndCall` or `transferFromAndCall` by `operator` from `from`, this function is called.
 
 NOTE: To accept the transfer, this must return
 `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
@@ -396,8 +382,7 @@ NOTE: To accept the transfer, this must return
 
 ## IERC1363Spender
 
-_Interface for any contract that wants to support `approveAndCall`
-from ERC-1363 token contracts._
+_Interface for any contract that wants to support `approveAndCall` from ERC-1363 token contracts._
 
 ### onApprovalReceived
 
@@ -405,8 +390,7 @@ from ERC-1363 token contracts._
 function onApprovalReceived(address owner, uint256 value, bytes data) external returns (bytes4)
 ```
 
-_Whenever an ERC-1363 tokens `owner` approved this contract via `approveAndCall`
-to spent their tokens, this function is called.
+_Whenever an ERC-1363 token `owner` approves this contract via `approveAndCall` to spend their tokens, this function is called.
 
 NOTE: To accept the approval, this must return
 `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`

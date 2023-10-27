@@ -4,13 +4,11 @@ pragma solidity ^0.8.20;
 
 /**
  * @title IERC1363Receiver
- * @dev Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall`
- * from ERC-1363 token contracts.
+ * @dev Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall` from ERC-1363 token contracts.
  */
 interface IERC1363Receiver {
     /**
-     * @dev Whenever ERC-1363 tokens are transferred to this contract via `transferAndCall` or `transferFromAndCall`
-     * by `operator` from `from`, this function is called.
+     * @dev Whenever ERC-1363 tokens are transferred to this contract via `transferAndCall` or `transferFromAndCall` by `operator` from `from`, this function is called.
      *
      * NOTE: To accept the transfer, this must return
      * `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`

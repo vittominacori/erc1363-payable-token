@@ -4,13 +4,11 @@ pragma solidity ^0.8.20;
 
 /**
  * @title ERC1363Spender
- * @dev Interface for any contract that wants to support `approveAndCall`
- * from ERC-1363 token contracts.
+ * @dev Interface for any contract that wants to support `approveAndCall` from ERC-1363 token contracts.
  */
 interface IERC1363Spender {
     /**
-     * @dev Whenever an ERC-1363 tokens `owner` approved this contract via `approveAndCall`
-     * to spent their tokens, this function is called.
+     * @dev Whenever an ERC-1363 token `owner` approves this contract via `approveAndCall` to spend their tokens, this function is called.
      *
      * NOTE: To accept the approval, this must return
      * `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
