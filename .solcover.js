@@ -1,6 +1,6 @@
 module.exports = {
   norpc: true,
-  testCommand: 'npm run hardhat:test',
-  compileCommand: 'npm run hardhat:compile',
+  testCommand: 'npm test',
+  compileCommand: 'npm run compile',
   skipFiles: ['mocks'],
 };
