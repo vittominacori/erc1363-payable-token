@@ -3,12 +3,10 @@ const { expect } = require('chai');
 
 const { shouldSupportInterfaces } = require('../../introspection/SupportsInterface.behavior');
 const { expectRevertCustomError } = require('../../helpers/customError');
-const { Enum } = require('../../helpers/enums');
+const { RevertType } = require('../../helpers/enums');
 
 const ERC1363Receiver = artifacts.require('ERC1363ReceiverMock');
 const ERC1363Spender = artifacts.require('ERC1363SpenderMock');
-
-const RevertType = Enum('None', 'RevertWithoutMessage', 'RevertWithMessage', 'RevertWithCustomError', 'Panic');
 
 function shouldBehaveLikeERC1363(initialSupply, accounts) {
   const [owner, spender, recipient] = accounts;
