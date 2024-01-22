@@ -28,7 +28,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @dev Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`.
      * @param to The address which you want to transfer to.
      * @param value The amount of tokens to be transferred.
-     * @return A boolean value indicating whether the operation succeeded unless throwing.
+     * @return A boolean value indicating the operation succeeded unless throwing.
      */
     function transferAndCall(address to, uint256 value) external returns (bool);
 
@@ -37,7 +37,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @param to The address which you want to transfer to.
      * @param value The amount of tokens to be transferred.
      * @param data Additional data with no specified format, sent in call to `to`.
-     * @return A boolean value indicating whether the operation succeeded unless throwing.
+     * @return A boolean value indicating the operation succeeded unless throwing.
      */
     function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);
 
@@ -46,7 +46,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @param from The address which you want to send tokens from.
      * @param to The address which you want to transfer to.
      * @param value The amount of tokens to be transferred.
-     * @return A boolean value indicating whether the operation succeeded unless throwing.
+     * @return A boolean value indicating the operation succeeded unless throwing.
      */
     function transferFromAndCall(address from, address to, uint256 value) external returns (bool);
 
@@ -56,7 +56,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @param to The address which you want to transfer to.
      * @param value The amount of tokens to be transferred.
      * @param data Additional data with no specified format, sent in call to `to`.
-     * @return A boolean value indicating whether the operation succeeded unless throwing.
+     * @return A boolean value indicating the operation succeeded unless throwing.
      */
     function transferFromAndCall(address from, address to, uint256 value, bytes calldata data) external returns (bool);
 
@@ -64,7 +64,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @dev Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`.
      * @param spender The address which will spend the funds.
      * @param value The amount of tokens to be spent.
-     * @return A boolean value indicating whether the operation succeeded unless throwing.
+     * @return A boolean value indicating the operation succeeded unless throwing.
      */
     function approveAndCall(address spender, uint256 value) external returns (bool);
 
@@ -73,7 +73,7 @@ interface IERC1363 is IERC20, IERC165 {
      * @param spender The address which will spend the funds.
      * @param value The amount of tokens to be spent.
      * @param data Additional data with no specified format, sent in call to `spender`.
-     * @return A boolean value indicating whether the operation succeeded unless throwing.
+     * @return A boolean value indicating the operation succeeded unless throwing.
      */
     function approveAndCall(address spender, uint256 value, bytes calldata data) external returns (bool);
 }

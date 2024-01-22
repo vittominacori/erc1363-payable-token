@@ -39,7 +39,7 @@ _Moves a `value` amount of tokens from the caller's account to `to` and then cal
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | bool | A boolean value indicating whether the operation succeeded unless throwing. |
+| [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
 ### transferAndCall
 
@@ -61,7 +61,7 @@ _Moves a `value` amount of tokens from the caller's account to `to` and then cal
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | bool | A boolean value indicating whether the operation succeeded unless throwing. |
+| [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
 ### transferFromAndCall
 
@@ -83,7 +83,7 @@ _Moves a `value` amount of tokens from `from` to `to` using the allowance mechan
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | bool | A boolean value indicating whether the operation succeeded unless throwing. |
+| [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
 ### transferFromAndCall
 
@@ -106,7 +106,7 @@ _Moves a `value` amount of tokens from `from` to `to` using the allowance mechan
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | bool | A boolean value indicating whether the operation succeeded unless throwing. |
+| [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
 ### approveAndCall
 
@@ -127,7 +127,7 @@ _Sets a `value` amount of tokens as the allowance of `spender` over the caller's
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | bool | A boolean value indicating whether the operation succeeded unless throwing. |
+| [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
 ### approveAndCall
 
@@ -149,7 +149,7 @@ _Sets a `value` amount of tokens as the allowance of `spender` over the caller's
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | bool | A boolean value indicating whether the operation succeeded unless throwing. |
+| [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
 ## IERC1363
 
@@ -177,7 +177,7 @@ _Moves a `value` amount of tokens from the caller's account to `to` and then cal
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | bool | A boolean value indicating whether the operation succeeded unless throwing. |
+| [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
 ### transferAndCall
 
@@ -199,7 +199,7 @@ _Moves a `value` amount of tokens from the caller's account to `to` and then cal
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | bool | A boolean value indicating whether the operation succeeded unless throwing. |
+| [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
 ### transferFromAndCall
 
@@ -221,7 +221,7 @@ _Moves a `value` amount of tokens from `from` to `to` using the allowance mechan
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | bool | A boolean value indicating whether the operation succeeded unless throwing. |
+| [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
 ### transferFromAndCall
 
@@ -244,7 +244,7 @@ _Moves a `value` amount of tokens from `from` to `to` using the allowance mechan
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | bool | A boolean value indicating whether the operation succeeded unless throwing. |
+| [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
 ### approveAndCall
 
@@ -265,7 +265,7 @@ _Sets a `value` amount of tokens as the allowance of `spender` over the caller's
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | bool | A boolean value indicating whether the operation succeeded unless throwing. |
+| [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
 ### approveAndCall
 
@@ -287,7 +287,7 @@ _Sets a `value` amount of tokens as the allowance of `spender` over the caller's
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| [0] | bool | A boolean value indicating whether the operation succeeded unless throwing. |
+| [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
 ## IERC1363Errors
 
