@@ -390,7 +390,7 @@ _Interface for any contract that wants to support `approveAndCall` from ERC-1363
 function onApprovalReceived(address owner, uint256 value, bytes data) external returns (bytes4)
 ```
 
-_Whenever an ERC-1363 token `owner` approves this contract via `approveAndCall` to spend their tokens, this function is called.
+_Whenever an ERC-1363 tokens `owner` approves this contract via `approveAndCall` to spend their tokens, this function is called.
 
 NOTE: To accept the approval, this must return
 `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
