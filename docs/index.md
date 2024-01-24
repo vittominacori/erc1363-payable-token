@@ -4,8 +4,7 @@
 
 _Implementation of the ERC-1363 interface.
 
-Extension of ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`,
-or code on a spender contract after `approve`, in a single transaction._
+Extension of ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction._
 
 ### supportsInterface
 
@@ -26,13 +25,13 @@ This function call must use less than 30 000 gas._
 function transferAndCall(address to, uint256 value) public virtual returns (bool)
 ```
 
-_Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from the caller's account to `to` and then calls `IERC1363Receiver::onTransferReceived` on `to`._
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| to | address | The address which you want to transfer to. |
+| to | address | The address to which tokens are being transferred. |
 | value | uint256 | The amount of tokens to be transferred. |
 
 #### Return Values
@@ -47,13 +46,13 @@ _Moves a `value` amount of tokens from the caller's account to `to` and then cal
 function transferAndCall(address to, uint256 value, bytes data) public virtual returns (bool)
 ```
 
-_Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from the caller's account to `to` and then calls `IERC1363Receiver::onTransferReceived` on `to`._
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| to | address | The address which you want to transfer to. |
+| to | address | The address to which tokens are being transferred. |
 | value | uint256 | The amount of tokens to be transferred. |
 | data | bytes | Additional data with no specified format, sent in call to `to`. |
 
@@ -69,14 +68,14 @@ _Moves a `value` amount of tokens from the caller's account to `to` and then cal
 function transferFromAndCall(address from, address to, uint256 value) public virtual returns (bool)
 ```
 
-_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `IERC1363Receiver::onTransferReceived` on `to`._
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| from | address | The address which you want to send tokens from. |
-| to | address | The address which you want to transfer to. |
+| from | address | The address from which to send tokens. |
+| to | address | The address to which tokens are being transferred. |
 | value | uint256 | The amount of tokens to be transferred. |
 
 #### Return Values
@@ -91,14 +90,14 @@ _Moves a `value` amount of tokens from `from` to `to` using the allowance mechan
 function transferFromAndCall(address from, address to, uint256 value, bytes data) public virtual returns (bool)
 ```
 
-_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `IERC1363Receiver::onTransferReceived` on `to`._
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| from | address | The address which you want to send tokens from. |
-| to | address | The address which you want to transfer to. |
+| from | address | The address from which to send tokens. |
+| to | address | The address to which tokens are being transferred. |
 | value | uint256 | The amount of tokens to be transferred. |
 | data | bytes | Additional data with no specified format, sent in call to `to`. |
 
@@ -114,7 +113,7 @@ _Moves a `value` amount of tokens from `from` to `to` using the allowance mechan
 function approveAndCall(address spender, uint256 value) public virtual returns (bool)
 ```
 
-_Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`._
+_Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `IERC1363Spender::onApprovalReceived` on `spender`._
 
 #### Parameters
 
@@ -135,7 +134,7 @@ _Sets a `value` amount of tokens as the allowance of `spender` over the caller's
 function approveAndCall(address spender, uint256 value, bytes data) public virtual returns (bool)
 ```
 
-_Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`._
+_Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `IERC1363Spender::onApprovalReceived` on `spender`._
 
 #### Parameters
 
@@ -155,8 +154,7 @@ _Sets a `value` amount of tokens as the allowance of `spender` over the caller's
 
 _Interface of the ERC-1363 standard as defined in the https://eips.ethereum.org/EIPS/eip-1363[ERC-1363].
 
-An extension interface for ERC-20 tokens that supports executing code on a recipient contract after
-`transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction._
+An extension interface for ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction._
 
 ### transferAndCall
 
@@ -164,13 +162,13 @@ An extension interface for ERC-20 tokens that supports executing code on a recip
 function transferAndCall(address to, uint256 value) external returns (bool)
 ```
 
-_Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from the caller's account to `to` and then calls `IERC1363Receiver::onTransferReceived` on `to`._
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| to | address | The address which you want to transfer to. |
+| to | address | The address to which tokens are being transferred. |
 | value | uint256 | The amount of tokens to be transferred. |
 
 #### Return Values
@@ -185,13 +183,13 @@ _Moves a `value` amount of tokens from the caller's account to `to` and then cal
 function transferAndCall(address to, uint256 value, bytes data) external returns (bool)
 ```
 
-_Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from the caller's account to `to` and then calls `IERC1363Receiver::onTransferReceived` on `to`._
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| to | address | The address which you want to transfer to. |
+| to | address | The address to which tokens are being transferred. |
 | value | uint256 | The amount of tokens to be transferred. |
 | data | bytes | Additional data with no specified format, sent in call to `to`. |
 
@@ -207,14 +205,14 @@ _Moves a `value` amount of tokens from the caller's account to `to` and then cal
 function transferFromAndCall(address from, address to, uint256 value) external returns (bool)
 ```
 
-_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `IERC1363Receiver::onTransferReceived` on `to`._
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| from | address | The address which you want to send tokens from. |
-| to | address | The address which you want to transfer to. |
+| from | address | The address from which to send tokens. |
+| to | address | The address to which tokens are being transferred. |
 | value | uint256 | The amount of tokens to be transferred. |
 
 #### Return Values
@@ -229,14 +227,14 @@ _Moves a `value` amount of tokens from `from` to `to` using the allowance mechan
 function transferFromAndCall(address from, address to, uint256 value, bytes data) external returns (bool)
 ```
 
-_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `onTransferReceived` on `to`._
+_Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `IERC1363Receiver::onTransferReceived` on `to`._
 
 #### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| from | address | The address which you want to send tokens from. |
-| to | address | The address which you want to transfer to. |
+| from | address | The address from which to send tokens. |
+| to | address | The address to which tokens are being transferred. |
 | value | uint256 | The amount of tokens to be transferred. |
 | data | bytes | Additional data with no specified format, sent in call to `to`. |
 
@@ -252,7 +250,7 @@ _Moves a `value` amount of tokens from `from` to `to` using the allowance mechan
 function approveAndCall(address spender, uint256 value) external returns (bool)
 ```
 
-_Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`._
+_Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `IERC1363Spender::onApprovalReceived` on `spender`._
 
 #### Parameters
 
@@ -273,7 +271,7 @@ _Sets a `value` amount of tokens as the allowance of `spender` over the caller's
 function approveAndCall(address spender, uint256 value, bytes data) external returns (bool)
 ```
 
-_Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`._
+_Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `IERC1363Spender::onApprovalReceived` on `spender`._
 
 #### Parameters
 
@@ -305,7 +303,7 @@ _Indicates a failure with the token `receiver` as it can't be an EOA. Used in tr
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| receiver | address | Address to which tokens are being transferred. |
+| receiver | address | The address to which tokens are being transferred. |
 
 ### ERC1363EOASpender
 
@@ -319,7 +317,7 @@ _Indicates a failure with the token `spender` as it can't be an EOA. Used in app
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| spender | address | Address that may be allowed to operate on tokens without being their owner. |
+| spender | address | The address which will spend the funds. |
 
 ### ERC1363InvalidReceiver
 
@@ -333,7 +331,7 @@ _Indicates a failure with the token `receiver`. Used in transfers._
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| receiver | address | Address to which tokens are being transferred. |
+| receiver | address | The address to which tokens are being transferred. |
 
 ### ERC1363InvalidSpender
 
@@ -347,7 +345,7 @@ _Indicates a failure with the token `spender`. Used in approvals._
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| spender | address | Address that may be allowed to operate on tokens without being their owner. |
+| spender | address | The address which will spend the funds. |
 
 ## IERC1363Receiver
 
@@ -359,7 +357,7 @@ _Interface for any contract that wants to support `transferAndCall` or `transfer
 function onTransferReceived(address operator, address from, uint256 value, bytes data) external returns (bytes4)
 ```
 
-_Whenever ERC-1363 tokens are transferred to this contract via `transferAndCall` or `transferFromAndCall` by `operator` from `from`, this function is called.
+_Whenever ERC-1363 tokens are transferred to this contract via `IERC1363::transferAndCall` or `IERC1363::transferFromAndCall` by `operator` from `from`, this function is called.
 
 NOTE: To accept the transfer, this must return
 `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
@@ -390,7 +388,7 @@ _Interface for any contract that wants to support `approveAndCall` from ERC-1363
 function onApprovalReceived(address owner, uint256 value, bytes data) external returns (bytes4)
 ```
 
-_Whenever an ERC-1363 tokens `owner` approves this contract via `approveAndCall` to spend their tokens, this function is called.
+_Whenever an ERC-1363 tokens `owner` approves this contract via `IERC1363::approveAndCall` to spend their tokens, this function is called.
 
 NOTE: To accept the approval, this must return
 `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`

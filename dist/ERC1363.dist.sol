@@ -699,8 +699,7 @@ pragma solidity ^0.8.20;
  * @title IERC1363
  * @dev Interface of the ERC-1363 standard as defined in the https://eips.ethereum.org/EIPS/eip-1363[ERC-1363].
  *
- * An extension interface for ERC-20 tokens that supports executing code on a recipient contract after
- * `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
+ * An extension interface for ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
  */
 interface IERC1363 is IERC20, IERC165 {
     /*
@@ -715,16 +714,16 @@ interface IERC1363 is IERC20, IERC165 {
      */
 
     /**
-     * @dev Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`.
-     * @param to The address which you want to transfer to.
+     * @dev Moves a `value` amount of tokens from the caller's account to `to` and then calls `IERC1363Receiver::onTransferReceived` on `to`.
+     * @param to The address to which tokens are being transferred.
      * @param value The amount of tokens to be transferred.
      * @return A boolean value indicating the operation succeeded unless throwing.
      */
     function transferAndCall(address to, uint256 value) external returns (bool);
 
     /**
-     * @dev Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`.
-     * @param to The address which you want to transfer to.
+     * @dev Moves a `value` amount of tokens from the caller's account to `to` and then calls `IERC1363Receiver::onTransferReceived` on `to`.
+     * @param to The address to which tokens are being transferred.
      * @param value The amount of tokens to be transferred.
      * @param data Additional data with no specified format, sent in call to `to`.
      * @return A boolean value indicating the operation succeeded unless throwing.
@@ -732,18 +731,18 @@ interface IERC1363 is IERC20, IERC165 {
     function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);
 
     /**
-     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `onTransferReceived` on `to`.
-     * @param from The address which you want to send tokens from.
-     * @param to The address which you want to transfer to.
+     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `IERC1363Receiver::onTransferReceived` on `to`.
+     * @param from The address from which to send tokens.
+     * @param to The address to which tokens are being transferred.
      * @param value The amount of tokens to be transferred.
      * @return A boolean value indicating the operation succeeded unless throwing.
      */
     function transferFromAndCall(address from, address to, uint256 value) external returns (bool);
 
     /**
-     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `onTransferReceived` on `to`.
-     * @param from The address which you want to send tokens from.
-     * @param to The address which you want to transfer to.
+     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `IERC1363Receiver::onTransferReceived` on `to`.
+     * @param from The address from which to send tokens.
+     * @param to The address to which tokens are being transferred.
      * @param value The amount of tokens to be transferred.
      * @param data Additional data with no specified format, sent in call to `to`.
      * @return A boolean value indicating the operation succeeded unless throwing.
@@ -751,7 +750,7 @@ interface IERC1363 is IERC20, IERC165 {
     function transferFromAndCall(address from, address to, uint256 value, bytes calldata data) external returns (bool);
 
     /**
-     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`.
+     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `IERC1363Spender::onApprovalReceived` on `spender`.
      * @param spender The address which will spend the funds.
      * @param value The amount of tokens to be spent.
      * @return A boolean value indicating the operation succeeded unless throwing.
@@ -759,7 +758,7 @@ interface IERC1363 is IERC20, IERC165 {
     function approveAndCall(address spender, uint256 value) external returns (bool);
 
     /**
-     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`.
+     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `IERC1363Spender::onApprovalReceived` on `spender`.
      * @param spender The address which will spend the funds.
      * @param value The amount of tokens to be spent.
      * @param data Additional data with no specified format, sent in call to `spender`.
@@ -782,25 +781,25 @@ pragma solidity ^0.8.20;
 interface IERC1363Errors {
     /**
      * @dev Indicates a failure with the token `receiver` as it can't be an EOA. Used in transfers.
-     * @param receiver Address to which tokens are being transferred.
+     * @param receiver The address to which tokens are being transferred.
      */
     error ERC1363EOAReceiver(address receiver);
 
     /**
      * @dev Indicates a failure with the token `spender` as it can't be an EOA. Used in approvals.
-     * @param spender Address that may be allowed to operate on tokens without being their owner.
+     * @param spender The address which will spend the funds.
      */
     error ERC1363EOASpender(address spender);
 
     /**
      * @dev Indicates a failure with the token `receiver`. Used in transfers.
-     * @param receiver Address to which tokens are being transferred.
+     * @param receiver The address to which tokens are being transferred.
      */
     error ERC1363InvalidReceiver(address receiver);
 
     /**
      * @dev Indicates a failure with the token `spender`. Used in approvals.
-     * @param spender Address that may be allowed to operate on tokens without being their owner.
+     * @param spender The address which will spend the funds.
      */
     error ERC1363InvalidSpender(address spender);
 }
@@ -818,7 +817,7 @@ pragma solidity ^0.8.20;
  */
 interface IERC1363Receiver {
     /**
-     * @dev Whenever ERC-1363 tokens are transferred to this contract via `transferAndCall` or `transferFromAndCall` by `operator` from `from`, this function is called.
+     * @dev Whenever ERC-1363 tokens are transferred to this contract via `IERC1363::transferAndCall` or `IERC1363::transferFromAndCall` by `operator` from `from`, this function is called.
      *
      * NOTE: To accept the transfer, this must return
      * `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
@@ -851,7 +850,7 @@ pragma solidity ^0.8.20;
  */
 interface IERC1363Spender {
     /**
-     * @dev Whenever an ERC-1363 tokens `owner` approves this contract via `approveAndCall` to spend their tokens, this function is called.
+     * @dev Whenever an ERC-1363 tokens `owner` approves this contract via `IERC1363::approveAndCall` to spend their tokens, this function is called.
      *
      * NOTE: To accept the approval, this must return
      * `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
@@ -880,8 +879,7 @@ pragma solidity ^0.8.20;
  * @title ERC1363
  * @dev Implementation of the ERC-1363 interface.
  *
- * Extension of ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`,
- * or code on a spender contract after `approve`, in a single transaction.
+ * Extension of ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
  */
 abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
     /**
