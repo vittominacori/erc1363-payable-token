@@ -9,8 +9,7 @@ import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
  * @title IERC1363
  * @dev Interface of the ERC-1363 standard as defined in the https://eips.ethereum.org/EIPS/eip-1363[ERC-1363].
  *
- * An extension interface for ERC-20 tokens that supports executing code on a recipient contract after
- * `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
+ * An extension interface for ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
  */
 interface IERC1363 is IERC20, IERC165 {
     /*
@@ -25,7 +24,7 @@ interface IERC1363 is IERC20, IERC165 {
      */
 
     /**
-     * @dev Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`.
+     * @dev Moves a `value` amount of tokens from the caller's account to `to` and then calls `IERC1363Receiver::onTransferReceived` on `to`.
      * @param to The address which you want to transfer to.
      * @param value The amount of tokens to be transferred.
      * @return A boolean value indicating the operation succeeded unless throwing.
@@ -33,7 +32,7 @@ interface IERC1363 is IERC20, IERC165 {
     function transferAndCall(address to, uint256 value) external returns (bool);
 
     /**
-     * @dev Moves a `value` amount of tokens from the caller's account to `to` and then calls `onTransferReceived` on `to`.
+     * @dev Moves a `value` amount of tokens from the caller's account to `to` and then calls `IERC1363Receiver::onTransferReceived` on `to`.
      * @param to The address which you want to transfer to.
      * @param value The amount of tokens to be transferred.
      * @param data Additional data with no specified format, sent in call to `to`.
@@ -42,7 +41,7 @@ interface IERC1363 is IERC20, IERC165 {
     function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);
 
     /**
-     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `onTransferReceived` on `to`.
+     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `IERC1363Receiver::onTransferReceived` on `to`.
      * @param from The address which you want to send tokens from.
      * @param to The address which you want to transfer to.
      * @param value The amount of tokens to be transferred.
@@ -51,7 +50,7 @@ interface IERC1363 is IERC20, IERC165 {
     function transferFromAndCall(address from, address to, uint256 value) external returns (bool);
 
     /**
-     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `onTransferReceived` on `to`.
+     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `IERC1363Receiver::onTransferReceived` on `to`.
      * @param from The address which you want to send tokens from.
      * @param to The address which you want to transfer to.
      * @param value The amount of tokens to be transferred.
@@ -61,7 +60,7 @@ interface IERC1363 is IERC20, IERC165 {
     function transferFromAndCall(address from, address to, uint256 value, bytes calldata data) external returns (bool);
 
     /**
-     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`.
+     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `IERC1363Spender::onApprovalReceived` on `spender`.
      * @param spender The address which will spend the funds.
      * @param value The amount of tokens to be spent.
      * @return A boolean value indicating the operation succeeded unless throwing.
@@ -69,7 +68,7 @@ interface IERC1363 is IERC20, IERC165 {
     function approveAndCall(address spender, uint256 value) external returns (bool);
 
     /**
-     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `onApprovalReceived` on `spender`.
+     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the caller's tokens and then calls `IERC1363Spender::onApprovalReceived` on `spender`.
      * @param spender The address which will spend the funds.
      * @param value The amount of tokens to be spent.
      * @param data Additional data with no specified format, sent in call to `spender`.

@@ -14,8 +14,7 @@ import {IERC1363Spender} from "./IERC1363Spender.sol";
  * @title ERC1363
  * @dev Implementation of the ERC-1363 interface.
  *
- * Extension of ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`,
- * or code on a spender contract after `approve`, in a single transaction.
+ * Extension of ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
  */
 abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
     /**
