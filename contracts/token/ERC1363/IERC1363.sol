@@ -25,7 +25,7 @@ interface IERC1363 is IERC20, IERC165 {
 
     /**
      * @dev Moves a `value` amount of tokens from the caller's account to `to` and then calls `IERC1363Receiver::onTransferReceived` on `to`.
-     * @param to The address which you want to transfer to.
+     * @param to The address to which tokens are being transferred.
      * @param value The amount of tokens to be transferred.
      * @return A boolean value indicating the operation succeeded unless throwing.
      */
@@ -33,7 +33,7 @@ interface IERC1363 is IERC20, IERC165 {
 
     /**
      * @dev Moves a `value` amount of tokens from the caller's account to `to` and then calls `IERC1363Receiver::onTransferReceived` on `to`.
-     * @param to The address which you want to transfer to.
+     * @param to The address to which tokens are being transferred.
      * @param value The amount of tokens to be transferred.
      * @param data Additional data with no specified format, sent in call to `to`.
      * @return A boolean value indicating the operation succeeded unless throwing.
@@ -42,8 +42,8 @@ interface IERC1363 is IERC20, IERC165 {
 
     /**
      * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `IERC1363Receiver::onTransferReceived` on `to`.
-     * @param from The address which you want to send tokens from.
-     * @param to The address which you want to transfer to.
+     * @param from The address from which to send tokens.
+     * @param to The address to which tokens are being transferred.
      * @param value The amount of tokens to be transferred.
      * @return A boolean value indicating the operation succeeded unless throwing.
      */
@@ -51,8 +51,8 @@ interface IERC1363 is IERC20, IERC165 {
 
     /**
      * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism and then calls `IERC1363Receiver::onTransferReceived` on `to`.
-     * @param from The address which you want to send tokens from.
-     * @param to The address which you want to transfer to.
+     * @param from The address from which to send tokens.
+     * @param to The address to which tokens are being transferred.
      * @param value The amount of tokens to be transferred.
      * @param data Additional data with no specified format, sent in call to `to`.
      * @return A boolean value indicating the operation succeeded unless throwing.
