@@ -347,6 +347,52 @@ _Indicates a failure with the token `spender`. Used in approvals._
 | ---- | ---- | ----------- |
 | spender | address | The address which will spend the funds. |
 
+### ERC1363TransferFailed
+
+```solidity
+error ERC1363TransferFailed(address receiver, uint256 value)
+```
+
+_Indicates a failure with the ERC-20 `transfer` during a `transferAndCall` operation. Used in transfers._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| receiver | address | The address to which tokens are being transferred. |
+| value | uint256 | The amount of tokens to be transferred. |
+
+### ERC1363TransferFromFailed
+
+```solidity
+error ERC1363TransferFromFailed(address sender, address receiver, uint256 value)
+```
+
+_Indicates a failure with the ERC-20 `transferFrom` during a `transferFromAndCall` operation. Used in transfers._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| sender | address | The address from which to send tokens. |
+| receiver | address | The address to which tokens are being transferred. |
+| value | uint256 | The amount of tokens to be transferred. |
+
+### ERC1363ApproveFailed
+
+```solidity
+error ERC1363ApproveFailed(address spender, uint256 value)
+```
+
+_Indicates a failure with the ERC-20 `approve` during a `approveAndCall` operation. Used in approvals._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| spender | address | The address which will spend the funds. |
+| value | uint256 | The amount of tokens to be spent. |
+
 ## IERC1363Receiver
 
 _Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall` from ERC-1363 token contracts._

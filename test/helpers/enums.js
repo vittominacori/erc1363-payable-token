@@ -3,6 +3,5 @@ function Enum(...options) {
 }
 
 module.exports = {
-  Enum,
   RevertType: Enum('None', 'RevertWithoutMessage', 'RevertWithMessage', 'RevertWithCustomError', 'Panic'),
 };
