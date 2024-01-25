@@ -2,9 +2,9 @@ const { BN } = require('@openzeppelin/test-helpers');
 
 const { expectRevertCustomError } = require('../helpers/customError');
 
-const ERC1363ReturnFalseOnERC20Mock = artifacts.require('$ERC1363ReturnFalseOnERC20Mock');
+const ERC1363ReturnFalseOnERC20 = artifacts.require('$ERC1363ReturnFalseOnERC20Mock');
 
-contract('ERC1363ReturnFalseOnERC20Mock', function (accounts) {
+contract('ERC1363ReturnFalseOnERC20', function (accounts) {
   const [owner, spender, recipient] = accounts;
 
   const name = 'My Token';
@@ -14,7 +14,7 @@ contract('ERC1363ReturnFalseOnERC20Mock', function (accounts) {
   const data = '0x42';
 
   beforeEach(async function () {
-    this.token = await ERC1363ReturnFalseOnERC20Mock.new(name, symbol);
+    this.token = await ERC1363ReturnFalseOnERC20.new(name, symbol);
     await this.token.$_mint(owner, initialSupply);
   });
 
