@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.20;
 
-import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {IERC20, ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {IERC165, ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 import {IERC1363} from "./IERC1363.sol";
@@ -35,7 +35,9 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
      * @inheritdoc IERC1363
      */
     function transferAndCall(address to, uint256 value, bytes memory data) public virtual returns (bool) {
-        transfer(to, value);
+        if (!transfer(to, value)) {
+            revert ERC1363TransferFailed(to, value);
+        }
         _checkOnTransferReceived(_msgSender(), to, value, data);
         return true;
     }
@@ -56,7 +58,9 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
         uint256 value,
         bytes memory data
     ) public virtual returns (bool) {
-        transferFrom(from, to, value);
+        if (!transferFrom(from, to, value)) {
+            revert ERC1363TransferFromFailed(from, to, value);
+        }
         _checkOnTransferReceived(from, to, value, data);
         return true;
     }
@@ -72,7 +76,9 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
      * @inheritdoc IERC1363
      */
     function approveAndCall(address spender, uint256 value, bytes memory data) public virtual returns (bool) {
-        approve(spender, value);
+        if (!approve(spender, value)) {
+            revert ERC1363ApproveFailed(spender, value);
+        }
         _checkOnApprovalReceived(spender, value, data);
         return true;
     }

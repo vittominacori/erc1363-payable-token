@@ -802,6 +802,28 @@ interface IERC1363Errors {
      * @param spender The address which will spend the funds.
      */
     error ERC1363InvalidSpender(address spender);
+
+    /**
+     * @dev Indicates a failure with the ERC-20 `transfer` during a `transferAndCall` operation. Used in transfers.
+     * @param receiver The address to which tokens are being transferred.
+     * @param value The amount of tokens to be transferred.
+     */
+    error ERC1363TransferFailed(address receiver, uint256 value);
+
+    /**
+     * @dev Indicates a failure with the ERC-20 `transferFrom` during a `transferFromAndCall` operation. Used in transfers.
+     * @param sender The address from which to send tokens.
+     * @param receiver The address to which tokens are being transferred.
+     * @param value The amount of tokens to be transferred.
+     */
+    error ERC1363TransferFromFailed(address sender, address receiver, uint256 value);
+
+    /**
+     * @dev Indicates a failure with the ERC-20 `approve` during a `approveAndCall` operation. Used in approvals.
+     * @param spender The address which will spend the funds.
+     * @param value The amount of tokens to be spent.
+     */
+    error ERC1363ApproveFailed(address spender, uint256 value);
 }
 
 
@@ -900,7 +922,9 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
      * @inheritdoc IERC1363
      */
     function transferAndCall(address to, uint256 value, bytes memory data) public virtual returns (bool) {
-        transfer(to, value);
+        if (!transfer(to, value)) {
+            revert ERC1363TransferFailed(to, value);
+        }
         _checkOnTransferReceived(_msgSender(), to, value, data);
         return true;
     }
@@ -921,7 +945,9 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
         uint256 value,
         bytes memory data
     ) public virtual returns (bool) {
-        transferFrom(from, to, value);
+        if (!transferFrom(from, to, value)) {
+            revert ERC1363TransferFromFailed(from, to, value);
+        }
         _checkOnTransferReceived(from, to, value, data);
         return true;
     }
@@ -937,7 +963,9 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
      * @inheritdoc IERC1363
      */
     function approveAndCall(address spender, uint256 value, bytes memory data) public virtual returns (bool) {
-        approve(spender, value);
+        if (!approve(spender, value)) {
+            revert ERC1363ApproveFailed(spender, value);
+        }
         _checkOnApprovalReceived(spender, value, data);
         return true;
     }
