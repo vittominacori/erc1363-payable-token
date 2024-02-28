@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Setup Code
         uses: actions/checkout@v4
-
+        
       - name: Setup Environment
         uses: ./.github/actions/setup
 
@@ -33,13 +33,13 @@ jobs:
     steps:
       - name: Setup Code
         uses: actions/checkout@v4
-
+        
       - name: Setup Environment
         uses: ./.github/actions/setup
 
       - name: Run Test
         run: npm test
-
+        
       - name: Check Linearisation
         run: npm run check:inheritance
 
@@ -51,13 +51,13 @@ jobs:
     steps:
       - name: Setup Code
         uses: actions/checkout@v4
-
+        
       - name: Setup Environment
         uses: ./.github/actions/setup
-
+        
       - name: Run Coverage
         run: npm run coverage
-
+        
       - name: Post to Codecov
         uses: codecov/codecov-action@v4
         env:
@@ -78,7 +78,7 @@ jobs:
       - name: Run Slither
         uses: crytic/slither-action@v0.3.0
         with:
-          node-version: 18
+          node-version: 20
 
   codespell:
     name: Codespell
