@@ -51,7 +51,7 @@
   },
   "homepage": "https://vittominacori.github.io/erc1363-payable-token",
   "dependencies": {
-    "@openzeppelin/contracts": "5.0.1"
+    "@openzeppelin/contracts": "5.0.2"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-truffle5": "^2.0.7",
