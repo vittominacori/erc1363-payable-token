@@ -1,6 +1,6 @@
 {
   "name": "erc-payable-token",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "description": "ERC-1363 Payable Token Implementation",
   "files": [
     "contracts",
@@ -72,7 +72,7 @@
     "sol2uml": "^2.5.20",
     "solhint": "^4.1.1",
     "solhint-plugin-openzeppelin": "file:scripts/solhint-custom",
-    "solidity-coverage": "^0.8.8",
+    "solidity-coverage": "^0.8.10",
     "solidity-docgen": "^0.6.0-beta.36",
     "surya": "^0.4.11",
     "truffle": "^5.11.5",
