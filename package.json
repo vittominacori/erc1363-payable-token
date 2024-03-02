@@ -30,7 +30,7 @@
     "docs": "hardhat docgen",
     "pages:dev": "vitepress dev pages",
     "pages:build": "vitepress build pages",
-    "pages:deploy": "export NODE_OPTIONS=--openssl-legacy-provider && vuepress build pages && sh pages/deploy/deploy.sh"
+    "pages:deploy": "vitepress build pages && sh pages/deploy/deploy.sh"
   },
   "repository": {
     "type": "git",
