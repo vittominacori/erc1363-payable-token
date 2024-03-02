@@ -56,3 +56,8 @@ contracts-exposed
 # vuepress
 pages/.vuepress/dist
 pages/.vuepress/.env.json
+
+# vitepress
+pages/.vitepress/cache
+pages/.vitepress/dist
+pages/.vitepress/.env.json

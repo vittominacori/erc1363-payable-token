@@ -23,9 +23,8 @@ The following are functions and callbacks introduced by ERC-1363:
 ERC-1363 tokens can be used for specific utilities in all cases that require a callback to be executed after a transfer or an approval received.
 ERC-1363 is also useful for avoiding token loss or token locking in contracts by verifying the recipient contract's ability to handle tokens.
 
-::: tip NOTE
-**This repo contains the reference implementation of the official [ERC-1363](https://eips.ethereum.org/EIPS/eip-1363).**
-:::
+> [!IMPORTANT]
+> **This repo contains the reference implementation of the official [ERC-1363](https://eips.ethereum.org/EIPS/eip-1363).**
 
 ## Install
 
@@ -106,15 +105,13 @@ Implementation of the ERC-1363 interface.
 
 The reference implementation of ERC-1363 that extends ERC-20 and adds support for executing code after transfers and approvals on recipient contracts.
 
-::: tip NOTE 
-`transferAndCall`, `transferFromAndCall` and `approveAndCall` revert if the recipient/spender is an EOA address. To transfer tokens to an EOA or approve it to spend tokens, use the ERC-20 `transfer`, `transferFrom` or `approve` methods.
-:::
+> [!IMPORTANT]
+> `transferAndCall`, `transferFromAndCall` and `approveAndCall` revert if the recipient/spender is an EOA address. To transfer tokens to an EOA or approve it to spend tokens, use the ERC-20 `transfer`, `transferFrom` or `approve` methods.
 
 ## Examples
 
-::: warning IMPORTANT 
-The example contracts are for testing purpose only. When inheriting or copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
-:::
+> [!WARNING] 
+> The example contracts are for testing purpose only. When inheriting or copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
 
 ### ERC1363Guardian
 

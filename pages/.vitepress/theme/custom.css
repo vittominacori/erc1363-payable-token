@@ -1,0 +1,4 @@
+.vp-doc h1 + p a img {
+    display: inline-block;
+    margin: 2px;
+}
