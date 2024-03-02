@@ -6,7 +6,7 @@ const title = 'ERC-1363 Payable Token | Reference implementation';
 const description =
   'ERC-1363 is an extension interface for ERC-20 tokens that supports executing code on a recipient contract after transfers, or code on a spender contract after approvals, in a single transaction.';
 const url = 'https://vittominacori.github.io/erc1363-payable-token';
-const image = 'https://vittominacori.github.io/erc1363-payable-token/assets/images/erc1363-payable-token.jpg';
+const image = 'https://vittominacori.github.io/erc1363-payable-token/images/erc1363-payable-token.jpg';
 const repo = 'https://github.com/vittominacori/erc1363-payable-token.git';
 
 export default defineConfig({
