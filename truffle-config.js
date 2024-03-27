@@ -1,9 +1,9 @@
 module.exports = {
   compilers: {
     solc: {
-      version: '0.8.24',
+      version: '0.8.25',
       settings: {
-        evmVersion: 'shanghai',
+        evmVersion: 'cancun',
         optimizer: {
           enabled: true,
           runs: 200,
