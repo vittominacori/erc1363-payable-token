@@ -7,10 +7,6 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
   const value = balance;
   const data = '0x42';
 
-  beforeEach(async function () {
-    this.mock = await ERC1363Guardian.new(this.token.address);
-  });
-
   describe('receiving transfers', function () {
     describe('via transferFromAndCall', function () {
       beforeEach(async function () {

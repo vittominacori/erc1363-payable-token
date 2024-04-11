@@ -127,11 +127,21 @@ It emits a `TokensApproved` event to notify the approval received by the contrac
 
 It also implements a `_approvalReceived` function that can be overridden to make your stuff within your contract after a `onApprovalReceived`.
 
+### ERC1363Payable
+
+[ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363Payable.sol)
+
+A contract that allows to accept ERC-1363 payments via transfers or approvals.
+
+Inherit from `ERC1363Guardian` but requires a `IERC1363` address to set as accepted token. 
+
+Payments done using not accepted tokens will revert.
+
 ### ERC1363MethodCallReceiver
 
 [ERC1363MethodCallReceiver.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363MethodCallReceiver.sol)
 
-As example: a contract that allows to test passing methods via abi encoded function call.
+A contract that allows to test passing methods via abi encoded function call.
 
 It executes the method passed via `data`. Methods emit a `MethodCall` event. 
 

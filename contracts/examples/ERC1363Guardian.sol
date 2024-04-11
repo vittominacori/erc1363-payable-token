@@ -7,10 +7,10 @@ import {IERC1363Spender} from "../token/ERC1363/IERC1363Spender.sol";
 
 /**
  * @title ERC1363Guardian
- * @dev Implementation example of a contract that allows to accept ERC-1363 callbacks after transfers or approvals.
+ * @dev Implementation of a contract that allows to accept ERC-1363 callbacks after transfers or approvals.
  *
- * IMPORTANT: This contract is for testing purpose only. When inheriting or copying from this contract,
- * you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+ * IMPORTANT: When inheriting or copying from this contract, you must include a way to use the received tokens,
+ * otherwise they will be stuck into the contract.
  */
 contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
     /**
