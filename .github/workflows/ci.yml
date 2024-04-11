@@ -76,7 +76,7 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Run Slither
-        uses: crytic/slither-action@v0.3.0
+        uses: crytic/slither-action@v0.3.2
         with:
           node-version: 20
 
