@@ -35,7 +35,7 @@ contract ERC1363ReceiverMock is IERC1363Receiver {
         address from,
         uint256 value,
         bytes calldata data
-    ) external override returns (bytes4) {
+    ) external returns (bytes4) {
         if (_err == RevertType.RevertWithoutMessage) {
             revert();
         } else if (_err == RevertType.RevertWithMessage) {

@@ -39,7 +39,7 @@ contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
         address from,
         uint256 value,
         bytes calldata data
-    ) external override returns (bytes4) {
+    ) external returns (bytes4) {
         // The ERC-1363 contract is always the caller.
         address token = msg.sender;
 
@@ -53,7 +53,7 @@ contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
     /*
      * @inheritdoc IERC1363Spender
      */
-    function onApprovalReceived(address owner, uint256 value, bytes calldata data) external override returns (bytes4) {
+    function onApprovalReceived(address owner, uint256 value, bytes calldata data) external returns (bytes4) {
         // The ERC-1363 contract is always the caller.
         address token = msg.sender;
 

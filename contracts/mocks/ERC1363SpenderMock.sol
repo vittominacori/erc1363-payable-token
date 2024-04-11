@@ -30,7 +30,7 @@ contract ERC1363SpenderMock is IERC1363Spender {
         _err = err;
     }
 
-    function onApprovalReceived(address owner, uint256 value, bytes calldata data) external override returns (bytes4) {
+    function onApprovalReceived(address owner, uint256 value, bytes calldata data) external returns (bytes4) {
         if (_err == RevertType.RevertWithoutMessage) {
             revert();
         } else if (_err == RevertType.RevertWithMessage) {

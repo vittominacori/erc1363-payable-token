@@ -23,7 +23,7 @@ contract ERC1363MethodCallReceiver is IERC1363Receiver {
      * @dev Whenever ERC-1363 tokens are transferred to this contract via `transferAndCall` or `transferFromAndCall` this function is called.
      * In this example the abi encoded method passed in `data` is executed on this contract.
      */
-    function onTransferReceived(address, address, uint256, bytes calldata data) external override returns (bytes4) {
+    function onTransferReceived(address, address, uint256, bytes calldata data) external returns (bytes4) {
         (bool success, ) = address(this).call(data);
 
         require(success, "Low level call failed");
