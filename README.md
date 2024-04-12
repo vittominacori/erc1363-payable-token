@@ -155,7 +155,7 @@ It also implements a `_approvalReceived` function that must be overridden to mak
 
 ## Examples
 
-> [!DANGER] 
+> [!CAUTION] 
 > The `examples` contracts are for testing purpose only. Do not use in production.
 > 
 > When copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
@@ -166,9 +166,9 @@ It also implements a `_approvalReceived` function that must be overridden to mak
 
 [ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363Payable.sol)
 
-An example contract that allows to test accepting ERC-1363 deposits via transfers or approvals.
+An example contract that allows to test accepting ERC-1363 deposits via `transferAndCall`, `transferFromAndCall` and `approveAndCall`.
 
-Inherit from `ERC1363Guardian` but requires a `IERC1363` address to set as accepted token.
+Inherits from `ERC1363Guardian` but requires a `IERC1363` address to set as accepted token.
 
 Deposits done using not accepted tokens will revert.
 
@@ -180,7 +180,7 @@ Once a deposit is confirmed, the contract increases the user credit value.
 
 An example contract that allows to test passing methods via abi encoded function call.
 
-It executes the method passed via `data`. Methods emit a `MethodCall` event. 
+It executes the method passed via `data`. Methods emit a `MethodCall` event.
 
 ## Documentation
 

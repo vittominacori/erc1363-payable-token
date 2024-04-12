@@ -65,7 +65,7 @@ abstract contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
     }
 
     /**
-     * @dev Called after validating a `onTransferReceived`. Override this method to make your stuff within your contract.
+     * @dev Called after validating a `onTransferReceived`. Implement this method to make your stuff within your contract.
      * @param token The address of the token that was received.
      * @param operator The address which called `transferAndCall` or `transferFromAndCall` function.
      * @param from The address which are tokens transferred from.
@@ -81,7 +81,7 @@ abstract contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
     ) internal virtual;
 
     /**
-     * @dev Called after validating a `onApprovalReceived`. Override this method to make your stuff within your contract.
+     * @dev Called after validating a `onApprovalReceived`. Implement this method to make your stuff within your contract.
      * @param token The address of the token that was approved.
      * @param owner The address which called `approveAndCall` function and previously owned the tokens.
      * @param value The amount of tokens to be spent.

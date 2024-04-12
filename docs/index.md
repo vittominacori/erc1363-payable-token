@@ -84,7 +84,7 @@ NOTE: To accept the approval, this must return
 function _transferReceived(address token, address operator, address from, uint256 value, bytes data) internal virtual
 ```
 
-_Called after validating a `onTransferReceived`. Override this method to make your stuff within your contract._
+_Called after validating a `onTransferReceived`. Implement this method to make your stuff within your contract._
 
 #### Parameters
 
@@ -102,7 +102,7 @@ _Called after validating a `onTransferReceived`. Override this method to make yo
 function _approvalReceived(address token, address owner, uint256 value, bytes data) internal virtual
 ```
 
-_Called after validating a `onApprovalReceived`. Override this method to make your stuff within your contract._
+_Called after validating a `onApprovalReceived`. Implement this method to make your stuff within your contract._
 
 #### Parameters
 
