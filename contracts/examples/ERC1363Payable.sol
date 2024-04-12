@@ -15,7 +15,7 @@ import {ERC1363Guardian} from "../presets/ERC1363Guardian.sol";
  */
 contract ERC1363Payable is ERC1363Guardian {
     // The ERC-1363 token accepted
-    address private _acceptedToken;
+    address private immutable _acceptedToken;
 
     // a mapping of each user credit
     mapping(address account => uint256) private _credits;
@@ -80,7 +80,11 @@ contract ERC1363Payable is ERC1363Guardian {
         uint256 value,
         bytes calldata data
     ) internal override onlyAcceptedToken {
+        // slither-disable-start unchecked-transfer
+        // slither-disable-start arbitrary-send-erc20
         IERC20(token).transferFrom(owner, address(this), value);
+        // slither-disable-end unchecked-transfer
+        // slither-disable-end arbitrary-send-erc20
 
         _deposit(owner, owner, value, data);
     }
