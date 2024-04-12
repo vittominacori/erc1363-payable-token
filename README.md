@@ -106,34 +106,81 @@ Implementation of the ERC-1363 interface.
 The reference implementation of ERC-1363 that extends ERC-20 and adds support for executing code after transfers and approvals on recipient contracts.
 
 > [!IMPORTANT]
-> `transferAndCall`, `transferFromAndCall` and `approveAndCall` revert if the recipient/spender is an EOA address. To transfer tokens to an EOA or approve it to spend tokens, use the ERC-20 `transfer`, `transferFrom` or `approve` methods.
+> `transferAndCall`, `transferFromAndCall` and `approveAndCall` revert if the recipient/spender is an EOA address. 
+> 
+> To transfer tokens to an EOA or approve it to spend tokens, use the ERC-20 `transfer`, `transferFrom` or `approve` methods.
 
-## Examples
+## Presets
 
-> [!WARNING] 
-> The example contracts are for testing purpose only. When inheriting or copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+> [!WARNING]
+> The `presets` contracts are ideas and suggestions for using ERC-1363 tokens within your contracts. 
+> 
+> When inheriting and copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+> 
+> Always test your contracts before going live.
 
 ### ERC1363Guardian
 
-[ERC1363Guardian.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363Guardian.sol)
+[ERC1363Guardian.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/presets/ERC1363Guardian.sol)
 
-As example: a contract that allows to accept ERC-1363 callbacks after transfers or approvals.
+A contract that allows to accept ERC-1363 callbacks after transfers or approvals.
 
 It emits a `TokensReceived` event to notify the transfer received by the contract.
 
-It also implements a `_transferReceived` function that can be overridden to make your stuff within your contract after a `onTransferReceived`.
+It also implements a `_transferReceived` function that must be overridden to make your stuff within your contract after a `onTransferReceived`.
 
 It emits a `TokensApproved` event to notify the approval received by the contract.
 
-It also implements a `_approvalReceived` function that can be overridden to make your stuff within your contract after a `onApprovalReceived`.
+It also implements a `_approvalReceived` function that must be overridden to make your stuff within your contract after a `onApprovalReceived`.
+
+> [!TIP]
+> After an `approveAndCall` your contract should use the allowance to do something. 
+> 
+> For instance, you may choose to transfer the approved amount of tokens into the contract itself and then update internal status.
+> 
+> ```solidity
+> function _approvalReceived(
+>     address token,
+>     address owner,
+>     uint256 value,
+>     bytes calldata data
+> ) internal override {
+>     IERC20(token).transferFrom(owner, address(this), value);
+>
+>     // update internal status
+> }
+> ```
+> 
+> **You must then include a way to use the received tokens, otherwise they will be stuck into the contract.**
+
+## Examples
+
+> [!CAUTION] 
+> The `examples` contracts are for testing purpose only. Do not use in production.
+> 
+> When copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+> 
+> Always test your contracts before going live.
+
+### ERC1363Payable
+
+[ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363Payable.sol)
+
+An example contract that allows to test accepting ERC-1363 deposits via `transferAndCall`, `transferFromAndCall` and `approveAndCall`.
+
+Inherits from `ERC1363Guardian` but requires a `IERC1363` address to set as accepted token.
+
+Deposits done using not accepted tokens will revert.
+
+Once a deposit is confirmed, the contract increases the user credit value.
 
 ### ERC1363MethodCallReceiver
 
 [ERC1363MethodCallReceiver.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363MethodCallReceiver.sol)
 
-As example: a contract that allows to test passing methods via abi encoded function call.
+An example contract that allows to test passing methods via abi encoded function call.
 
-It executes the method passed via `data`. Methods emit a `MethodCall` event. 
+It executes the method passed via `data`. Methods emit a `MethodCall` event.
 
 ## Documentation
 

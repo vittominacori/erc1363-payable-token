@@ -1,8 +1,29 @@
 # Solidity API
 
-## IERC1363Receiver
+## ERC1363Guardian
 
-_Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall` from ERC-1363 token contracts._
+_Implementation of a contract that allows to accept ERC-1363 callbacks after transfers or approvals.
+
+IMPORTANT: When inheriting or copying from this contract, you must include a way to use the received tokens,
+otherwise they will be stuck into the contract._
+
+### TokensReceived
+
+```solidity
+event TokensReceived(address token, address operator, address from, uint256 value, bytes data)
+```
+
+_Emitted when a `value` amount of tokens `token` are moved from `from` to
+this contract by `operator` using `transferAndCall` or `transferFromAndCall`._
+
+### TokensApproved
+
+```solidity
+event TokensApproved(address token, address owner, uint256 value, bytes data)
+```
+
+_Emitted when the allowance for token `token` of this contract for an `owner` is set by
+a call to `approveAndCall`. `value` is the new allowance._
 
 ### onTransferReceived
 
@@ -31,10 +52,6 @@ NOTE: To accept the transfer, this must return
 | ---- | ---- | ----------- |
 | [0] | bytes4 | `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))` if transfer is allowed unless throwing. |
 
-## IERC1363Spender
-
-_Interface for any contract that wants to support `approveAndCall` from ERC-1363 token contracts._
-
 ### onApprovalReceived
 
 ```solidity
@@ -60,6 +77,41 @@ NOTE: To accept the approval, this must return
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | [0] | bytes4 | `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))` if approval is allowed unless throwing. |
+
+### _transferReceived
+
+```solidity
+function _transferReceived(address token, address operator, address from, uint256 value, bytes data) internal virtual
+```
+
+_Called after validating a `onTransferReceived`. Implement this method to make your stuff within your contract._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| token | address | The address of the token that was received. |
+| operator | address | The address which called `transferAndCall` or `transferFromAndCall` function. |
+| from | address | The address which are tokens transferred from. |
+| value | uint256 | The amount of tokens transferred. |
+| data | bytes | Additional data with no specified format. |
+
+### _approvalReceived
+
+```solidity
+function _approvalReceived(address token, address owner, uint256 value, bytes data) internal virtual
+```
+
+_Called after validating a `onApprovalReceived`. Implement this method to make your stuff within your contract._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| token | address | The address of the token that was approved. |
+| owner | address | The address which called `approveAndCall` function and previously owned the tokens. |
+| value | uint256 | The amount of tokens to be spent. |
+| data | bytes | Additional data with no specified format. |
 
 ## ERC1363
 
@@ -453,4 +505,65 @@ _Indicates a failure with the ERC-20 `approve` during a `approveAndCall` operati
 | ---- | ---- | ----------- |
 | spender | address | The address which will spend the funds. |
 | value | uint256 | The amount of tokens to be spent. |
+
+## IERC1363Receiver
+
+_Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall` from ERC-1363 token contracts._
+
+### onTransferReceived
+
+```solidity
+function onTransferReceived(address operator, address from, uint256 value, bytes data) external returns (bytes4)
+```
+
+_Whenever ERC-1363 tokens are transferred to this contract via `IERC1363::transferAndCall` or `IERC1363::transferFromAndCall` by `operator` from `from`, this function is called.
+
+NOTE: To accept the transfer, this must return
+`bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
+(i.e. 0x88a7ca5c, or its own function selector)._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| operator | address | The address which called `transferAndCall` or `transferFromAndCall` function. |
+| from | address | The address which are tokens transferred from. |
+| value | uint256 | The amount of tokens transferred. |
+| data | bytes | Additional data with no specified format. |
+
+#### Return Values
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| [0] | bytes4 | `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))` if transfer is allowed unless throwing. |
+
+## IERC1363Spender
+
+_Interface for any contract that wants to support `approveAndCall` from ERC-1363 token contracts._
+
+### onApprovalReceived
+
+```solidity
+function onApprovalReceived(address owner, uint256 value, bytes data) external returns (bytes4)
+```
+
+_Whenever an ERC-1363 tokens `owner` approves this contract via `IERC1363::approveAndCall` to spend their tokens, this function is called.
+
+NOTE: To accept the approval, this must return
+`bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
+(i.e. 0x7b04a2d0, or its own function selector)._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| owner | address | The address which called `approveAndCall` function and previously owned the tokens. |
+| value | uint256 | The amount of tokens to be spent. |
+| data | bytes | Additional data with no specified format. |
+
+#### Return Values
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| [0] | bytes4 | `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))` if approval is allowed unless throwing. |
 

@@ -7,12 +7,12 @@ import {IERC1363Spender} from "../token/ERC1363/IERC1363Spender.sol";
 
 /**
  * @title ERC1363Guardian
- * @dev Implementation example of a contract that allows to accept ERC-1363 callbacks after transfers or approvals.
+ * @dev Implementation of a contract that allows to accept ERC-1363 callbacks after transfers or approvals.
  *
- * IMPORTANT: This contract is for testing purpose only. When inheriting or copying from this contract,
- * you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+ * IMPORTANT: When inheriting or copying from this contract, you must include a way to use the received tokens,
+ * otherwise they will be stuck into the contract.
  */
-contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
+abstract contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
     /**
      * @dev Emitted when a `value` amount of tokens `token` are moved from `from` to
      * this contract by `operator` using `transferAndCall` or `transferFromAndCall`.
@@ -65,7 +65,7 @@ contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
     }
 
     /**
-     * @dev Called after validating a `onTransferReceived`. Override this method to make your stuff within your contract.
+     * @dev Called after validating a `onTransferReceived`. Implement this method to make your stuff within your contract.
      * @param token The address of the token that was received.
      * @param operator The address which called `transferAndCall` or `transferFromAndCall` function.
      * @param from The address which are tokens transferred from.
@@ -78,20 +78,14 @@ contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
         address from,
         uint256 value,
         bytes calldata data
-    ) internal virtual {
-        // optional override
-    }
+    ) internal virtual;
 
     /**
-     * @dev Called after validating a `onApprovalReceived`. Override this method to make your stuff within your contract.
+     * @dev Called after validating a `onApprovalReceived`. Implement this method to make your stuff within your contract.
      * @param token The address of the token that was approved.
      * @param owner The address which called `approveAndCall` function and previously owned the tokens.
      * @param value The amount of tokens to be spent.
      * @param data Additional data with no specified format.
      */
-    function _approvalReceived(address token, address owner, uint256 value, bytes calldata data) internal virtual {
-        // optional override
-        // I.e. you could transfer the approved tokens into the `ERC1363Guardian` contract by doing:
-        // IERC20(token).transferFrom(owner, address(this), value);
-    }
+    function _approvalReceived(address token, address owner, uint256 value, bytes calldata data) internal virtual;
 }

@@ -6,10 +6,11 @@ import {IERC1363Receiver} from "../token/ERC1363/IERC1363Receiver.sol";
 
 /**
  * @title ERC1363MethodCallReceiver
- * @dev Implementation example of a contract that allows to test passing methods via abi encoded function call.
+ * @dev Implementation of an example contract that allows to test passing methods via abi encoded function call.
  *
- * IMPORTANT: This contract is for testing purpose only. When inheriting or copying from this contract,
- * you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+ * IMPORTANT: This contract is for testing purpose only. Do not use in production.
+ * When copying from this contract, you must include a way to use the received tokens,
+ * otherwise they will be stuck into the contract.
  */
 contract ERC1363MethodCallReceiver is IERC1363Receiver {
     /**
@@ -19,6 +20,11 @@ contract ERC1363MethodCallReceiver is IERC1363Receiver {
      */
     event MethodCall(string method, string param);
 
+    /**
+     * @dev Emitted when call to the abi encoded method fails.
+     */
+    error LowLevelCallFailed();
+
     /*
      * @dev Whenever ERC-1363 tokens are transferred to this contract via `transferAndCall` or `transferFromAndCall` this function is called.
      * In this example the abi encoded method passed in `data` is executed on this contract.
@@ -26,7 +32,9 @@ contract ERC1363MethodCallReceiver is IERC1363Receiver {
     function onTransferReceived(address, address, uint256, bytes calldata data) external returns (bytes4) {
         (bool success, ) = address(this).call(data);
 
-        require(success, "Low level call failed");
+        if (!success) {
+            revert LowLevelCallFailed();
+        }
 
         return this.onTransferReceived.selector;
     }

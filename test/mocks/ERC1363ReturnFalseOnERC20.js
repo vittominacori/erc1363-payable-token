@@ -5,7 +5,7 @@ const { expectRevertCustomError } = require('../helpers/customError');
 const ERC1363ReturnFalseOnERC20 = artifacts.require('$ERC1363ReturnFalseOnERC20Mock');
 
 contract('ERC1363ReturnFalseOnERC20', function (accounts) {
-  const [owner, spender, recipient] = accounts;
+  const [initialHolder, spender, recipient] = accounts;
 
   const name = 'My Token';
   const symbol = 'MTKN';
@@ -15,7 +15,7 @@ contract('ERC1363ReturnFalseOnERC20', function (accounts) {
 
   beforeEach(async function () {
     this.token = await ERC1363ReturnFalseOnERC20.new(name, symbol);
-    await this.token.$_mint(owner, initialSupply);
+    await this.token.$_mint(initialHolder, initialSupply);
   });
 
   context('when ERC20 methods return false', function () {
@@ -32,7 +32,7 @@ contract('ERC1363ReturnFalseOnERC20', function (accounts) {
         describe('with data', function () {
           it('reverts', async function () {
             await expectRevertCustomError(
-              transferAndCallWithData.call(this, recipient, initialSupply, { from: owner }),
+              transferAndCallWithData.call(this, recipient, initialSupply, { from: initialHolder }),
               'ERC1363TransferFailed',
               [recipient, initialSupply],
             );
@@ -42,7 +42,7 @@ contract('ERC1363ReturnFalseOnERC20', function (accounts) {
         describe('without data', function () {
           it('reverts', async function () {
             await expectRevertCustomError(
-              transferAndCallWithoutData.call(this, recipient, initialSupply, { from: owner }),
+              transferAndCallWithoutData.call(this, recipient, initialSupply, { from: initialHolder }),
               'ERC1363TransferFailed',
               [recipient, initialSupply],
             );
@@ -52,7 +52,7 @@ contract('ERC1363ReturnFalseOnERC20', function (accounts) {
 
       describe('via transferFromAndCall', function () {
         beforeEach(async function () {
-          await this.token.approve(spender, initialSupply, { from: owner });
+          await this.token.approve(spender, initialSupply, { from: initialHolder });
         });
 
         const transferFromAndCallWithData = function (from, to, value, opts) {
@@ -66,9 +66,9 @@ contract('ERC1363ReturnFalseOnERC20', function (accounts) {
         describe('with data', function () {
           it('reverts', async function () {
             await expectRevertCustomError(
-              transferFromAndCallWithData.call(this, owner, recipient, initialSupply, { from: spender }),
+              transferFromAndCallWithData.call(this, initialHolder, recipient, initialSupply, { from: spender }),
               'ERC1363TransferFromFailed',
-              [owner, recipient, initialSupply],
+              [initialHolder, recipient, initialSupply],
             );
           });
         });
@@ -76,9 +76,9 @@ contract('ERC1363ReturnFalseOnERC20', function (accounts) {
         describe('without data', function () {
           it('reverts', async function () {
             await expectRevertCustomError(
-              transferFromAndCallWithoutData.call(this, owner, recipient, initialSupply, { from: spender }),
+              transferFromAndCallWithoutData.call(this, initialHolder, recipient, initialSupply, { from: spender }),
               'ERC1363TransferFromFailed',
-              [owner, recipient, initialSupply],
+              [initialHolder, recipient, initialSupply],
             );
           });
         });
@@ -98,7 +98,7 @@ contract('ERC1363ReturnFalseOnERC20', function (accounts) {
         describe('with data', function () {
           it('reverts', async function () {
             await expectRevertCustomError(
-              approveAndCallWithData.call(this, recipient, initialSupply, { from: owner }),
+              approveAndCallWithData.call(this, recipient, initialSupply, { from: initialHolder }),
               'ERC1363ApproveFailed',
               [recipient, initialSupply],
             );
@@ -108,7 +108,7 @@ contract('ERC1363ReturnFalseOnERC20', function (accounts) {
         describe('without data', function () {
           it('reverts', async function () {
             await expectRevertCustomError(
-              approveAndCallWithoutData.call(this, recipient, initialSupply, { from: owner }),
+              approveAndCallWithoutData.call(this, recipient, initialSupply, { from: initialHolder }),
               'ERC1363ApproveFailed',
               [recipient, initialSupply],
             );
