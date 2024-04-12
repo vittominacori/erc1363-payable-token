@@ -7,16 +7,11 @@
     "test"
   ],
   "scripts": {
-    "truffle:compile": "truffle compile --all",
-    "hardhat:console": "hardhat console",
-    "hardhat:compile": "hardhat compile",
-    "hardhat:test": "hardhat test",
-    "hardhat:coverage": "env COVERAGE=true hardhat coverage",
-    "console": "npm run hardhat:console",
-    "compile": "npm run hardhat:compile",
-    "test": "npm run hardhat:test",
-    "coverage": "npm run hardhat:coverage",
-    "clean": "hardhat clean && rimraf build contracts/build coverage coverage.json",
+    "console": "hardhat console",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "coverage": "env COVERAGE=true hardhat coverage",
+    "clean": "hardhat clean && rimraf coverage coverage.json",
     "profile": "npm run clean && npm run coverage && open coverage/index.html",
     "check:inheritance": "scripts/checks/inheritance-ordering.js artifacts/build-info/*",
     "lint": "npm run lint:js && npm run lint:sol",
@@ -75,7 +70,6 @@
     "solidity-coverage": "^0.8.12",
     "solidity-docgen": "^0.6.0-beta.36",
     "surya": "^0.4.11",
-    "truffle": "^5.11.5",
     "vitepress": "^1.1.0",
     "yargs": "^17.7.2"
   }
