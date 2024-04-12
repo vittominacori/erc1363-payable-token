@@ -10,7 +10,7 @@
     "console": "hardhat console",
     "compile": "hardhat compile",
     "test": "hardhat test",
-    "coverage": "env COVERAGE=true hardhat coverage",
+    "coverage": "hardhat coverage",
     "clean": "hardhat clean && rimraf coverage coverage.json",
     "profile": "npm run clean && npm run coverage && open coverage/index.html",
     "check:inheritance": "scripts/checks/inheritance-ordering.js artifacts/build-info/*",
