@@ -12,7 +12,7 @@ import {IERC1363Spender} from "../token/ERC1363/IERC1363Spender.sol";
  * IMPORTANT: When inheriting or copying from this contract, you must include a way to use the received tokens,
  * otherwise they will be stuck into the contract.
  */
-contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
+abstract contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
     /**
      * @dev Emitted when a `value` amount of tokens `token` are moved from `from` to
      * this contract by `operator` using `transferAndCall` or `transferFromAndCall`.

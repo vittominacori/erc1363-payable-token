@@ -108,14 +108,16 @@ The reference implementation of ERC-1363 that extends ERC-20 and adds support fo
 > [!IMPORTANT]
 > `transferAndCall`, `transferFromAndCall` and `approveAndCall` revert if the recipient/spender is an EOA address. To transfer tokens to an EOA or approve it to spend tokens, use the ERC-20 `transfer`, `transferFrom` or `approve` methods.
 
-## Examples
+## Presets
 
-> [!WARNING] 
-> The example contracts are for testing purpose only. When inheriting or copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+> [!WARNING]
+> The `presets` contracts are ideas and suggestions for using ERC-1363 tokens within your contracts. 
+> When inheriting and copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+> Always test your contracts before going live.
 
 ### ERC1363Guardian
 
-[ERC1363Guardian.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363Guardian.sol)
+[ERC1363Guardian.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/presets/ERC1363Guardian.sol)
 
 As example: a contract that allows to accept ERC-1363 callbacks after transfers or approvals.
 
@@ -129,13 +131,20 @@ It also implements a `_approvalReceived` function that can be overridden to make
 
 ### ERC1363Payable
 
-[ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/examples/ERC1363Payable.sol)
+[ERC1363Payable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/presets/ERC1363Payable.sol)
 
 A contract that allows to accept ERC-1363 payments via transfers or approvals.
 
-Inherit from `ERC1363Guardian` but requires a `IERC1363` address to set as accepted token. 
+Inherit from `ERC1363Guardian` but requires a `IERC1363` address to set as accepted token.
 
 Payments done using not accepted tokens will revert.
+
+## Examples
+
+> [!DANGER] 
+> The `examples` contracts are for testing purpose only. 
+> When copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+> Always test your contracts before going live.
 
 ### ERC1363MethodCallReceiver
 

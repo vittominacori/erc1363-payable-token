@@ -12,7 +12,7 @@ import {ERC1363Guardian} from "./ERC1363Guardian.sol";
  * IMPORTANT: When inheriting or copying from this contract, you must include a way to use the received tokens,
  * otherwise they will be stuck into the contract.
  */
-contract ERC1363Payable is ERC1363Guardian {
+abstract contract ERC1363Payable is ERC1363Guardian {
     // The ERC-1363 token accepted
     address private _acceptedToken;
 

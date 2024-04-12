@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.20;
 
-import {ERC1363Guardian} from "../examples/ERC1363Guardian.sol";
+import {ERC1363Guardian} from "../presets/ERC1363Guardian.sol";
 
 // mock class using ERC1363Guardian
 contract ERC1363GuardianMock is ERC1363Guardian {
