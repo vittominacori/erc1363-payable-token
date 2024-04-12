@@ -78,9 +78,7 @@ abstract contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
         address from,
         uint256 value,
         bytes calldata data
-    ) internal virtual {
-        // optional override
-    }
+    ) internal virtual;
 
     /**
      * @dev Called after validating a `onApprovalReceived`. Override this method to make your stuff within your contract.
@@ -89,9 +87,5 @@ abstract contract ERC1363Guardian is IERC1363Receiver, IERC1363Spender {
      * @param value The amount of tokens to be spent.
      * @param data Additional data with no specified format.
      */
-    function _approvalReceived(address token, address owner, uint256 value, bytes calldata data) internal virtual {
-        // optional override
-        // I.e. you could transfer the approved tokens into the `ERC1363Guardian` contract by doing:
-        // IERC20(token).transferFrom(owner, address(this), value);
-    }
+    function _approvalReceived(address token, address owner, uint256 value, bytes calldata data) internal virtual;
 }

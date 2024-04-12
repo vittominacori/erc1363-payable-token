@@ -35,11 +35,11 @@ function shouldBehaveLikeERC1363Guardian([initialHolder, spender], balance) {
         });
 
         it('should execute _transferReceived', async function () {
-          let transferNumber = await this.mock.transferNumber();
-          expect(transferNumber).to.be.bignumber.equal(new BN(0));
+          let transferAmount = await this.mock.transferAmount();
+          expect(transferAmount).to.be.bignumber.equal(new BN(0));
           await transferFun.call(this, initialHolder, this.mock.address, value, { from: spender });
-          transferNumber = await this.mock.transferNumber();
-          expect(transferNumber).to.be.bignumber.equal(new BN(1));
+          transferAmount = await this.mock.transferAmount();
+          expect(transferAmount).to.be.bignumber.equal(value);
         });
       };
 
@@ -74,11 +74,11 @@ function shouldBehaveLikeERC1363Guardian([initialHolder, spender], balance) {
         });
 
         it('should execute _transferReceived', async function () {
-          let transferNumber = await this.mock.transferNumber();
-          expect(transferNumber).to.be.bignumber.equal(new BN(0));
+          let transferAmount = await this.mock.transferAmount();
+          expect(transferAmount).to.be.bignumber.equal(new BN(0));
           await transferFun.call(this, this.mock.address, value, { from: initialHolder });
-          transferNumber = await this.mock.transferNumber();
-          expect(transferNumber).to.be.bignumber.equal(new BN(1));
+          transferAmount = await this.mock.transferAmount();
+          expect(transferAmount).to.be.bignumber.equal(value);
         });
       };
 
@@ -115,11 +115,11 @@ function shouldBehaveLikeERC1363Guardian([initialHolder, spender], balance) {
         });
 
         it('should execute _approvalReceived', async function () {
-          let approvalNumber = await this.mock.approvalNumber();
-          expect(approvalNumber).to.be.bignumber.equal(new BN(0));
+          let approvalAmount = await this.mock.approvalAmount();
+          expect(approvalAmount).to.be.bignumber.equal(new BN(0));
           await approveFun.call(this, this.mock.address, value, { from: initialHolder });
-          approvalNumber = await this.mock.approvalNumber();
-          expect(approvalNumber).to.be.bignumber.equal(new BN(1));
+          approvalAmount = await this.mock.approvalAmount();
+          expect(approvalAmount).to.be.bignumber.equal(value);
         });
       };
 
