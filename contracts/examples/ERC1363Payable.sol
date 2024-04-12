@@ -2,19 +2,23 @@
 
 pragma solidity ^0.8.20;
 
-import {IERC1363} from "../token/ERC1363/IERC1363.sol";
-import {ERC1363Guardian} from "./ERC1363Guardian.sol";
+import {IERC1363, IERC20} from "../token/ERC1363/IERC1363.sol";
+import {ERC1363Guardian} from "../presets/ERC1363Guardian.sol";
 
 /**
  * @title ERC1363Payable
- * @dev Implementation of a contract that allows to accept ERC-1363 payments via transfers or approvals.
+ * @dev Implementation of an example contract that allows to test accepting ERC-1363 deposits via transfers or approvals.
  *
- * IMPORTANT: When inheriting or copying from this contract, you must include a way to use the received tokens,
+ * IMPORTANT: This contract is for testing purpose only. Do not use in production.
+ * When copying from this contract, you must include a way to use the received tokens,
  * otherwise they will be stuck into the contract.
  */
-abstract contract ERC1363Payable is ERC1363Guardian {
+contract ERC1363Payable is ERC1363Guardian {
     // The ERC-1363 token accepted
     address private _acceptedToken;
+
+    // a mapping of each user credit
+    mapping(address account => uint256) private _credits;
 
     /**
      * @dev Emitted if payment is done with a not accepted token.
@@ -48,18 +52,23 @@ abstract contract ERC1363Payable is ERC1363Guardian {
     }
 
     /**
+     * @dev Returns the value of tokens deposited by `account`.
+     */
+    function creditOf(address account) public view virtual returns (uint256) {
+        return _credits[account];
+    }
+
+    /**
      * @inheritdoc ERC1363Guardian
      */
     function _transferReceived(
-        address token,
+        address /* token */,
         address operator,
         address from,
         uint256 value,
         bytes calldata data
-    ) internal virtual override onlyAcceptedToken {
-        // optional override
-
-        super._transferReceived(token, operator, from, value, data);
+    ) internal override onlyAcceptedToken {
+        _deposit(operator, from, value, data);
     }
 
     /**
@@ -70,11 +79,14 @@ abstract contract ERC1363Payable is ERC1363Guardian {
         address owner,
         uint256 value,
         bytes calldata data
-    ) internal virtual override onlyAcceptedToken {
-        // optional override
-        // I.e. you could transfer the approved tokens into the `ERC1363Payable` contract by doing:
-        // IERC20(token).transferFrom(owner, address(this), value);
+    ) internal override onlyAcceptedToken {
+        IERC20(token).transferFrom(owner, address(this), value);
 
-        super._approvalReceived(token, owner, value, data);
+        _deposit(owner, owner, value, data);
+    }
+
+    function _deposit(address /* operator */, address from, uint256 value, bytes calldata /* data */) private {
+        // you should do any check and then update user credits
+        _credits[from] += value;
     }
 }

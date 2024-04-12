@@ -8,7 +8,8 @@ import {IERC1363Receiver} from "../token/ERC1363/IERC1363Receiver.sol";
  * @title ERC1363MethodCallReceiver
  * @dev Implementation of an example contract that allows to test passing methods via abi encoded function call.
  *
- * IMPORTANT: When copying from this contract, you must include a way to use the received tokens,
+ * IMPORTANT: This contract is for testing purpose only. Do not use in production.
+ * When copying from this contract, you must include a way to use the received tokens,
  * otherwise they will be stuck into the contract.
  */
 contract ERC1363MethodCallReceiver is IERC1363Receiver {
