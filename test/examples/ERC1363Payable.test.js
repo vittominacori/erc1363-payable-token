@@ -8,7 +8,7 @@ const ERC1363 = artifacts.require('$ERC1363');
 const ERC1363Payable = artifacts.require('$ERC1363PayableMock');
 const ERC20 = artifacts.require('$ERC20Mock');
 
-contract('ERC1363Payable', function ([owner, spender]) {
+contract('ERC1363Payable', function ([initialHolder, spender]) {
   const name = 'My Token';
   const symbol = 'MTKN';
   const balance = new BN(100);
@@ -28,8 +28,8 @@ contract('ERC1363Payable', function ([owner, spender]) {
       this.token = await ERC1363.new(name, symbol);
       this.notAcceptedToken = await ERC1363.new(name, symbol);
 
-      await this.token.$_mint(owner, balance);
-      await this.notAcceptedToken.$_mint(owner, balance);
+      await this.token.$_mint(initialHolder, balance);
+      await this.notAcceptedToken.$_mint(initialHolder, balance);
 
       this.mock = await ERC1363Payable.new(this.token.address);
     });
@@ -40,7 +40,7 @@ contract('ERC1363Payable', function ([owner, spender]) {
 
     context('with accepted token', function () {
       describe('accept payments and behave like a ERC1363Guardian', function () {
-        shouldBehaveLikeERC1363Guardian([owner, spender], balance);
+        shouldBehaveLikeERC1363Guardian([initialHolder, spender], balance);
       });
     });
 
@@ -51,7 +51,7 @@ contract('ERC1363Payable', function ([owner, spender]) {
       describe('receiving transfers', function () {
         describe('via transferFromAndCall', function () {
           beforeEach(async function () {
-            await this.notAcceptedToken.approve(spender, value, { from: owner });
+            await this.notAcceptedToken.approve(spender, value, { from: initialHolder });
           });
 
           const transferFromAndCallWithData = function (from, to, value, opts) {
@@ -70,13 +70,13 @@ contract('ERC1363Payable', function ([owner, spender]) {
 
           it('reverts', async function () {
             await expectRevertCustomError(
-              transferFromAndCallWithData.call(this, owner, this.mock.address, value, { from: spender }),
+              transferFromAndCallWithData.call(this, initialHolder, this.mock.address, value, { from: spender }),
               'NotAcceptedToken',
               [this.notAcceptedToken.address, this.token.address],
             );
 
             await expectRevertCustomError(
-              transferFromAndCallWithoutData.call(this, owner, this.mock.address, value, { from: spender }),
+              transferFromAndCallWithoutData.call(this, initialHolder, this.mock.address, value, { from: spender }),
               'NotAcceptedToken',
               [this.notAcceptedToken.address, this.token.address],
             );
@@ -94,13 +94,13 @@ contract('ERC1363Payable', function ([owner, spender]) {
 
           it('reverts', async function () {
             await expectRevertCustomError(
-              transferAndCallWithData.call(this, this.mock.address, value, { from: owner }),
+              transferAndCallWithData.call(this, this.mock.address, value, { from: initialHolder }),
               'NotAcceptedToken',
               [this.notAcceptedToken.address, this.token.address],
             );
 
             await expectRevertCustomError(
-              transferAndCallWithoutData.call(this, this.mock.address, value, { from: owner }),
+              transferAndCallWithoutData.call(this, this.mock.address, value, { from: initialHolder }),
               'NotAcceptedToken',
               [this.notAcceptedToken.address, this.token.address],
             );
@@ -120,13 +120,13 @@ contract('ERC1363Payable', function ([owner, spender]) {
 
           it('reverts', async function () {
             await expectRevertCustomError(
-              approveAndCallWithData.call(this, this.mock.address, value, { from: owner }),
+              approveAndCallWithData.call(this, this.mock.address, value, { from: initialHolder }),
               'NotAcceptedToken',
               [this.notAcceptedToken.address, this.token.address],
             );
 
             await expectRevertCustomError(
-              approveAndCallWithoutData.call(this, this.mock.address, value, { from: owner }),
+              approveAndCallWithoutData.call(this, this.mock.address, value, { from: initialHolder }),
               'NotAcceptedToken',
               [this.notAcceptedToken.address, this.token.address],
             );

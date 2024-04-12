@@ -3,14 +3,14 @@ const { expect } = require('chai');
 
 const ERC1363Guardian = artifacts.require('ERC1363GuardianMock');
 
-function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
+function shouldBehaveLikeERC1363Guardian([initialHolder, spender], balance) {
   const value = balance;
   const data = '0x42';
 
   describe('receiving transfers', function () {
     describe('via transferFromAndCall', function () {
       beforeEach(async function () {
-        await this.token.approve(spender, value, { from: owner });
+        await this.token.approve(spender, value, { from: initialHolder });
       });
 
       const transferFromAndCallWithData = function (from, to, value, opts) {
@@ -23,12 +23,12 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
 
       const shouldTransferFromSafely = function (transferFun, data) {
         it('should call onTransferReceived', async function () {
-          const receipt = await transferFun.call(this, owner, this.mock.address, value, { from: spender });
+          const receipt = await transferFun.call(this, initialHolder, this.mock.address, value, { from: spender });
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Guardian, 'TokensReceived', {
             token: this.token.address,
             operator: spender,
-            from: owner,
+            from: initialHolder,
             value: value,
             data,
           });
@@ -37,7 +37,7 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
         it('should execute _transferReceived', async function () {
           let transferNumber = await this.mock.transferNumber();
           expect(transferNumber).to.be.bignumber.equal(new BN(0));
-          await transferFun.call(this, owner, this.mock.address, value, { from: spender });
+          await transferFun.call(this, initialHolder, this.mock.address, value, { from: spender });
           transferNumber = await this.mock.transferNumber();
           expect(transferNumber).to.be.bignumber.equal(new BN(1));
         });
@@ -63,11 +63,11 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
 
       const shouldTransferSafely = function (transferFun, data) {
         it('should call onTransferReceived', async function () {
-          const receipt = await transferFun.call(this, this.mock.address, value, { from: owner });
+          const receipt = await transferFun.call(this, this.mock.address, value, { from: initialHolder });
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Guardian, 'TokensReceived', {
-            operator: owner,
-            from: owner,
+            operator: initialHolder,
+            from: initialHolder,
             value: value,
             data,
           });
@@ -76,7 +76,7 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
         it('should execute _transferReceived', async function () {
           let transferNumber = await this.mock.transferNumber();
           expect(transferNumber).to.be.bignumber.equal(new BN(0));
-          await transferFun.call(this, this.mock.address, value, { from: owner });
+          await transferFun.call(this, this.mock.address, value, { from: initialHolder });
           transferNumber = await this.mock.transferNumber();
           expect(transferNumber).to.be.bignumber.equal(new BN(1));
         });
@@ -104,11 +104,11 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
 
       const shouldApproveSafely = function (approveFun, data) {
         it('should call onApprovalReceived', async function () {
-          const receipt = await approveFun.call(this, this.mock.address, value, { from: owner });
+          const receipt = await approveFun.call(this, this.mock.address, value, { from: initialHolder });
 
           await expectEvent.inTransaction(receipt.tx, ERC1363Guardian, 'TokensApproved', {
             token: this.token.address,
-            owner: owner,
+            owner: initialHolder,
             value: value,
             data,
           });
@@ -117,7 +117,7 @@ function shouldBehaveLikeERC1363Guardian([owner, spender], balance) {
         it('should execute _approvalReceived', async function () {
           let approvalNumber = await this.mock.approvalNumber();
           expect(approvalNumber).to.be.bignumber.equal(new BN(0));
-          await approveFun.call(this, this.mock.address, value, { from: owner });
+          await approveFun.call(this, this.mock.address, value, { from: initialHolder });
           approvalNumber = await this.mock.approvalNumber();
           expect(approvalNumber).to.be.bignumber.equal(new BN(1));
         });
