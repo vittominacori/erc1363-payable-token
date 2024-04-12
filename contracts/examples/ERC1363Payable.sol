@@ -47,14 +47,14 @@ contract ERC1363Payable is ERC1363Guardian {
     /**
      * @dev Returns the accepted token for payments.
      */
-    function acceptedToken() public view returns (address) {
+    function acceptedToken() external view returns (address) {
         return _acceptedToken;
     }
 
     /**
      * @dev Returns the value of tokens deposited by `account`.
      */
-    function creditOf(address account) public view virtual returns (uint256) {
+    function creditOf(address account) external view returns (uint256) {
         return _credits[account];
     }
 
