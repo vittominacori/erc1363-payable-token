@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-// Sources flattened with hardhat v2.22.5 https://hardhat.org
+// Sources flattened with hardhat v2.22.9 https://hardhat.org
 
 
 
@@ -925,7 +925,7 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
         if (!transfer(to, value)) {
             revert ERC1363TransferFailed(to, value);
         }
-        _checkOnTransferReceived(_msgSender(), to, value, data);
+        _checkOnERC1363TransferReceived(_msgSender(), to, value, data);
         return true;
     }
 
@@ -948,7 +948,7 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
         if (!transferFrom(from, to, value)) {
             revert ERC1363TransferFromFailed(from, to, value);
         }
-        _checkOnTransferReceived(from, to, value, data);
+        _checkOnERC1363TransferReceived(from, to, value, data);
         return true;
     }
 
@@ -966,7 +966,7 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
         if (!approve(spender, value)) {
             revert ERC1363ApproveFailed(spender, value);
         }
-        _checkOnApprovalReceived(spender, value, data);
+        _checkOnERC1363ApprovalReceived(spender, value, data);
         return true;
     }
 
@@ -981,7 +981,7 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
      * @param value The amount of tokens to be transferred.
      * @param data Optional data to send along with the call.
      */
-    function _checkOnTransferReceived(address from, address to, uint256 value, bytes memory data) private {
+    function _checkOnERC1363TransferReceived(address from, address to, uint256 value, bytes memory data) private {
         if (to.code.length == 0) {
             revert ERC1363EOAReceiver(to);
         }
@@ -1011,7 +1011,7 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
      * @param value The amount of tokens to be spent.
      * @param data Optional data to send along with the call.
      */
-    function _checkOnApprovalReceived(address spender, uint256 value, bytes memory data) private {
+    function _checkOnERC1363ApprovalReceived(address spender, uint256 value, bytes memory data) private {
         if (spender.code.length == 0) {
             revert ERC1363EOASpender(spender);
         }
