@@ -263,6 +263,151 @@ _Sets a `value` amount of tokens as the allowance of `spender` over the caller's
 | ---- | ---- | ----------- |
 | [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
 
+## ERC1363Utils
+
+### ERC1363EOAReceiver
+
+```solidity
+error ERC1363EOAReceiver(address receiver)
+```
+
+_Indicates a failure with the token `receiver` as it can't be an EOA. Used in transfers._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| receiver | address | The address to which tokens are being transferred. |
+
+### ERC1363EOASpender
+
+```solidity
+error ERC1363EOASpender(address spender)
+```
+
+_Indicates a failure with the token `spender` as it can't be an EOA. Used in approvals._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| spender | address | The address which will spend the funds. |
+
+### ERC1363InvalidReceiver
+
+```solidity
+error ERC1363InvalidReceiver(address receiver)
+```
+
+_Indicates a failure with the token `receiver`. Used in transfers._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| receiver | address | The address to which tokens are being transferred. |
+
+### ERC1363InvalidSpender
+
+```solidity
+error ERC1363InvalidSpender(address spender)
+```
+
+_Indicates a failure with the token `spender`. Used in approvals._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| spender | address | The address which will spend the funds. |
+
+### ERC1363TransferFailed
+
+```solidity
+error ERC1363TransferFailed(address receiver, uint256 value)
+```
+
+_Indicates a failure with the ERC-20 `transfer` during a `transferAndCall` operation. Used in transfers._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| receiver | address | The address to which tokens are being transferred. |
+| value | uint256 | The amount of tokens to be transferred. |
+
+### ERC1363TransferFromFailed
+
+```solidity
+error ERC1363TransferFromFailed(address sender, address receiver, uint256 value)
+```
+
+_Indicates a failure with the ERC-20 `transferFrom` during a `transferFromAndCall` operation. Used in transfers._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| sender | address | The address from which to send tokens. |
+| receiver | address | The address to which tokens are being transferred. |
+| value | uint256 | The amount of tokens to be transferred. |
+
+### ERC1363ApproveFailed
+
+```solidity
+error ERC1363ApproveFailed(address spender, uint256 value)
+```
+
+_Indicates a failure with the ERC-20 `approve` during a `approveAndCall` operation. Used in approvals._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| spender | address | The address which will spend the funds. |
+| value | uint256 | The amount of tokens to be spent. |
+
+### checkOnERC1363TransferReceived
+
+```solidity
+function checkOnERC1363TransferReceived(address operator, address from, address to, uint256 value, bytes data) internal
+```
+
+_Performs a call to `IERC1363Receiver::onTransferReceived` on a target address.
+This will revert if the target doesn't implement the `IERC1363Receiver` interface or
+if the target doesn't accept the token transfer or
+if the target address is not a contract._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| operator | address | The address which performed the call. |
+| from | address | Address representing the previous owner of the given token amount. |
+| to | address | Target address that will receive the tokens. |
+| value | uint256 | The amount of tokens to be transferred. |
+| data | bytes | Optional data to send along with the call. |
+
+### checkOnERC1363ApprovalReceived
+
+```solidity
+function checkOnERC1363ApprovalReceived(address operator, address spender, uint256 value, bytes data) internal
+```
+
+_Performs a call to `IERC1363Spender::onApprovalReceived` on a target address.
+This will revert if the target doesn't implement the `IERC1363Spender` interface or
+if the target doesn't accept the token approval or
+if the target address is not a contract._
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| operator | address | The address which performed the call. |
+| spender | address | The address which will spend the funds. |
+| value | uint256 | The amount of tokens to be spent. |
+| data | bytes | Optional data to send along with the call. |
+
 ## IERC1363
 
 _Interface of the ERC-1363 standard as defined in the https://eips.ethereum.org/EIPS/eip-1363[ERC-1363].
@@ -399,112 +544,6 @@ _Sets a `value` amount of tokens as the allowance of `spender` over the caller's
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | [0] | bool | A boolean value indicating the operation succeeded unless throwing. |
-
-## IERC1363Errors
-
-_Interface of the ERC-1363 custom errors following the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] rationale._
-
-### ERC1363EOAReceiver
-
-```solidity
-error ERC1363EOAReceiver(address receiver)
-```
-
-_Indicates a failure with the token `receiver` as it can't be an EOA. Used in transfers._
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| receiver | address | The address to which tokens are being transferred. |
-
-### ERC1363EOASpender
-
-```solidity
-error ERC1363EOASpender(address spender)
-```
-
-_Indicates a failure with the token `spender` as it can't be an EOA. Used in approvals._
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| spender | address | The address which will spend the funds. |
-
-### ERC1363InvalidReceiver
-
-```solidity
-error ERC1363InvalidReceiver(address receiver)
-```
-
-_Indicates a failure with the token `receiver`. Used in transfers._
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| receiver | address | The address to which tokens are being transferred. |
-
-### ERC1363InvalidSpender
-
-```solidity
-error ERC1363InvalidSpender(address spender)
-```
-
-_Indicates a failure with the token `spender`. Used in approvals._
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| spender | address | The address which will spend the funds. |
-
-### ERC1363TransferFailed
-
-```solidity
-error ERC1363TransferFailed(address receiver, uint256 value)
-```
-
-_Indicates a failure with the ERC-20 `transfer` during a `transferAndCall` operation. Used in transfers._
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| receiver | address | The address to which tokens are being transferred. |
-| value | uint256 | The amount of tokens to be transferred. |
-
-### ERC1363TransferFromFailed
-
-```solidity
-error ERC1363TransferFromFailed(address sender, address receiver, uint256 value)
-```
-
-_Indicates a failure with the ERC-20 `transferFrom` during a `transferFromAndCall` operation. Used in transfers._
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| sender | address | The address from which to send tokens. |
-| receiver | address | The address to which tokens are being transferred. |
-| value | uint256 | The amount of tokens to be transferred. |
-
-### ERC1363ApproveFailed
-
-```solidity
-error ERC1363ApproveFailed(address spender, uint256 value)
-```
-
-_Indicates a failure with the ERC-20 `approve` during a `approveAndCall` operation. Used in approvals._
-
-#### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| spender | address | The address which will spend the funds. |
-| value | uint256 | The amount of tokens to be spent. |
 
 ## IERC1363Receiver
 

@@ -91,11 +91,11 @@ interface IERC1363Spender {
 }
 ```
 
-### IERC1363Errors
+### ERC1363Utils
 
-[IERC1363Errors.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/IERC1363Errors.sol)
+[ERC1363Utils.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/ERC1363Utils.sol)
 
-Interface of the ERC-1363 custom errors following the [ERC-6093](https://eips.ethereum.org/EIPS/eip-6093) rationale.
+Library that provides common ERC-1363 utility functions and custom errors.
 
 ### ERC1363
 

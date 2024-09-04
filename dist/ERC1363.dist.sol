@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-// Sources flattened with hardhat v2.22.9 https://hardhat.org
+// Sources flattened with hardhat v2.22.10 https://hardhat.org
 
 
 
@@ -688,6 +688,196 @@ abstract contract ERC165 is IERC165 {
 }
 
 
+// File contracts/token/ERC1363/IERC1363Receiver.sol
+
+// Original license: SPDX_License_Identifier: MIT
+
+pragma solidity ^0.8.20;
+
+/**
+ * @title IERC1363Receiver
+ * @dev Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall` from ERC-1363 token contracts.
+ */
+interface IERC1363Receiver {
+    /**
+     * @dev Whenever ERC-1363 tokens are transferred to this contract via `IERC1363::transferAndCall` or `IERC1363::transferFromAndCall` by `operator` from `from`, this function is called.
+     *
+     * NOTE: To accept the transfer, this must return
+     * `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
+     * (i.e. 0x88a7ca5c, or its own function selector).
+     *
+     * @param operator The address which called `transferAndCall` or `transferFromAndCall` function.
+     * @param from The address which are tokens transferred from.
+     * @param value The amount of tokens transferred.
+     * @param data Additional data with no specified format.
+     * @return `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))` if transfer is allowed unless throwing.
+     */
+    function onTransferReceived(
+        address operator,
+        address from,
+        uint256 value,
+        bytes calldata data
+    ) external returns (bytes4);
+}
+
+
+// File contracts/token/ERC1363/IERC1363Spender.sol
+
+// Original license: SPDX_License_Identifier: MIT
+
+pragma solidity ^0.8.20;
+
+/**
+ * @title ERC1363Spender
+ * @dev Interface for any contract that wants to support `approveAndCall` from ERC-1363 token contracts.
+ */
+interface IERC1363Spender {
+    /**
+     * @dev Whenever an ERC-1363 tokens `owner` approves this contract via `IERC1363::approveAndCall` to spend their tokens, this function is called.
+     *
+     * NOTE: To accept the approval, this must return
+     * `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
+     * (i.e. 0x7b04a2d0, or its own function selector).
+     *
+     * @param owner The address which called `approveAndCall` function and previously owned the tokens.
+     * @param value The amount of tokens to be spent.
+     * @param data Additional data with no specified format.
+     * @return `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))` if approval is allowed unless throwing.
+     */
+    function onApprovalReceived(address owner, uint256 value, bytes calldata data) external returns (bytes4);
+}
+
+
+// File contracts/token/ERC1363/ERC1363Utils.sol
+
+// Original license: SPDX_License_Identifier: MIT
+
+pragma solidity ^0.8.20;
+
+
+library ERC1363Utils {
+    /**
+     * @dev Indicates a failure with the token `receiver` as it can't be an EOA. Used in transfers.
+     * @param receiver The address to which tokens are being transferred.
+     */
+    error ERC1363EOAReceiver(address receiver);
+
+    /**
+     * @dev Indicates a failure with the token `spender` as it can't be an EOA. Used in approvals.
+     * @param spender The address which will spend the funds.
+     */
+    error ERC1363EOASpender(address spender);
+
+    /**
+     * @dev Indicates a failure with the token `receiver`. Used in transfers.
+     * @param receiver The address to which tokens are being transferred.
+     */
+    error ERC1363InvalidReceiver(address receiver);
+
+    /**
+     * @dev Indicates a failure with the token `spender`. Used in approvals.
+     * @param spender The address which will spend the funds.
+     */
+    error ERC1363InvalidSpender(address spender);
+
+    /**
+     * @dev Indicates a failure with the ERC-20 `transfer` during a `transferAndCall` operation. Used in transfers.
+     * @param receiver The address to which tokens are being transferred.
+     * @param value The amount of tokens to be transferred.
+     */
+    error ERC1363TransferFailed(address receiver, uint256 value);
+
+    /**
+     * @dev Indicates a failure with the ERC-20 `transferFrom` during a `transferFromAndCall` operation. Used in transfers.
+     * @param sender The address from which to send tokens.
+     * @param receiver The address to which tokens are being transferred.
+     * @param value The amount of tokens to be transferred.
+     */
+    error ERC1363TransferFromFailed(address sender, address receiver, uint256 value);
+
+    /**
+     * @dev Indicates a failure with the ERC-20 `approve` during a `approveAndCall` operation. Used in approvals.
+     * @param spender The address which will spend the funds.
+     * @param value The amount of tokens to be spent.
+     */
+    error ERC1363ApproveFailed(address spender, uint256 value);
+
+    /**
+     * @dev Performs a call to `IERC1363Receiver::onTransferReceived` on a target address.
+     * This will revert if the target doesn't implement the `IERC1363Receiver` interface or
+     * if the target doesn't accept the token transfer or
+     * if the target address is not a contract.
+     *
+     * @param operator The address which performed the call.
+     * @param from Address representing the previous owner of the given token amount.
+     * @param to Target address that will receive the tokens.
+     * @param value The amount of tokens to be transferred.
+     * @param data Optional data to send along with the call.
+     */
+    function checkOnERC1363TransferReceived(
+        address operator,
+        address from,
+        address to,
+        uint256 value,
+        bytes memory data
+    ) internal {
+        if (to.code.length == 0) {
+            revert ERC1363EOAReceiver(to);
+        }
+
+        try IERC1363Receiver(to).onTransferReceived(operator, from, value, data) returns (bytes4 retval) {
+            if (retval != IERC1363Receiver.onTransferReceived.selector) {
+                revert ERC1363InvalidReceiver(to);
+            }
+        } catch (bytes memory reason) {
+            if (reason.length == 0) {
+                revert ERC1363InvalidReceiver(to);
+            } else {
+                assembly {
+                    revert(add(32, reason), mload(reason))
+                }
+            }
+        }
+    }
+
+    /**
+     * @dev Performs a call to `IERC1363Spender::onApprovalReceived` on a target address.
+     * This will revert if the target doesn't implement the `IERC1363Spender` interface or
+     * if the target doesn't accept the token approval or
+     * if the target address is not a contract.
+     *
+     * @param operator The address which performed the call.
+     * @param spender The address which will spend the funds.
+     * @param value The amount of tokens to be spent.
+     * @param data Optional data to send along with the call.
+     */
+    function checkOnERC1363ApprovalReceived(
+        address operator,
+        address spender,
+        uint256 value,
+        bytes memory data
+    ) internal {
+        if (spender.code.length == 0) {
+            revert ERC1363EOASpender(spender);
+        }
+
+        try IERC1363Spender(spender).onApprovalReceived(operator, value, data) returns (bytes4 retval) {
+            if (retval != IERC1363Spender.onApprovalReceived.selector) {
+                revert ERC1363InvalidSpender(spender);
+            }
+        } catch (bytes memory reason) {
+            if (reason.length == 0) {
+                revert ERC1363InvalidSpender(spender);
+            } else {
+                assembly {
+                    revert(add(32, reason), mload(reason))
+                }
+            }
+        }
+    }
+}
+
+
 // File contracts/token/ERC1363/IERC1363.sol
 
 // Original license: SPDX_License_Identifier: MIT
@@ -768,132 +958,11 @@ interface IERC1363 is IERC20, IERC165 {
 }
 
 
-// File contracts/token/ERC1363/IERC1363Errors.sol
-
-// Original license: SPDX_License_Identifier: MIT
-
-pragma solidity ^0.8.20;
-
-/**
- * @title IERC1363Errors
- * @dev Interface of the ERC-1363 custom errors following the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] rationale.
- */
-interface IERC1363Errors {
-    /**
-     * @dev Indicates a failure with the token `receiver` as it can't be an EOA. Used in transfers.
-     * @param receiver The address to which tokens are being transferred.
-     */
-    error ERC1363EOAReceiver(address receiver);
-
-    /**
-     * @dev Indicates a failure with the token `spender` as it can't be an EOA. Used in approvals.
-     * @param spender The address which will spend the funds.
-     */
-    error ERC1363EOASpender(address spender);
-
-    /**
-     * @dev Indicates a failure with the token `receiver`. Used in transfers.
-     * @param receiver The address to which tokens are being transferred.
-     */
-    error ERC1363InvalidReceiver(address receiver);
-
-    /**
-     * @dev Indicates a failure with the token `spender`. Used in approvals.
-     * @param spender The address which will spend the funds.
-     */
-    error ERC1363InvalidSpender(address spender);
-
-    /**
-     * @dev Indicates a failure with the ERC-20 `transfer` during a `transferAndCall` operation. Used in transfers.
-     * @param receiver The address to which tokens are being transferred.
-     * @param value The amount of tokens to be transferred.
-     */
-    error ERC1363TransferFailed(address receiver, uint256 value);
-
-    /**
-     * @dev Indicates a failure with the ERC-20 `transferFrom` during a `transferFromAndCall` operation. Used in transfers.
-     * @param sender The address from which to send tokens.
-     * @param receiver The address to which tokens are being transferred.
-     * @param value The amount of tokens to be transferred.
-     */
-    error ERC1363TransferFromFailed(address sender, address receiver, uint256 value);
-
-    /**
-     * @dev Indicates a failure with the ERC-20 `approve` during a `approveAndCall` operation. Used in approvals.
-     * @param spender The address which will spend the funds.
-     * @param value The amount of tokens to be spent.
-     */
-    error ERC1363ApproveFailed(address spender, uint256 value);
-}
-
-
-// File contracts/token/ERC1363/IERC1363Receiver.sol
-
-// Original license: SPDX_License_Identifier: MIT
-
-pragma solidity ^0.8.20;
-
-/**
- * @title IERC1363Receiver
- * @dev Interface for any contract that wants to support `transferAndCall` or `transferFromAndCall` from ERC-1363 token contracts.
- */
-interface IERC1363Receiver {
-    /**
-     * @dev Whenever ERC-1363 tokens are transferred to this contract via `IERC1363::transferAndCall` or `IERC1363::transferFromAndCall` by `operator` from `from`, this function is called.
-     *
-     * NOTE: To accept the transfer, this must return
-     * `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))`
-     * (i.e. 0x88a7ca5c, or its own function selector).
-     *
-     * @param operator The address which called `transferAndCall` or `transferFromAndCall` function.
-     * @param from The address which are tokens transferred from.
-     * @param value The amount of tokens transferred.
-     * @param data Additional data with no specified format.
-     * @return `bytes4(keccak256("onTransferReceived(address,address,uint256,bytes)"))` if transfer is allowed unless throwing.
-     */
-    function onTransferReceived(
-        address operator,
-        address from,
-        uint256 value,
-        bytes calldata data
-    ) external returns (bytes4);
-}
-
-
-// File contracts/token/ERC1363/IERC1363Spender.sol
-
-// Original license: SPDX_License_Identifier: MIT
-
-pragma solidity ^0.8.20;
-
-/**
- * @title ERC1363Spender
- * @dev Interface for any contract that wants to support `approveAndCall` from ERC-1363 token contracts.
- */
-interface IERC1363Spender {
-    /**
-     * @dev Whenever an ERC-1363 tokens `owner` approves this contract via `IERC1363::approveAndCall` to spend their tokens, this function is called.
-     *
-     * NOTE: To accept the approval, this must return
-     * `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))`
-     * (i.e. 0x7b04a2d0, or its own function selector).
-     *
-     * @param owner The address which called `approveAndCall` function and previously owned the tokens.
-     * @param value The amount of tokens to be spent.
-     * @param data Additional data with no specified format.
-     * @return `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))` if approval is allowed unless throwing.
-     */
-    function onApprovalReceived(address owner, uint256 value, bytes calldata data) external returns (bytes4);
-}
-
-
 // File contracts/token/ERC1363/ERC1363.sol
 
 // Original license: SPDX_License_Identifier: MIT
 
 pragma solidity ^0.8.20;
-
-
 
 
 
@@ -903,7 +972,7 @@ pragma solidity ^0.8.20;
  *
  * Extension of ERC-20 tokens that supports executing code on a recipient contract after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.
  */
-abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
+abstract contract ERC1363 is ERC20, ERC165, IERC1363 {
     /**
      * @inheritdoc IERC165
      */
@@ -923,9 +992,9 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
      */
     function transferAndCall(address to, uint256 value, bytes memory data) public virtual returns (bool) {
         if (!transfer(to, value)) {
-            revert ERC1363TransferFailed(to, value);
+            revert ERC1363Utils.ERC1363TransferFailed(to, value);
         }
-        _checkOnERC1363TransferReceived(_msgSender(), to, value, data);
+        ERC1363Utils.checkOnERC1363TransferReceived(_msgSender(), _msgSender(), to, value, data);
         return true;
     }
 
@@ -946,9 +1015,9 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
         bytes memory data
     ) public virtual returns (bool) {
         if (!transferFrom(from, to, value)) {
-            revert ERC1363TransferFromFailed(from, to, value);
+            revert ERC1363Utils.ERC1363TransferFromFailed(from, to, value);
         }
-        _checkOnERC1363TransferReceived(from, to, value, data);
+        ERC1363Utils.checkOnERC1363TransferReceived(_msgSender(), from, to, value, data);
         return true;
     }
 
@@ -964,70 +1033,9 @@ abstract contract ERC1363 is ERC20, ERC165, IERC1363, IERC1363Errors {
      */
     function approveAndCall(address spender, uint256 value, bytes memory data) public virtual returns (bool) {
         if (!approve(spender, value)) {
-            revert ERC1363ApproveFailed(spender, value);
+            revert ERC1363Utils.ERC1363ApproveFailed(spender, value);
         }
-        _checkOnERC1363ApprovalReceived(spender, value, data);
+        ERC1363Utils.checkOnERC1363ApprovalReceived(_msgSender(), spender, value, data);
         return true;
-    }
-
-    /**
-     * @dev Performs a call to `IERC1363Receiver::onTransferReceived` on a target address.
-     * This will revert if the target doesn't implement the `IERC1363Receiver` interface or
-     * if the target doesn't accept the token transfer or
-     * if the target address is not a contract.
-     *
-     * @param from Address representing the previous owner of the given token amount.
-     * @param to Target address that will receive the tokens.
-     * @param value The amount of tokens to be transferred.
-     * @param data Optional data to send along with the call.
-     */
-    function _checkOnERC1363TransferReceived(address from, address to, uint256 value, bytes memory data) private {
-        if (to.code.length == 0) {
-            revert ERC1363EOAReceiver(to);
-        }
-
-        try IERC1363Receiver(to).onTransferReceived(_msgSender(), from, value, data) returns (bytes4 retval) {
-            if (retval != IERC1363Receiver.onTransferReceived.selector) {
-                revert ERC1363InvalidReceiver(to);
-            }
-        } catch (bytes memory reason) {
-            if (reason.length == 0) {
-                revert ERC1363InvalidReceiver(to);
-            } else {
-                assembly {
-                    revert(add(32, reason), mload(reason))
-                }
-            }
-        }
-    }
-
-    /**
-     * @dev Performs a call to `IERC1363Spender::onApprovalReceived` on a target address.
-     * This will revert if the target doesn't implement the `IERC1363Spender` interface or
-     * if the target doesn't accept the token approval or
-     * if the target address is not a contract.
-     *
-     * @param spender The address which will spend the funds.
-     * @param value The amount of tokens to be spent.
-     * @param data Optional data to send along with the call.
-     */
-    function _checkOnERC1363ApprovalReceived(address spender, uint256 value, bytes memory data) private {
-        if (spender.code.length == 0) {
-            revert ERC1363EOASpender(spender);
-        }
-
-        try IERC1363Spender(spender).onApprovalReceived(_msgSender(), value, data) returns (bytes4 retval) {
-            if (retval != IERC1363Spender.onApprovalReceived.selector) {
-                revert ERC1363InvalidSpender(spender);
-            }
-        } catch (bytes memory reason) {
-            if (reason.length == 0) {
-                revert ERC1363InvalidSpender(spender);
-            } else {
-                assembly {
-                    revert(add(32, reason), mload(reason))
-                }
-            }
-        }
     }
 }
