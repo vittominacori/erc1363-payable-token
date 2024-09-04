@@ -283,7 +283,7 @@ function shouldBehaveLikeERC1363(initialSupply, accounts) {
             it('transfers the requested amount', async function () {
               await transferFromAndCallWithData.call(this, initialHolder, this.to, value, { from: spender });
 
-              expect(await this.token.balanceOf(initialHolder)).to.be.bignumber.equal('');
+              expect(await this.token.balanceOf(initialHolder)).to.be.bignumber.equal('0');
 
               expect(await this.token.balanceOf(this.to)).to.be.bignumber.equal(value);
             });

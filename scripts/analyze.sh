@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
-npx surya inheritance dist/ERC1363.dist.sol | dot -Tpng > analysis/inheritance-tree/ERC1363.png
+for contract in "ERC1363" "ERC1363Mintable"
+do
+  npx surya inheritance dist/$contract.dist.sol | dot -Tpng > analysis/inheritance-tree/$contract.png
 
-npx surya graph dist/ERC1363.dist.sol | dot -Tpng > analysis/control-flow/ERC1363.png
+  npx surya graph dist/$contract.dist.sol | dot -Tpng > analysis/control-flow/$contract.png
 
-npx surya mdreport analysis/description-table/ERC1363.md dist/ERC1363.dist.sol
+  npx surya mdreport analysis/description-table/$contract.md dist/$contract.dist.sol
 
-npx sol2uml -hn dist/ERC1363.dist.sol -o analysis/uml/ERC1363.svg
+  npx sol2uml -hn dist/$contract.dist.sol -o analysis/uml/$contract.svg
+done

@@ -5,7 +5,7 @@
 
 |  File Name  |  SHA-1 Hash  |
 |-------------|--------------|
-| dist/ERC1363.dist.sol | [object Promise] |
+| dist/ERC1363Mintable.dist.sol | [object Promise] |
 
 
 ### Contracts Description Table
@@ -90,6 +90,10 @@
 | └ | transferFromAndCall | Public ❗️ | 🛑  |NO❗️ |
 | └ | approveAndCall | Public ❗️ | 🛑  |NO❗️ |
 | └ | approveAndCall | Public ❗️ | 🛑  |NO❗️ |
+||||||
+| **ERC1363Mintable** | Implementation | ERC1363 |||
+| └ | _mintAndCall | Internal 🔒 | 🛑  | |
+| └ | _mintAndCall | Internal 🔒 | 🛑  | |
 
 
 ### Legend
