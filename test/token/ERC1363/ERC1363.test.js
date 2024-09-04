@@ -22,10 +22,10 @@ contract('ERC1363', function (accounts) {
 
   context('ERC1363 behavior', function () {
     shouldBehaveLikeERC1363(initialSupply, accounts);
-  });
 
-  context('backward compatible with ERC20', function () {
-    shouldHaveERC20Properties(name, symbol, decimals, initialSupply, initialSupply, accounts);
-    shouldBehaveLikeERC20(initialSupply, accounts);
+    context('backward compatible with ERC20', function () {
+      shouldHaveERC20Properties(name, symbol, decimals, initialSupply, initialSupply, accounts);
+      shouldBehaveLikeERC20(initialSupply, accounts);
+    });
   });
 });

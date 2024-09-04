@@ -106,16 +106,52 @@ Implementation of the ERC-1363 interface.
 The reference implementation of ERC-1363 that extends ERC-20 and adds support for executing code after transfers and approvals on recipient contracts.
 
 > [!IMPORTANT]
-> `transferAndCall`, `transferFromAndCall` and `approveAndCall` revert if the recipient/spender is an EOA address. 
+> `transferAndCall`, `transferFromAndCall` and `approveAndCall` revert if the recipient/spender is an EOA (Externally Owned Account). 
 > 
 > To transfer tokens to an EOA or approve it to spend tokens, use the ERC-20 `transfer`, `transferFrom` or `approve` methods.
+
+## Extensions
+
+### ERC1363Mintable
+
+[ERC1363Mintable.sol](https://github.com/vittominacori/erc1363-payable-token/blob/master/contracts/token/ERC1363/extensions/ERC1363Mintable.sol)
+
+An extension of ERC-1363 that adds a `_mintAndCall` method. 
+
+This method allows to mint tokens to a receiver contract and then call the `onTransferReceived` callback.
+
+> [!NOTE]
+> `_mintAndCall` is an internal method, and you should call it from your derived contract.
+>
+> For instance, you may choose to check if the receiver is a contract or an EOA and call the `_mint` method instead.
+>
+> ```solidity
+> pragma solidity ^0.8.20;
+> 
+> // other imports
+> import "erc-payable-token/contracts/token/ERC1363/extensions/ERC1363Mintable.sol";
+> 
+> contract MyToken is ERC1363Mintable, Ownable {
+>     // your stuff
+>
+>     function safeMint(address account, uint256 value, bytes memory data) public onlyOwner {
+>         if (account.code.length == 0) {
+>             _mint(account, value);
+>         } else {
+>             _mintAndCall(account, value, data);
+>         }
+>     }
+>
+>     // your stuff
+> }
+> ```
 
 ## Presets
 
 > [!WARNING]
 > The `presets` contracts are ideas and suggestions for using ERC-1363 tokens within your contracts. 
 > 
-> When inheriting and copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
+> When inheriting or copying from these contracts, you must include a way to use the received tokens, otherwise they will be stuck into the contract.
 > 
 > Always test your contracts before going live.
 
