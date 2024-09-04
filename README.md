@@ -118,7 +118,7 @@ The reference implementation of ERC-1363 that extends ERC-20 and adds support fo
 
 An extension of ERC-1363 that adds a `_mintAndCall` method. 
 
-This method allows to mint tokens to a receiver contract and then call the `onTransferReceived` callback.
+This method allows to mint new tokens to a receiver contract and then call the `onTransferReceived` callback.
 
 > [!NOTE]
 > `_mintAndCall` is an internal method, and you should call it from your derived contract.
@@ -224,10 +224,18 @@ It executes the method passed via `data`. Methods emit a `MethodCall` event.
 
 ## Code Analysis
 
-* [Control Flow](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/control-flow/ERC1363.png)
-* [Description Table](https://github.com/vittominacori/erc1363-payable-token/blob/master/analysis/description-table/ERC1363.md)
-* [Inheritance Tree](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/inheritance-tree/ERC1363.png)
-* [UML](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/uml/ERC1363.svg)
+- Control Flow
+  - [ERC1363](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/control-flow/ERC1363.png)
+  - [ERC1363Mintable](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/control-flow/ERC1363Mintable.png)
+- Description Table
+  - [ERC1363](https://github.com/vittominacori/erc1363-payable-token/blob/master/analysis/description-table/ERC1363.md)
+  - [ERC1363Mintable](https://github.com/vittominacori/erc1363-payable-token/blob/master/analysis/description-table/ERC1363Mintable.md)
+- Inheritance Tree
+  - [ERC1363](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/inheritance-tree/ERC1363.png)
+  - [ERC1363Mintable](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/inheritance-tree/ERC1363Mintable.png)
+- UML
+  - [ERC1363](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/uml/ERC1363.svg)
+  - [ERC1363Mintable](https://raw.githubusercontent.com/vittominacori/erc1363-payable-token/master/analysis/uml/ERC1363Mintable.svg)
 
 ## Development
 

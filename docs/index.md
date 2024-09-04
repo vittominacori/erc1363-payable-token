@@ -606,3 +606,25 @@ NOTE: To accept the approval, this must return
 | ---- | ---- | ----------- |
 | [0] | bytes4 | `bytes4(keccak256("onApprovalReceived(address,uint256,bytes)"))` if approval is allowed unless throwing. |
 
+## ERC1363Mintable
+
+_Extension of ERC-1363 that adds a `_mintAndCall` method._
+
+### _mintAndCall
+
+```solidity
+function _mintAndCall(address account, uint256 value) internal
+```
+
+_Creates a `value` amount of tokens and assigns them to `account`, by transferring it from address(0).
+Then calls `IERC1363Receiver::onTransferReceived` on `account`._
+
+### _mintAndCall
+
+```solidity
+function _mintAndCall(address account, uint256 value, bytes data) internal
+```
+
+_Creates a `value` amount of tokens and assigns them to `account`, by transferring it from address(0).
+Then calls `IERC1363Receiver::onTransferReceived` on `account` with additional data._
+
