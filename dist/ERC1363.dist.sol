@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-// Sources flattened with hardhat v2.22.11 https://hardhat.org
+// Sources flattened with hardhat v2.22.12 https://hardhat.org
 
 
 
@@ -728,7 +728,7 @@ interface IERC1363Receiver {
 pragma solidity ^0.8.20;
 
 /**
- * @title ERC1363Spender
+ * @title IERC1363Spender
  * @dev Interface for any contract that wants to support `approveAndCall` from ERC-1363 token contracts.
  */
 interface IERC1363Spender {

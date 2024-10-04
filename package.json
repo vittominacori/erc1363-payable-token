@@ -1,6 +1,6 @@
 {
   "name": "erc-payable-token",
-  "version": "6.2.0",
+  "version": "6.2.1",
   "description": "ERC-1363 Payable Token Implementation",
   "files": [
     "contracts",
@@ -58,7 +58,7 @@
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-mocha-no-only": "^1.2.0",
     "graphlib": "^2.1.8",
-    "hardhat": "^2.22.11",
+    "hardhat": "^2.22.12",
     "hardhat-exposed": "^0.3.15",
     "hardhat-gas-reporter": "^2.2.1",
     "prettier": "^3.3.3",
