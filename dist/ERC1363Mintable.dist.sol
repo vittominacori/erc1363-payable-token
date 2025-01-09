@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 
-// Sources flattened with hardhat v2.22.13 https://hardhat.org
+// Sources flattened with hardhat v2.22.17 https://hardhat.org
 
 
 
-// File @openzeppelin/contracts/interfaces/draft-IERC6093.sol@v5.1.0
+// File @openzeppelin/contracts/interfaces/draft-IERC6093.sol@v5.2.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.1.0) (interfaces/draft-IERC6093.sol)
@@ -169,7 +169,7 @@ interface IERC1155Errors {
 }
 
 
-// File @openzeppelin/contracts/token/ERC20/IERC20.sol@v5.1.0
+// File @openzeppelin/contracts/token/ERC20/IERC20.sol@v5.2.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.1.0) (token/ERC20/IERC20.sol)
@@ -252,7 +252,7 @@ interface IERC20 {
 }
 
 
-// File @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol@v5.1.0
+// File @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol@v5.2.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.1.0) (token/ERC20/extensions/IERC20Metadata.sol)
@@ -280,7 +280,7 @@ interface IERC20Metadata is IERC20 {
 }
 
 
-// File @openzeppelin/contracts/utils/Context.sol@v5.1.0
+// File @openzeppelin/contracts/utils/Context.sol@v5.2.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)
@@ -312,10 +312,10 @@ abstract contract Context {
 }
 
 
-// File @openzeppelin/contracts/token/ERC20/ERC20.sol@v5.1.0
+// File @openzeppelin/contracts/token/ERC20/ERC20.sol@v5.2.0
 
 // Original license: SPDX_License_Identifier: MIT
-// OpenZeppelin Contracts (last updated v5.1.0) (token/ERC20/ERC20.sol)
+// OpenZeppelin Contracts (last updated v5.2.0) (token/ERC20/ERC20.sol)
 
 pragma solidity ^0.8.20;
 
@@ -614,7 +614,7 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
      */
     function _spendAllowance(address owner, address spender, uint256 value) internal virtual {
         uint256 currentAllowance = allowance(owner, spender);
-        if (currentAllowance != type(uint256).max) {
+        if (currentAllowance < type(uint256).max) {
             if (currentAllowance < value) {
                 revert ERC20InsufficientAllowance(spender, currentAllowance, value);
             }
@@ -626,7 +626,7 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
 }
 
 
-// File @openzeppelin/contracts/utils/introspection/IERC165.sol@v5.1.0
+// File @openzeppelin/contracts/utils/introspection/IERC165.sol@v5.2.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.1.0) (utils/introspection/IERC165.sol)
@@ -655,7 +655,7 @@ interface IERC165 {
 }
 
 
-// File @openzeppelin/contracts/utils/introspection/ERC165.sol@v5.1.0
+// File @openzeppelin/contracts/utils/introspection/ERC165.sol@v5.2.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.1.0) (utils/introspection/ERC165.sol)
