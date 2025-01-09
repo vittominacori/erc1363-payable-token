@@ -17,7 +17,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -32,7 +32,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
 
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -50,7 +50,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
 
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -59,7 +59,7 @@ jobs:
         run: npm run coverage
         
       - name: Post to Codecov
-        uses: codecov/codecov-action@v5.0.7
+        uses: codecov/codecov-action@v5
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -70,7 +70,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
 
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -87,10 +87,10 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
 
       - name: Run CodeSpell
-        uses: codespell-project/actions-codespell@v2.1
+        uses: codespell-project/actions-codespell@v2
         with:
           check_hidden: true
           check_filenames: true
