@@ -5,7 +5,7 @@
 
 |  File Name  |  SHA-1 Hash  |
 |-------------|--------------|
-| dist/ERC1363Mintable.dist.sol | 180cc5116a8700790c124b5ab4c97f377dd28f85 |
+| dist/ERC1363Mintable.dist.sol | 2504eb0ed390286191e114e8513e2b29189c7ec9 |
 
 
 ### Contracts Description Table
