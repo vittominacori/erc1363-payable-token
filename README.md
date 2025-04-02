@@ -75,7 +75,7 @@ Interface for any contract that wants to support `transferAndCall` or `transferF
 
 ```solidity
 interface IERC1363Receiver {
-    function onTransferReceived(address spender, address sender, uint256 amount, bytes calldata data) external returns (bytes4);
+    function onTransferReceived(address operator, address from, uint256 value, bytes calldata data) external returns (bytes4);
 }
 ```
 
@@ -87,7 +87,7 @@ Interface for any contract that wants to support `approveAndCall` from ERC-1363 
 
 ```solidity
 interface IERC1363Spender {
-    function onApprovalReceived(address sender, uint256 amount, bytes calldata data) external returns (bytes4);
+    function onApprovalReceived(address owner, uint256 value, bytes calldata data) external returns (bytes4);
 }
 ```
 
