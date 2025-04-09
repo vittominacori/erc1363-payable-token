@@ -4,7 +4,7 @@
 
 
 
-// File @openzeppelin/contracts/interfaces/draft-IERC6093.sol@v5.2.0
+// File @openzeppelin/contracts/interfaces/draft-IERC6093.sol@v5.3.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.1.0) (interfaces/draft-IERC6093.sol)
@@ -169,7 +169,7 @@ interface IERC1155Errors {
 }
 
 
-// File @openzeppelin/contracts/token/ERC20/IERC20.sol@v5.2.0
+// File @openzeppelin/contracts/token/ERC20/IERC20.sol@v5.3.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.1.0) (token/ERC20/IERC20.sol)
@@ -252,7 +252,7 @@ interface IERC20 {
 }
 
 
-// File @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol@v5.2.0
+// File @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol@v5.3.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.1.0) (token/ERC20/extensions/IERC20Metadata.sol)
@@ -280,7 +280,7 @@ interface IERC20Metadata is IERC20 {
 }
 
 
-// File @openzeppelin/contracts/utils/Context.sol@v5.2.0
+// File @openzeppelin/contracts/utils/Context.sol@v5.3.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)
@@ -312,10 +312,10 @@ abstract contract Context {
 }
 
 
-// File @openzeppelin/contracts/token/ERC20/ERC20.sol@v5.2.0
+// File @openzeppelin/contracts/token/ERC20/ERC20.sol@v5.3.0
 
 // Original license: SPDX_License_Identifier: MIT
-// OpenZeppelin Contracts (last updated v5.2.0) (token/ERC20/ERC20.sol)
+// OpenZeppelin Contracts (last updated v5.3.0) (token/ERC20/ERC20.sol)
 
 pragma solidity ^0.8.20;
 
@@ -353,8 +353,7 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
     /**
      * @dev Sets the values for {name} and {symbol}.
      *
-     * All two of these values are immutable: they can only be set once during
-     * construction.
+     * Both values are immutable: they can only be set once during construction.
      */
     constructor(string memory name_, string memory symbol_) {
         _name = name_;
@@ -555,7 +554,7 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
     }
 
     /**
-     * @dev Sets `value` as the allowance of `spender` over the `owner` s tokens.
+     * @dev Sets `value` as the allowance of `spender` over the `owner`'s tokens.
      *
      * This internal function is equivalent to `approve`, and can be used to
      * e.g. set automatic allowances for certain subsystems, etc.
@@ -605,7 +604,7 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
     }
 
     /**
-     * @dev Updates `owner` s allowance for `spender` based on spent `value`.
+     * @dev Updates `owner`'s allowance for `spender` based on spent `value`.
      *
      * Does not update the allowance value in case of infinite allowance.
      * Revert if not enough allowance is available.
@@ -626,7 +625,7 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
 }
 
 
-// File @openzeppelin/contracts/utils/introspection/IERC165.sol@v5.2.0
+// File @openzeppelin/contracts/utils/introspection/IERC165.sol@v5.3.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.1.0) (utils/introspection/IERC165.sol)
@@ -655,7 +654,7 @@ interface IERC165 {
 }
 
 
-// File @openzeppelin/contracts/utils/introspection/ERC165.sol@v5.2.0
+// File @openzeppelin/contracts/utils/introspection/ERC165.sol@v5.3.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.1.0) (utils/introspection/ERC165.sol)
