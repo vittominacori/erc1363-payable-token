@@ -1,5 +1,3 @@
-const { expect } = require('chai');
-
 /** Revert handler that supports custom errors. */
 async function expectRevertCustomError(promise, expectedErrorName, args) {
   if (!Array.isArray(args)) {

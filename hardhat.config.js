@@ -1,3 +1,4 @@
+require('@nomicfoundation/hardhat-chai-matchers');
 require('@nomiclabs/hardhat-truffle5');
 require('hardhat-exposed');
 require('hardhat-gas-reporter');
@@ -7,7 +8,7 @@ require('solidity-docgen');
 module.exports = {
   defaultNetwork: 'hardhat',
   solidity: {
-    version: '0.8.29',
+    version: '0.8.30',
     settings: {
       evmVersion: 'cancun',
       optimizer: {

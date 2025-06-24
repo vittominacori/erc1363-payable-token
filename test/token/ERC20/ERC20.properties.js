@@ -1,5 +1,3 @@
-const { expect } = require('chai');
-
 function shouldHaveERC20Properties(
   name,
   symbol,

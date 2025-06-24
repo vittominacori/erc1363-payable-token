@@ -1,7 +1,5 @@
 const { makeInterfaceId } = require('@openzeppelin/test-helpers');
 
-const { expect } = require('chai');
-
 const INVALID_ID = '0xffffffff';
 const INTERFACES = {
   ERC165: ['supportsInterface(bytes4)'],

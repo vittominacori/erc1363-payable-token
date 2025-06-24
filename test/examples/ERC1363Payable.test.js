@@ -1,5 +1,4 @@
 const { BN, expectRevert } = require('@openzeppelin/test-helpers');
-const { expect } = require('chai');
 
 const { expectRevertCustomError } = require('../helpers/customError');
 

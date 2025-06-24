@@ -1,5 +1,4 @@
 const { BN, expectEvent } = require('@openzeppelin/test-helpers');
-const { expect } = require('chai');
 
 const ERC1363Guardian = artifacts.require('ERC1363GuardianMock');
 

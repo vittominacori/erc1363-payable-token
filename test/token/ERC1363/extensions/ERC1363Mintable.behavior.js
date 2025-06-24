@@ -1,5 +1,4 @@
 const { constants, expectRevert, expectEvent, BN } = require('@openzeppelin/test-helpers');
-const { expect } = require('chai');
 
 const { expectRevertCustomError } = require('../../../helpers/customError');
 const { RevertType } = require('../../../helpers/enums');

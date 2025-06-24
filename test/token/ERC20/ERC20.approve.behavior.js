@@ -1,8 +1,6 @@
 const { BN, constants, expectEvent } = require('@openzeppelin/test-helpers');
 const { expectRevertCustomError } = require('../../helpers/customError');
 
-const { expect } = require('chai');
-
 function shouldBehaveLikeERC20Approve(initialHolder, spender, balance) {
   describe('approve', function () {
     const approve = function (initialHolder, spender, value) {
