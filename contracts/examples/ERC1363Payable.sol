@@ -4,6 +4,7 @@ pragma solidity ^0.8.20;
 
 import {IERC1363, IERC20} from "../token/ERC1363/IERC1363.sol";
 import {ERC1363Guardian} from "../presets/ERC1363Guardian.sol";
+import {ERC1363Utils} from "../token/ERC1363/ERC1363Utils.sol";
 
 /**
  * @title ERC1363Payable
@@ -29,9 +30,7 @@ contract ERC1363Payable is ERC1363Guardian {
      * @dev Payment can be done only using the accepted token.
      */
     modifier onlyAcceptedToken() {
-        if (msg.sender != _acceptedToken) {
-            revert NotAcceptedToken(msg.sender, _acceptedToken);
-        }
+        _onlyAcceptedToken();
         _;
     }
 
@@ -59,6 +58,15 @@ contract ERC1363Payable is ERC1363Guardian {
     }
 
     /**
+     * @dev Checks that the caller is the accepted token.
+     */
+    function _onlyAcceptedToken() internal view {
+        if (msg.sender != _acceptedToken) {
+            revert NotAcceptedToken(msg.sender, _acceptedToken);
+        }
+    }
+
+    /**
      * @inheritdoc ERC1363Guardian
      */
     function _transferReceived(
@@ -80,11 +88,9 @@ contract ERC1363Payable is ERC1363Guardian {
         uint256 value,
         bytes calldata data
     ) internal override onlyAcceptedToken {
-        // slither-disable-start unchecked-transfer
-        // slither-disable-start arbitrary-send-erc20
-        IERC20(token).transferFrom(owner, address(this), value);
-        // slither-disable-end unchecked-transfer
-        // slither-disable-end arbitrary-send-erc20
+        if (!IERC20(token).transferFrom(owner, address(this), value)) {
+            revert ERC1363Utils.ERC1363TransferFromFailed(owner, address(this), value);
+        }
 
         _deposit(owner, owner, value, data);
     }
