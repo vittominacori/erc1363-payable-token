@@ -44,6 +44,11 @@ contracts-exposed
 /artifacts
 /cache
 
+# Foundry
+foundry.lock
+/out
+/cache_forge
+
 # macOS
 .DS_Store
 
@@ -52,10 +57,6 @@ contracts-exposed
 
 # IntelliJ IDE
 .idea
-
-# vuepress
-pages/.vuepress/dist
-pages/.vuepress/.env.json
 
 # vitepress
 pages/.vitepress/cache

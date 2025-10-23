@@ -29,9 +29,7 @@ contract ERC1363Payable is ERC1363Guardian {
      * @dev Payment can be done only using the accepted token.
      */
     modifier onlyAcceptedToken() {
-        if (msg.sender != _acceptedToken) {
-            revert NotAcceptedToken(msg.sender, _acceptedToken);
-        }
+        _onlyAcceptedToken();
         _;
     }
 
@@ -56,6 +54,15 @@ contract ERC1363Payable is ERC1363Guardian {
      */
     function creditOf(address account) external view returns (uint256) {
         return _credits[account];
+    }
+
+    /**
+     * @dev Checks that the caller is the accepted token.
+     */
+    function _onlyAcceptedToken() internal view {
+        if (msg.sender != _acceptedToken) {
+            revert NotAcceptedToken(msg.sender, _acceptedToken);
+        }
     }
 
     /**

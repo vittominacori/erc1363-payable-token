@@ -17,7 +17,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -32,7 +32,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -50,7 +50,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -70,13 +70,13 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Environment
         uses: ./.github/actions/setup
 
       - name: Run Slither
-        uses: crytic/slither-action@v0.4.0
+        uses: crytic/slither-action@v0.4.1
         with:
           node-version: 22
           solc-version: 0.8.30
@@ -88,7 +88,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Run CodeSpell
         uses: codespell-project/actions-codespell@v2

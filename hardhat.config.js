@@ -1,5 +1,6 @@
 require('@nomicfoundation/hardhat-chai-matchers');
 require('@nomiclabs/hardhat-truffle5');
+require('@nomicfoundation/hardhat-foundry');
 require('hardhat-exposed');
 require('hardhat-gas-reporter');
 require('solidity-coverage');
