@@ -37,10 +37,16 @@ npm install erc-payable-token
 ### Foundry
 
 ```bash
+forge install OpenZeppelin/openzeppelin-contracts
 forge install vittominacori/erc1363-payable-token
 ```
 
-Add `erc-payable-token/contracts/=lib/erc1363-payable-token/contracts/` in `remappings.txt`.
+Add the below in `remappings.txt`:
+
+```bash
+@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/
+erc-payable-token/contracts/=lib/erc1363-payable-token/contracts/
+```
 
 ## Usage
 
