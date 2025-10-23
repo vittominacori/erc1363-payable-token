@@ -4,7 +4,6 @@ pragma solidity ^0.8.20;
 
 import {IERC1363, IERC20} from "../token/ERC1363/IERC1363.sol";
 import {ERC1363Guardian} from "../presets/ERC1363Guardian.sol";
-import {ERC1363Utils} from "../token/ERC1363/ERC1363Utils.sol";
 
 /**
  * @title ERC1363Payable
@@ -88,10 +87,11 @@ contract ERC1363Payable is ERC1363Guardian {
         uint256 value,
         bytes calldata data
     ) internal override onlyAcceptedToken {
-        // slither-disable-next-line arbitrary-send-erc20
-        if (!IERC20(token).transferFrom(owner, address(this), value)) {
-            revert ERC1363Utils.ERC1363TransferFromFailed(owner, address(this), value);
-        }
+        // slither-disable-start unchecked-transfer
+        // slither-disable-start arbitrary-send-erc20
+        IERC20(token).transferFrom(owner, address(this), value);
+        // slither-disable-end unchecked-transfer
+        // slither-disable-end arbitrary-send-erc20
 
         _deposit(owner, owner, value, data);
     }

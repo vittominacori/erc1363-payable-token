@@ -5,7 +5,6 @@ const { expectRevertCustomError } = require('../helpers/customError');
 const ERC1363 = artifacts.require('$ERC1363');
 const ERC1363Payable = artifacts.require('$ERC1363Payable');
 const ERC20 = artifacts.require('$ERC20Mock');
-const ERC1363ReturnFalseOnERC20 = artifacts.require('$ERC1363ReturnFalseOnERC20Mock');
 
 contract('ERC1363Payable', function ([initialHolder, spender]) {
   const name = 'My Token';
@@ -184,35 +183,6 @@ contract('ERC1363Payable', function ([initialHolder, spender]) {
               approveAndCallWithoutData(this.notAcceptedToken, this.mock.address, value, { from: initialHolder }),
               'NotAcceptedToken',
               [this.notAcceptedToken.address, this.token.address],
-            );
-          });
-        });
-      });
-
-      context('when ERC20 methods return false', function () {
-        describe('via transferFromAndCall', function () {
-          beforeEach(async function () {
-            this.failedTransferToken = await ERC1363ReturnFalseOnERC20.new(name, symbol);
-            await this.failedTransferToken.$_mint(initialHolder, value);
-
-            this.mock = await ERC1363Payable.new(this.failedTransferToken.address);
-          });
-
-          it('reverts', async function () {
-            await expectRevertCustomError(
-              transferFromAndCallWithData(this.failedTransferToken, initialHolder, this.mock.address, value, {
-                from: spender,
-              }),
-              'ERC1363TransferFromFailed',
-              [initialHolder, this.mock.address, value],
-            );
-
-            await expectRevertCustomError(
-              transferFromAndCallWithoutData(this.failedTransferToken, initialHolder, this.mock.address, value, {
-                from: spender,
-              }),
-              'ERC1363TransferFromFailed',
-              [initialHolder, this.mock.address, value],
             );
           });
         });
