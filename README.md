@@ -26,11 +26,21 @@ ERC-1363 is also useful for avoiding token loss or token locking in contracts by
 > [!IMPORTANT]
 > **This repo contains the reference implementation of the official [ERC-1363](https://eips.ethereum.org/EIPS/eip-1363).**
 
-## Install
+## Installation
+
+### Hardhat
 
 ```bash
 npm install erc-payable-token
 ```
+
+### Foundry
+
+```bash
+forge install vittominacori/erc1363-payable-token
+```
+
+Add `erc-payable-token/contracts/=lib/erc1363-payable-token/contracts/` in `remappings.txt`.
 
 ## Usage
 
