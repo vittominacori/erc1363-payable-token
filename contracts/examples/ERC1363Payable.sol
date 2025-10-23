@@ -88,6 +88,7 @@ contract ERC1363Payable is ERC1363Guardian {
         uint256 value,
         bytes calldata data
     ) internal override onlyAcceptedToken {
+        // slither-disable-next-line arbitrary-send-erc20
         if (!IERC20(token).transferFrom(owner, address(this), value)) {
             revert ERC1363Utils.ERC1363TransferFromFailed(owner, address(this), value);
         }
