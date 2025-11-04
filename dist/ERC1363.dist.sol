@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MIT
 
-// Sources flattened with hardhat v2.26.3 https://hardhat.org
+// Sources flattened with hardhat v2.26.5 https://hardhat.org
 
 
 
-// File @openzeppelin/contracts/interfaces/draft-IERC6093.sol@v5.4.0
+// File @openzeppelin/contracts/interfaces/draft-IERC6093.sol@v5.5.0
 
 // Original license: SPDX_License_Identifier: MIT
-// OpenZeppelin Contracts (last updated v5.4.0) (interfaces/draft-IERC6093.sol)
+// OpenZeppelin Contracts (last updated v5.5.0) (interfaces/draft-IERC6093.sol)
+
 pragma solidity >=0.8.4;
 
 /**
@@ -62,7 +63,7 @@ interface IERC20Errors {
  */
 interface IERC721Errors {
     /**
-     * @dev Indicates that an address can't be an owner. For example, `address(0)` is a forbidden owner in ERC-20.
+     * @dev Indicates that an address can't be an owner. For example, `address(0)` is a forbidden owner in ERC-721.
      * Used in balance queries.
      * @param owner Address of the current owner of a token.
      */
@@ -169,7 +170,7 @@ interface IERC1155Errors {
 }
 
 
-// File @openzeppelin/contracts/token/ERC20/IERC20.sol@v5.4.0
+// File @openzeppelin/contracts/token/ERC20/IERC20.sol@v5.5.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.4.0) (token/ERC20/IERC20.sol)
@@ -252,7 +253,7 @@ interface IERC20 {
 }
 
 
-// File @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol@v5.4.0
+// File @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol@v5.5.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.4.0) (token/ERC20/extensions/IERC20Metadata.sol)
@@ -280,7 +281,7 @@ interface IERC20Metadata is IERC20 {
 }
 
 
-// File @openzeppelin/contracts/utils/Context.sol@v5.4.0
+// File @openzeppelin/contracts/utils/Context.sol@v5.5.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)
@@ -312,10 +313,10 @@ abstract contract Context {
 }
 
 
-// File @openzeppelin/contracts/token/ERC20/ERC20.sol@v5.4.0
+// File @openzeppelin/contracts/token/ERC20/ERC20.sol@v5.5.0
 
 // Original license: SPDX_License_Identifier: MIT
-// OpenZeppelin Contracts (last updated v5.4.0) (token/ERC20/ERC20.sol)
+// OpenZeppelin Contracts (last updated v5.5.0) (token/ERC20/ERC20.sol)
 
 pragma solidity ^0.8.20;
 
@@ -570,10 +571,10 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
      * @dev Variant of {_approve} with an optional flag to enable or disable the {Approval} event.
      *
      * By default (when calling {_approve}) the flag is set to true. On the other hand, approval changes made by
-     * `_spendAllowance` during the `transferFrom` operation set the flag to false. This saves gas by not emitting any
+     * `_spendAllowance` during the `transferFrom` operation sets the flag to false. This saves gas by not emitting any
      * `Approval` event during `transferFrom` operations.
      *
-     * Anyone who wishes to continue emitting `Approval` events on the`transferFrom` operation can force the flag to
+     * Anyone who wishes to continue emitting `Approval` events on the `transferFrom` operation can force the flag to
      * true using the following override:
      *
      * ```solidity
@@ -619,7 +620,7 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
 }
 
 
-// File @openzeppelin/contracts/utils/introspection/IERC165.sol@v5.4.0
+// File @openzeppelin/contracts/utils/introspection/IERC165.sol@v5.5.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.4.0) (utils/introspection/IERC165.sol)
@@ -648,7 +649,7 @@ interface IERC165 {
 }
 
 
-// File @openzeppelin/contracts/utils/introspection/ERC165.sol@v5.4.0
+// File @openzeppelin/contracts/utils/introspection/ERC165.sol@v5.5.0
 
 // Original license: SPDX_License_Identifier: MIT
 // OpenZeppelin Contracts (last updated v5.4.0) (utils/introspection/ERC165.sol)
