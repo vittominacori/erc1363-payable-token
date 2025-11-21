@@ -17,7 +17,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -32,7 +32,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -50,7 +50,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -70,7 +70,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Environment
         uses: ./.github/actions/setup
@@ -88,7 +88,7 @@ jobs:
       FORCE_COLOR: 1
     steps:
       - name: Setup Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Run CodeSpell
         uses: codespell-project/actions-codespell@v2
