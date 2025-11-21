@@ -78,7 +78,7 @@ jobs:
       - name: Run Slither
         uses: crytic/slither-action@v0.4.1
         with:
-          node-version: 22
+          node-version: 24
           solc-version: 0.8.30
 
   codespell:
