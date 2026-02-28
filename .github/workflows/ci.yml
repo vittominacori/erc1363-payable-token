@@ -76,10 +76,10 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Run Slither
-        uses: crytic/slither-action@v0.4.1
+        uses: crytic/slither-action@v0.4.2
         with:
           node-version: 24
-          solc-version: 0.8.33
+          solc-version: 0.8.34
 
   codespell:
     name: Codespell
