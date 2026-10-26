@@ -79,7 +79,7 @@ jobs:
         uses: crytic/slither-action@v0.4.2
         with:
           node-version: 24
-          solc-version: 0.8.36
+          solc-version: 0.8.38
 
   codespell:
     name: Codespell

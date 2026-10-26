@@ -9,7 +9,7 @@ require('solidity-docgen');
 module.exports = {
   defaultNetwork: 'hardhat',
   solidity: {
-    version: '0.8.36',
+    version: '0.8.38',
     settings: {
       evmVersion: 'osaka',
       optimizer: {
